@@ -9,18 +9,6 @@
 \file dsdpstep.c
 \brief Lanczos procedure determines the maximum step length
  */
-
-typedef struct _P_Mat3* Mat3;
-
-static int MatMult3(Mat3 A, SDPConeVec x, SDPConeVec y);
-static int ComputeStepROBUST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, SDPConeVec R,double*, SDPConeVec QAQTv, double *dwork, double *maxstep, double *mineig);
-static int ComputeStepFAST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, double *dwork, int*iwork,double *maxstep, double *mineig);
-
-extern int DSDPGetEigsSTEP(double[],int,double[],int,long int[],int, 
-		       double[],int,double[],int,int[],int);
-
-int DSDPGetTriDiagonalEigs(int n,double *D,double *E, double*WORK2N,int*);
-
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -28,6 +16,18 @@ struct _P_Mat3{
   SDPConeVec V;
   DSDPVMat x;
 };
+
+typedef struct _P_Mat3* Mat3;
+
+int MatMult3(Mat3 A, SDPConeVec x, SDPConeVec y);
+int ComputeStepROBUST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, SDPConeVec R,double*, SDPConeVec QAQTv, double *dwork, double *maxstep, double *mineig);
+static int ComputeStepFAST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, double *dwork, int*iwork,double *maxstep, double *mineig);
+
+extern int DSDPGetEigsSTEP(double[],int,double[],int,long int[],int, 
+		       double[],int,double[],int,int[],int);
+
+int DSDPGetTriDiagonalEigs(int n,double *D,double *E, double*WORK2N,int*);
+
 
 
 int DSDPGetTriDiagonalEigs(int N,double D[],double E[], double WORK[],int IIWORK[]){
@@ -62,7 +62,7 @@ int DSDPGetTriDiagonalEigs(int N,double D[],double E[], double WORK[],int IIWORK
 /* static int id1=0, id2=0; */
 #undef __FUNCT__  
 #define __FUNCT__ "MatMult3"
-static int MatMult3(Mat3 A, SDPConeVec X, SDPConeVec Y){
+int MatMult3(Mat3 A, SDPConeVec X, SDPConeVec Y){
 
   int info=0;
   double minus_one=-1.0;
@@ -379,7 +379,8 @@ int DSDPLanczosStepSize( DSDPLanczosStepLength *LZ, SDPConeVec W1, SDPConeVec W2
 
 #undef __FUNCT__  
 #define __FUNCT__ "ComputeStepROBUST"
-static int ComputeStepROBUST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, SDPConeVec R, double*darray, SDPConeVec QAQTv, double *dwork, double *maxstep , double *mineig){
+//static int ComputeStepROBUST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, SDPConeVec R, double*darray, SDPConeVec QAQTv, double *dwork, double *maxstep , double *mineig){
+ int ComputeStepROBUST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, SDPConeVec R, double*darray, SDPConeVec QAQTv, double *dwork, double *maxstep , double *mineig){
 
   int i,j,n,info;
   double tt,wnorm, phi;
