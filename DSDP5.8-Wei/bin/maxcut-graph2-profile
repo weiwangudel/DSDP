@@ -1,0 +1,2604 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 50.94      0.81     0.81  4002270     0.00     0.00  VechMatVecVec
+ 28.93      1.27     0.46   182328     0.00     0.00  VechMatGetRowNnz
+ 11.95      1.46     0.19      426     0.45     0.45  DTRUMatCholeskyForwardMultiply
+  2.52      1.50     0.04    18318     0.00     0.05  DSDPBlockvAv
+  2.52      1.54     0.04      170     0.24     0.24  dtrsm2
+  1.26      1.56     0.02    17892     0.00     0.00  DTRUMatInverseMultiply
+  0.63      1.57     0.01  4002696     0.00     0.00  DSDPDataMatVecVec
+  0.63      1.58     0.01    17892     0.00     0.00  DSDPSchurMatAddRow
+  0.63      1.59     0.01    17892     0.00     0.00  DTRUMatRowNonzeros
+  0.00      1.59     0.00   182754     0.00     0.00  DSDPDataMatGetRowNonzeros
+  0.00      1.59     0.00    76441     0.00     0.00  DSDPDataMatAddMultiple
+  0.00      1.59     0.00    76440     0.00     0.00  VechMatAddMultiple
+  0.00      1.59     0.00    76087     0.00     0.00  DSDPTime
+  0.00      1.59     0.00    38043     0.00     0.00  DSDPEventLogBegin
+  0.00      1.59     0.00    38043     0.00     0.00  DSDPEventLogEnd
+  0.00      1.59     0.00    35868     0.00     0.00  DSDPZeroFixedVariables
+  0.00      1.59     0.00    35784     0.00     0.00  DSDPIsFixed
+  0.00      1.59     0.00    22966     0.00     0.00  SDPConeVecDot
+  0.00      1.59     0.00    18911     0.00     0.00  DSDPVecZero
+  0.00      1.59     0.00    18750     0.00     0.00  DSDPBlockGetMatrix
+  0.00      1.59     0.00    18447     0.00     0.00  DSDPVecSet
+  0.00      1.59     0.00    18319     0.00     0.00  DSDPDataMatGetRank
+  0.00      1.59     0.00    18318     0.00     0.00  VechMatGetRank
+  0.00      1.59     0.00    17976     0.00     0.00  DSDPSchurMatRowColumnScaling
+  0.00      1.59     0.00    17976     0.00     0.00  DSDPSchurMatVariableCompute
+  0.00      1.59     0.00    17934     0.00     0.00  DSDPSchurMatInParallel
+  0.00      1.59     0.00    17892     0.00     0.00  DSDPDataMatGetEig
+  0.00      1.59     0.00    17892     0.00     0.00  DSDPDualMatInverseMultiply
+  0.00      1.59     0.00    17892     0.00     0.00  DTRUMatAddRow
+  0.00      1.59     0.00    17892     0.00     0.00  VechMatGetEig
+  0.00      1.59     0.00     6708     0.00     0.00  SDPConeVecAXPY
+  0.00      1.59     0.00     5160     0.00     0.00  SDPConeVecNorm2
+  0.00      1.59     0.00     3440     0.00     0.00  SDPConeVecCopy
+  0.00      1.59     0.00     2146     0.00     0.00  DSDPDualMatCholeskySolveBackward
+  0.00      1.59     0.00     2146     0.00     0.00  DSDPDualMatCholeskySolveForward
+  0.00      1.59     0.00     2146     0.00     0.00  DTRUMatCholeskyBackward
+  0.00      1.59     0.00     2146     0.00     0.00  DTRUMatCholeskyForward
+  0.00      1.59     0.00     2146     0.00     0.00  SDPConeVecScale
+  0.00      1.59     0.00     1806     0.00     0.00  SDPConeVecNormalize
+  0.00      1.59     0.00     1720     0.00     0.00  DSDPDSMatMult
+  0.00      1.59     0.00     1720     0.00     0.00  DiagMatMult
+  0.00      1.59     0.00     1720     0.00     0.00  MatMult3
+  0.00      1.59     0.00     1702     0.00     0.00  DSDPLogFInfo
+  0.00      1.59     0.00     1698     0.00     0.00  DSDPDataMatInitialize
+  0.00      1.59     0.00     1281     0.00     0.00  SDPConeCheckN
+  0.00      1.59     0.00     1278     0.00     0.00  DSDPConeSparsityInSchurMat
+  0.00      1.59     0.00      858     0.00     0.00  DSDPDataMatDestroy
+  0.00      1.59     0.00      858     0.00     0.00  DSDPDataMatFNorm2
+  0.00      1.59     0.00      856     0.00     0.00  VechMatFNorm2
+  0.00      1.59     0.00      852     0.00     0.54  DSDPBlockDataRowSparsity
+  0.00      1.59     0.00      775     0.00     0.00  DSDPVecWAXPBY
+  0.00      1.59     0.00      631     0.00     0.00  DSDPVecDot
+  0.00      1.59     0.00      505     0.00     0.00  DSDPVecCopy
+  0.00      1.59     0.00      429     0.00     0.00  DSDPBlockAddDataMatrix
+  0.00      1.59     0.00      429     0.00     0.00  DSDPBlockRemoveDataMatrix
+  0.00      1.59     0.00      429     0.00     0.00  DSDPDataMatOpsInitialize
+  0.00      1.59     0.00      429     0.00     0.00  DSDPDataMatSetData
+  0.00      1.59     0.00      429     0.00     0.00  SDPConeCheckStorageFormat
+  0.00      1.59     0.00      429     0.00     0.00  SDPConeGetStorageFormat
+  0.00      1.59     0.00      428     0.00     0.00  DSDPGetVechMat
+  0.00      1.59     0.00      428     0.00     0.00  SDPConeAddASparseVecMat
+  0.00      1.59     0.00      428     0.00     0.00  SDPConeAddDataMatrix
+  0.00      1.59     0.00      428     0.00     0.00  VechMatDestroy
+  0.00      1.59     0.00      427     0.00     0.00  DSDPBlockDataMarkNonzeroMatrices
+  0.00      1.59     0.00      427     0.00     0.00  DSDPDataMatFactor
+  0.00      1.59     0.00      427     0.00     0.00  SDPConeRemoveDataMatrix
+  0.00      1.59     0.00      427     0.00     0.00  SDPConeSetASparseVecMat
+  0.00      1.59     0.00      426     0.00     0.00  DSDPDataMatCountNonzeros
+  0.00      1.59     0.00      426     0.00     0.45  DSDPDualMatCholeskyForwardMultiply
+  0.00      1.59     0.00      426     0.00     0.00  DSDPRSparsity
+  0.00      1.59     0.00      426     0.00     0.00  DSDPSchurSparsity
+  0.00      1.59     0.00      426     0.00     0.00  DSDPSetDualObjective
+  0.00      1.59     0.00      426     0.00     0.00  DSDPSetY0
+  0.00      1.59     0.00      426     0.00     0.00  DSDPSparsityInSchurMat
+  0.00      1.59     0.00      426     0.00     0.00  IdentityMatGetRowNnz
+  0.00      1.59     0.00      426     0.00     0.00  IdentityMatVecVec
+  0.00      1.59     0.00      426     0.00     0.00  KSDPConeSparsity
+  0.00      1.59     0.00      426     0.00     0.00  LUBoundsSparsity
+  0.00      1.59     0.00      426     0.00     0.05  SDPConeAddXVAV
+  0.00      1.59     0.00      426     0.00     0.45  SDPConeXVMultiply
+  0.00      1.59     0.00      426     0.00     0.00  VechMatCountNonzeros
+  0.00      1.59     0.00      426     0.00     0.00  VechMatFactor
+  0.00      1.59     0.00      377     0.00     0.00  DSDPVecNormInfinity
+  0.00      1.59     0.00      359     0.00     0.00  DSDPVMatGetArray
+  0.00      1.59     0.00      359     0.00     0.00  DSDPVMatGetSize
+  0.00      1.59     0.00      359     0.00     0.00  DSDPVMatRestoreArray
+  0.00      1.59     0.00      359     0.00     0.00  DTPUMatGetDenseArray
+  0.00      1.59     0.00      359     0.00     0.00  DTPUMatGetSize
+  0.00      1.59     0.00      359     0.00     0.00  DTPUMatRestoreDenseArray
+  0.00      1.59     0.00      269     0.00     0.00  DSDPConeComputeS
+  0.00      1.59     0.00      264     0.00     0.00  DSDPConeGetDimension
+  0.00      1.59     0.00      258     0.00     0.00  DSDPConeComputeMaxStepLength
+  0.00      1.59     0.00      245     0.00     0.00  DSDPComputePNorm
+  0.00      1.59     0.00      201     0.00     0.00  DSDPComputeDY
+  0.00      1.59     0.00      179     0.00     0.00  DSDPBlockASum
+  0.00      1.59     0.00      179     0.00     0.00  DSDPVMatZeroEntries
+  0.00      1.59     0.00      179     0.00     0.00  DTPUMatZero
+  0.00      1.59     0.00      179     0.00     0.00  SDPConeComputeSS
+  0.00      1.59     0.00      170     0.00     0.24  DSDPApplySMW
+  0.00      1.59     0.00      169     0.00     0.00  DSDPGetRR
+  0.00      1.59     0.00      167     0.00     0.00  DSDPGetMaxYElement
+  0.00      1.59     0.00      167     0.00     0.00  DSDPGetYMaxNorm
+  0.00      1.59     0.00      141     0.00     0.00  DSDPConeComputeLogSDeterminant
+  0.00      1.59     0.00      135     0.00     0.00  DTRUMatCholeskyFactor
+  0.00      1.59     0.00      132     0.00     0.00  DSDPComputePotential
+  0.00      1.59     0.00      130     0.00     0.00  DSDPStopReason
+  0.00      1.59     0.00      129     0.00     0.00  DSDPConeMonitor
+  0.00      1.59     0.00      126     0.00     6.98  DSDPConeComputeHessian
+  0.00      1.59     0.00      126     0.00     0.00  DSDPConeInvertS
+  0.00      1.59     0.00      126     0.00     0.00  DSDPSchurMatReducePVec
+  0.00      1.59     0.00      120     0.00     0.00  DSDPConeSetXMaker
+  0.00      1.59     0.00       93     0.00     0.00  DSDPDualMatCholeskyFactor
+  0.00      1.59     0.00       93     0.00     0.00  DSDPDualMatSetArray
+  0.00      1.59     0.00       93     0.00     0.00  DTRUMatSetXMatP
+  0.00      1.59     0.00       91     0.00     0.00  DSDPComputeSS
+  0.00      1.59     0.00       91     0.00     0.00  DSDPVecWAXPY
+  0.00      1.59     0.00       91     0.00     0.00  KSDPConeComputeSS
+  0.00      1.59     0.00       90     0.00     0.00  DSDPApplyFixedVariables
+  0.00      1.59     0.00       89     0.00     0.00  DSDPComputeRS
+  0.00      1.59     0.00       89     0.00     0.00  DSDPGetConicDimension
+  0.00      1.59     0.00       89     0.00     0.00  LUBoundsS
+  0.00      1.59     0.00       88     0.00     0.00  DSDPRSize
+  0.00      1.59     0.00       88     0.00     0.00  DSDPSchurMatSetR
+  0.00      1.59     0.00       88     0.00     0.00  KSDPConeSize
+  0.00      1.59     0.00       88     0.00     0.00  LUBoundsSize
+  0.00      1.59     0.00       86     0.00     0.00  ComputeStepFAST
+  0.00      1.59     0.00       86     0.00     0.47  DSDPCGSolve
+  0.00      1.59     0.00       86     0.00     0.00  DSDPComputeMaxStepLength
+  0.00      1.59     0.00       86     0.00     0.00  DSDPComputeRStepLength
+  0.00      1.59     0.00       86     0.00     0.00  DSDPConjugateGradient
+  0.00      1.59     0.00       86     0.00     0.00  DSDPDSMatSetArray
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetBarrierParameter
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetDDObjective
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetIts
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetPPObjective
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetPnorm
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetR
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetStepLengths
+  0.00      1.59     0.00       86     0.00     0.00  DSDPGetTriDiagonalEigs
+  0.00      1.59     0.00       86     0.00     0.00  DSDPLanczosStepSize
+  0.00      1.59     0.00       86     0.00     0.00  DiagMatTakeUREntriesP
+  0.00      1.59     0.00       86     0.00     0.00  KSDPConeComputeMaxStepLength
+  0.00      1.59     0.00       86     0.00     0.00  LUBoundsComputeMaxStepLength
+  0.00      1.59     0.00       86     0.00     0.00  SDPConeVecSet
+  0.00      1.59     0.00       85     0.00     0.47  DSDPSchurMatSolve
+  0.00      1.59     0.00       85     0.00     0.47  DTRUMatSolve
+  0.00      1.59     0.00       47     0.00     0.00  DSDPComputeLogSDeterminant
+  0.00      1.59     0.00       47     0.00     0.00  DSDPComputeRLog
+  0.00      1.59     0.00       47     0.00     0.00  DSDPDualMatLogDeterminant
+  0.00      1.59     0.00       47     0.00     0.00  DTRUMatLogDet
+  0.00      1.59     0.00       47     0.00     0.00  KSDPConeComputeLogSDeterminant
+  0.00      1.59     0.00       47     0.00     0.00  LUBoundsPotential
+  0.00      1.59     0.00       46     0.00     0.00  DSDPComputeNewY
+  0.00      1.59     0.00       44     0.00     0.00  DSDPComputePDY
+  0.00      1.59     0.00       44     0.00     0.00  DSDPComputePY
+  0.00      1.59     0.00       44     0.00     0.00  DSDPSetConvergenceFlag
+  0.00      1.59     0.00       43     0.00     0.00  DSDPCheckConvergence
+  0.00      1.59     0.00       43     0.00     0.00  DSDPDefaultConvergence
+  0.00      1.59     0.00       43     0.00     0.00  DSDPGetDimension
+  0.00      1.59     0.00       43     0.00     0.00  DSDPGetDualityGap
+  0.00      1.59     0.00       43     0.00     0.00  DSDPGetPInfeasibility
+  0.00      1.59     0.00       43     0.00     0.00  DSDPGetRTolerance
+  0.00      1.59     0.00       43     0.00     0.00  DSDPMonitorCones
+  0.00      1.59     0.00       43     0.00     0.00  DSDPPrintStats
+  0.00      1.59     0.00       43     0.00     0.00  DSDPRMonitor
+  0.00      1.59     0.00       43     0.00     0.00  DSDPSetY
+  0.00      1.59     0.00       43     0.00     0.00  KSDPConeMonitor
+  0.00      1.59     0.00       43     0.00     0.00  LUBoundsMonitor
+  0.00      1.59     0.00       42     0.00     0.00  DSDPCheckForUnboundedObjective
+  0.00      1.59     0.00       42     0.00     0.00  DSDPChooseBarrierParameter
+  0.00      1.59     0.00       42     0.00    21.89  DSDPComputeDualStepDirections
+  0.00      1.59     0.00       42     0.00    20.95  DSDPComputeHessian
+  0.00      1.59     0.00       42     0.00     0.00  DSDPComputePDY1
+  0.00      1.59     0.00       42     0.00     0.00  DSDPDualMatInvert
+  0.00      1.59     0.00       42     0.00     0.00  DSDPInvertRS
+  0.00      1.59     0.00       42     0.00     0.00  DSDPInvertS
+  0.00      1.59     0.00       42     0.00     0.00  DSDPObjectiveGH
+  0.00      1.59     0.00       42     0.00     0.00  DSDPRHessian
+  0.00      1.59     0.00       42     0.00     0.00  DSDPSchurMatAddDiagonal
+  0.00      1.59     0.00       42     0.00     0.00  DSDPSchurMatAssemble
+  0.00      1.59     0.00       42     0.00     0.00  DSDPSchurMatDiagonalScaling
+  0.00      1.59     0.00       42     0.00     0.00  DSDPSchurMatFactor
+  0.00      1.59     0.00       42     0.00     0.00  DSDPSchurMatShiftDiagonal
+  0.00      1.59     0.00       42     0.00     0.00  DSDPSchurMatZeroEntries
+  0.00      1.59     0.00       42     0.00     0.00  DSDPVecPointwiseMult
+  0.00      1.59     0.00       42     0.00     0.00  DSDPVecScaleCopy
+  0.00      1.59     0.00       42     0.00     0.00  DTRUMatAddDiag2
+  0.00      1.59     0.00       42     0.00     0.00  DTRUMatAssemble
+  0.00      1.59     0.00       42     0.00     0.00  DTRUMatInvert
+  0.00      1.59     0.00       42     0.00     0.00  DTRUMatZero
+  0.00      1.59     0.00       42     0.00    20.95  KSDPConeComputeHessian
+  0.00      1.59     0.00       42     0.00     0.00  KSDPConeInvertSS
+  0.00      1.59     0.00       42     0.00     0.00  LUBoundsHessian
+  0.00      1.59     0.00       42     0.00     0.00  LUInvertS
+  0.00      1.59     0.00       42     0.00    20.95  SDPConeComputeHessian
+  0.00      1.59     0.00       41     0.00     0.00  DSDPSaveYForX
+  0.00      1.59     0.00       41     0.00     0.00  DSDPVecAXPY
+  0.00      1.59     0.00       40     0.00     0.00  BoundYConeAddX
+  0.00      1.59     0.00       40     0.00     0.00  DSDPComputeDualityGap
+  0.00      1.59     0.00       40     0.00     0.00  DSDPComputeRHS
+  0.00      1.59     0.00       40     0.00     0.00  DSDPPassXVectors
+  0.00      1.59     0.00       40     0.00     0.00  DSDPSetX
+  0.00      1.59     0.00       40     0.00     0.00  DSDPVecDestroy
+  0.00      1.59     0.00       40     0.00     0.00  KSDPConeSetX
+  0.00      1.59     0.00       40     0.00     0.00  LUBoundsSetX
+  0.00      1.59     0.00       39     0.00     0.00  DSDPVecDuplicate
+  0.00      1.59     0.00       28     0.00     0.00  DSDPEventLogRegister
+  0.00      1.59     0.00       26     0.00     0.00  DSDPVecNorm2
+  0.00      1.59     0.00       22     0.00     0.00  DSDPVecAYPX
+  0.00      1.59     0.00       21     0.00     0.00  DSDPCGMatMult
+  0.00      1.59     0.00       21     0.00     0.00  DSDPCGMatPre
+  0.00      1.59     0.00       20     0.00     0.00  DSDPSchurMatMultiply
+  0.00      1.59     0.00       20     0.00     0.00  DTRUMatMult
+  0.00      1.59     0.00        6     0.00     0.00  DSDPBlockDataAllocate
+  0.00      1.59     0.00        6     0.00     0.00  DSDPConeInitialize
+  0.00      1.59     0.00        6     0.00     0.00  DSDPGetConvergenceMonitor
+  0.00      1.59     0.00        5     0.00     0.00  DSDPSetBarrierParameter
+  0.00      1.59     0.00        4     0.00     0.00  DTRUMatMultR
+  0.00      1.59     0.00        4     0.00     0.00  SDPConeVecDestroy
+  0.00      1.59     0.00        3     0.00     0.00  DSDPAddCone
+  0.00      1.59     0.00        3     0.00     0.00  DSDPConeANorm2
+  0.00      1.59     0.00        3     0.00     0.00  DSDPConeDestroy
+  0.00      1.59     0.00        3     0.00     0.00  DSDPConeOpsInitialize
+  0.00      1.59     0.00        3     0.00     0.00  DSDPConeSetData
+  0.00      1.59     0.00        3     0.00     0.00  DSDPConeSetUp
+  0.00      1.59     0.00        3     0.00   153.33  DSDPConeSetUp2
+  0.00      1.59     0.00        3     0.00     0.00  DSDPGetConeName
+  0.00      1.59     0.00        3     0.00     0.00  DSDPReuseMatrix
+  0.00      1.59     0.00        3     0.00     0.00  DSDPSetCone
+  0.00      1.59     0.00        3     0.00     0.00  DSDPSetMaximumLanczosIterations
+  0.00      1.59     0.00        3     0.00     0.00  DTRUMatDestroy
+  0.00      1.59     0.00        3     0.00     0.00  SDPConeVecDuplicate
+  0.00      1.59     0.00        2     0.00     0.00  DSDPBlockEventZero
+  0.00      1.59     0.00        2     0.00     0.00  DSDPComputeObjective
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDSMatInitialize
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDataTransposeTakeDown
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDualMatDestroy
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDualMatEventZero
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDualMatInitialize
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDualMatOpsInitialize
+  0.00      1.59     0.00        2     0.00     0.00  DSDPDualMatSetData
+  0.00      1.59     0.00        2     0.00     0.00  DSDPGetNumberOfVariables
+  0.00      1.59     0.00        2     0.00     0.00  DSDPLAPACKSUDualMatCreateP
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSchurMatOpsInitialize
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSchurMatSetData
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetGapTolerance
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetMonitor
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetPNormTolerance
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetPotentialParameter
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetR0
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetRR
+  0.00      1.59     0.00        2     0.00     0.00  DSDPSetSchurMatOps
+  0.00      1.59     0.00        2     0.00     0.00  DSDPVMatEventZero
+  0.00      1.59     0.00        2     0.00     0.00  DSDPVMatInitialize
+  0.00      1.59     0.00        2     0.00     0.00  IdentityMatFNorm2
+  0.00      1.59     0.00        2     0.00     0.00  RConeSetType
+  0.00      1.59     0.00        1     0.00     0.00  BoundYConeSetBounds
+  0.00      1.59     0.00        1     0.00   460.00  CountNonzeros
+  0.00      1.59     0.00        1     0.00     0.00  DSDPAddLUBounds
+  0.00      1.59     0.00        1     0.00     0.00  DSDPAddRCone
+  0.00      1.59     0.00        1     0.00     0.00  DSDPAddSDP
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockANorm2
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockCountNonzeroMatrices
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockDataDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockDataInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockDataRank
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockEventInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockFactorData
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockSetDataMatrix
+  0.00      1.59     0.00        1     0.00   460.00  DSDPBlockSetup
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockTakeDown
+  0.00      1.59     0.00        1     0.00     0.00  DSDPBlockTakeDownData
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCGDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCGInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCGSetup
+  0.00      1.59     0.00        1     0.00     0.00  DSDPComputeANorm2
+  0.00      1.59     0.00        1     0.00     0.00  DSDPComputeDataNorms
+  0.00      1.59     0.00        1     0.00     0.00  DSDPConeTakeDown
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCreate
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCreateDiagDSMatP
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCreateLUBoundsCone
+  0.00      1.59     0.00        1     0.00   460.00  DSDPCreateS
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCreateSDPCone
+  0.00      1.59     0.00        1     0.00     0.00  DSDPCreateSchurMatrix
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDSMatDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDSMatOpsInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDSMatSetData
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDataTransposeSetup
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDestroyCones
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDestroyRCone
+  0.00      1.59     0.00        1     0.00     0.00  DSDPDualMatEventInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPEventLogInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPFastLanczosSetup
+  0.00      1.59     0.00        1     0.00     0.00  DSDPFixedVariablesNorm
+  0.00      1.59     0.00        1     0.00     0.00  DSDPGetIdentityDataMatP
+  0.00      1.59     0.00        1     0.00     0.00  DSDPGetLAPACKSUSchurOps
+  0.00      1.59     0.00        1     0.00     0.00  DSDPIndexCreate
+  0.00      1.59     0.00        1     0.00     0.00  DSDPIndexDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPIndexInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPInitializeVariables
+  0.00      1.59     0.00        1     0.00     0.00  DSDPLAPACKSUDualMatCreate2P
+  0.00      1.59     0.00        1     0.00     0.00  DSDPLanczosDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPLanczosInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPMakeVMat
+  0.00      1.59     0.00        1     0.00     0.00  DSDPRANorm2
+  0.00      1.59     0.00        1     0.00     0.47  DSDPRefineStepDirection
+  0.00      1.59     0.00        1     0.00     0.00  DSDPScaleData
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSchurMatDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSchurMatInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSchurMatMultR
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSchurMatSetup
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetDefaultParameters
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetDefaultSchurMatrixStructure
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetDefaultStatistics
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetDualBound
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetMaxIts
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetMaxTrustRadius
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetPTolerance
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetPenaltyParameter
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetRTolerance
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetScale
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetStandardMonitor
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetStepTolerance
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetUpCones
+  0.00      1.59     0.00        1     0.00   460.00  DSDPSetUpCones2
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetYBounds
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetZBar
+  0.00      1.59     0.00        1     0.00   460.00  DSDPSetup
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetupRCone
+  0.00      1.59     0.00        1     0.00     0.00  DSDPSetupRCone2
+  0.00      1.59     0.00        1     0.00   920.00  DSDPSolve
+  0.00      1.59     0.00        1     0.00   919.53  DSDPSolveDynamicRho
+  0.00      1.59     0.00        1     0.00     0.00  DSDPTakeDown
+  0.00      1.59     0.00        1     0.00     0.00  DSDPUseDefaultDualMatrix
+  0.00      1.59     0.00        1     0.00     0.00  DSDPUseDynamicRho
+  0.00      1.59     0.00        1     0.00     0.00  DSDPUsePenalty
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVMatDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVMatEventInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVMatExist
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVMatOpsInitialize
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVMatSetData
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVecCreateSeq
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVecNorm1
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVecPointwiseMax
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVecPointwiseMin
+  0.00      1.59     0.00        1     0.00     0.00  DSDPVecScale
+  0.00      1.59     0.00        1     0.00     0.00  DSDPXMatPCreate
+  0.00      1.59     0.00        1     0.00     0.00  DTPUMatDestroy
+  0.00      1.59     0.00        1     0.00     0.00  DTPUMatEigs
+  0.00      1.59     0.00        1     0.00     0.00  DiagMatCreate
+  0.00      1.59     0.00        1     0.00     0.00  DiagMatDestroy
+  0.00      1.59     0.00        1     0.00     0.00  IdentityMatAddMultipleP
+  0.00      1.59     0.00        1     0.00     0.00  IdentityMatDestroy
+  0.00      1.59     0.00        1     0.00     0.00  IdentityMatFactor
+  0.00      1.59     0.00        1     0.00     0.00  IdentityMatGetRank
+  0.00      1.59     0.00        1     0.00     0.00  KSDPConeAddANorm2
+  0.00      1.59     0.00        1     0.00     0.00  KSDPConeDestroy
+  0.00      1.59     0.00        1     0.00     0.00  KSDPConeSetup
+  0.00      1.59     0.00        1     0.00   460.00  KSDPConeSetup2
+  0.00      1.59     0.00        1     0.00     0.00  LPANorm2
+  0.00      1.59     0.00        1     0.00     0.00  LUBoundsDestroy
+  0.00      1.59     0.00        1     0.00     0.00  LUBoundsSetup
+  0.00      1.59     0.00        1     0.00     0.00  LUBoundsSetup2
+  0.00      1.59     0.00        1     0.00   210.00  MaxCutRandomized
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeBlockNNZ
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeCheckJ
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeComputeXV
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeDestroy
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeSetBlockSize
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeSetRIdentity
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeSetRMatrix
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeSetup
+  0.00      1.59     0.00        1     0.00   460.00  SDPConeSetup2
+  0.00      1.59     0.00        1     0.00     0.00  SDPConeVecCreate
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 4 byte(s) for 0.63% of 1.59 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.00    1.59                 MaxCut [1]
+                0.00    0.92       1/1           DSDPSolve [2]
+                0.00    0.46       1/1           DSDPSetup [20]
+                0.00    0.21       1/1           MaxCutRandomized [23]
+                0.00    0.00     427/427         SDPConeSetASparseVecMat [92]
+                0.00    0.00     426/426         DSDPSetDualObjective [96]
+                0.00    0.00     426/426         DSDPSetY0 [97]
+                0.00    0.00       1/1           DSDPCreate [290]
+                0.00    0.00       1/1           DSDPCreateSDPCone [293]
+                0.00    0.00       1/1           SDPConeSetBlockSize [373]
+                0.00    0.00       1/428         SDPConeAddASparseVecMat [86]
+                0.00    0.00       1/2           DSDPSetR0 [262]
+                0.00    0.00       1/1           DSDPSetZBar [336]
+                0.00    0.00       1/2           DSDPSetGapTolerance [258]
+                0.00    0.00       1/2           DSDPSetPotentialParameter [261]
+                0.00    0.00       1/3           DSDPReuseMatrix [240]
+                0.00    0.00       1/2           DSDPSetPNormTolerance [260]
+                0.00    0.00       1/1           DSDPSetStandardMonitor [332]
+                0.00    0.00       1/130         DSDPStopReason [127]
+                0.00    0.00       1/1           DSDPDestroy [299]
+-----------------------------------------------
+                0.00    0.92       1/1           MaxCut [1]
+[2]     57.9    0.00    0.92       1         DSDPSolve [2]
+                0.00    0.92       1/1           DSDPSolveDynamicRho [4]
+                0.00    0.00       1/1           DSDPRefineStepDirection [38]
+                0.00    0.00       1/38043       DSDPEventLogBegin [42]
+                0.00    0.00       1/44          DSDPSetConvergenceFlag [173]
+                0.00    0.00       1/1           DSDPInitializeVariables [311]
+                0.00    0.00       1/38043       DSDPEventLogEnd [43]
+-----------------------------------------------
+                0.00    0.92      42/42          DSDPSolveDynamicRho [4]
+[3]     57.8    0.00    0.92      42         DSDPComputeDualStepDirections [3]
+                0.00    0.88      42/42          DSDPComputeHessian [6]
+                0.00    0.04      85/86          DSDPCGSolve [29]
+                0.00    0.00      44/1702        DSDPLogFInfo [69]
+                0.00    0.00      42/167         DSDPGetMaxYElement [122]
+                0.00    0.00      42/42          DSDPSchurMatShiftDiagonal [198]
+                0.00    0.00      42/42          DSDPSchurMatFactor [197]
+                0.00    0.00      42/42          DSDPInvertS [191]
+-----------------------------------------------
+                0.00    0.92       1/1           DSDPSolve [2]
+[4]     57.8    0.00    0.92       1         DSDPSolveDynamicRho [4]
+                0.00    0.92      42/42          DSDPComputeDualStepDirections [3]
+                0.00    0.00      88/91          DSDPComputeSS [135]
+                0.00    0.00      88/1702        DSDPLogFInfo [69]
+                0.00    0.00      88/132         DSDPComputePotential [126]
+                0.00    0.00      84/38043       DSDPEventLogBegin [42]
+                0.00    0.00      84/38043       DSDPEventLogEnd [43]
+                0.00    0.00      46/46          DSDPComputeNewY [170]
+                0.00    0.00      46/47          DSDPComputeLogSDeterminant [164]
+                0.00    0.00      43/43          DSDPCheckConvergence [174]
+                0.00    0.00      42/44          DSDPComputePDY [171]
+                0.00    0.00      42/44          DSDPComputePY [172]
+                0.00    0.00      42/42          DSDPChooseBarrierParameter [187]
+                0.00    0.00      42/201         DSDPComputeDY [116]
+                0.00    0.00      42/86          DSDPComputeMaxStepLength [147]
+                0.00    0.00      42/169         DSDPGetRR [121]
+                0.00    0.00      42/43          DSDPSetY [183]
+                0.00    0.00      40/41          DSDPSaveYForX [209]
+                0.00    0.00       1/505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.88     126/126         DSDPComputeHessian [6]
+[5]     55.3    0.00    0.88     126         DSDPConeComputeHessian [5]
+                0.00    0.88      42/42          KSDPConeComputeHessian [7]
+                0.00    0.00      42/42          DSDPRHessian [193]
+                0.00    0.00      42/42          LUBoundsHessian [207]
+-----------------------------------------------
+                0.00    0.88      42/42          DSDPComputeDualStepDirections [3]
+[6]     55.3    0.00    0.88      42         DSDPComputeHessian [6]
+                0.00    0.88     126/126         DSDPConeComputeHessian [5]
+                0.00    0.00     168/38043       DSDPEventLogBegin [42]
+                0.00    0.00     168/38043       DSDPEventLogEnd [43]
+                0.00    0.00     126/18911       DSDPVecZero [47]
+                0.00    0.00     126/126         DSDPSchurMatReducePVec [130]
+                0.00    0.00      42/88          DSDPSchurMatSetR [143]
+                0.00    0.00      42/42          DSDPSchurMatZeroEntries [199]
+                0.00    0.00      42/42          DSDPObjectiveGH [192]
+                0.00    0.00      42/42          DSDPSchurMatAssemble [195]
+-----------------------------------------------
+                0.00    0.88      42/42          DSDPConeComputeHessian [5]
+[7]     55.3    0.00    0.88      42         KSDPConeComputeHessian [7]
+                0.00    0.88      42/42          SDPConeComputeHessian [8]
+-----------------------------------------------
+                0.00    0.88      42/42          KSDPConeComputeHessian [7]
+[8]     55.3    0.00    0.88      42         SDPConeComputeHessian [8]
+                0.04    0.80   17892/18318       DSDPBlockvAv [9]
+                0.00    0.02   17892/17892       DSDPDualMatInverseMultiply [32]
+                0.00    0.01   17976/17976       DSDPSchurMatRowColumnScaling [35]
+                0.01    0.00   17892/17892       DSDPSchurMatAddRow [36]
+                0.00    0.00   17976/18911       DSDPVecZero [47]
+                0.00    0.00   17892/18750       DSDPBlockGetMatrix [48]
+                0.00    0.00   17892/18319       DSDPDataMatGetRank [50]
+                0.00    0.00   17892/17892       DSDPDataMatGetEig [54]
+                0.00    0.00   17892/22966       SDPConeVecDot [46]
+-----------------------------------------------
+                0.00    0.02     426/18318       SDPConeAddXVAV [34]
+                0.04    0.80   17892/18318       SDPConeComputeHessian [8]
+[9]     54.1    0.04    0.82   18318         DSDPBlockvAv [9]
+                0.01    0.81 4002696/4002696     DSDPDataMatVecVec [10]
+                0.00    0.00   18318/38043       DSDPEventLogBegin [42]
+                0.00    0.00   18318/38043       DSDPEventLogEnd [43]
+-----------------------------------------------
+                0.01    0.81 4002696/4002696     DSDPBlockvAv [9]
+[10]    51.6    0.01    0.81 4002696         DSDPDataMatVecVec [10]
+                0.81    0.00 4002270/4002270     VechMatVecVec [11]
+                0.00    0.00     426/426         IdentityMatVecVec [100]
+-----------------------------------------------
+                0.81    0.00 4002270/4002270     DSDPDataMatVecVec [10]
+[11]    50.9    0.81    0.00 4002270         VechMatVecVec [11]
+-----------------------------------------------
+                0.00    0.46  182754/182754      DSDPBlockDataRowSparsity [14]
+[12]    28.9    0.00    0.46  182754         DSDPDataMatGetRowNonzeros [12]
+                0.46    0.00  182328/182328      VechMatGetRowNnz [13]
+                0.00    0.00     426/426         IdentityMatGetRowNnz [99]
+-----------------------------------------------
+                0.46    0.00  182328/182328      DSDPDataMatGetRowNonzeros [12]
+[13]    28.9    0.46    0.00  182328         VechMatGetRowNnz [13]
+-----------------------------------------------
+                0.00    0.46     852/852         CountNonzeros [16]
+[14]    28.9    0.00    0.46     852         DSDPBlockDataRowSparsity [14]
+                0.00    0.46  182754/182754      DSDPDataMatGetRowNonzeros [12]
+-----------------------------------------------
+                0.00    0.46       3/3           DSDPSetUpCones2 [19]
+[15]    28.9    0.00    0.46       3         DSDPConeSetUp2 [15]
+                0.00    0.46       1/1           KSDPConeSetup2 [21]
+                0.00    0.00       1/1           LUBoundsSetup2 [368]
+                0.00    0.00       1/1           DSDPSetupRCone2 [338]
+-----------------------------------------------
+                0.00    0.46       1/1           DSDPCreateS [18]
+[16]    28.9    0.00    0.46       1         CountNonzeros [16]
+                0.00    0.46     852/852         DSDPBlockDataRowSparsity [14]
+-----------------------------------------------
+                0.00    0.46       1/1           SDPConeSetup2 [22]
+[17]    28.9    0.00    0.46       1         DSDPBlockSetup [17]
+                0.00    0.46       1/1           DSDPCreateS [18]
+                0.00    0.00       3/3           DSDPSetMaximumLanczosIterations [242]
+                0.00    0.00       1/1           DSDPVMatExist [345]
+                0.00    0.00       1/1           DSDPMakeVMat [315]
+                0.00    0.00       1/1           DSDPIndexCreate [308]
+                0.00    0.00       1/1           SDPConeVecCreate [377]
+                0.00    0.00       1/3           SDPConeVecDuplicate [244]
+                0.00    0.00       1/1           DSDPFastLanczosSetup [304]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+                0.00    0.00       1/1           DSDPBlockFactorData [279]
+                0.00    0.00       1/1           DSDPBlockDataRank [277]
+-----------------------------------------------
+                0.00    0.46       1/1           DSDPBlockSetup [17]
+[18]    28.9    0.00    0.46       1         DSDPCreateS [18]
+                0.00    0.46       1/1           CountNonzeros [16]
+                0.00    0.00       4/1702        DSDPLogFInfo [69]
+                0.00    0.00       2/2           DSDPDualMatSetData [253]
+                0.00    0.00       1/1           DSDPCreateDiagDSMatP [291]
+                0.00    0.00       1/1           DSDPDSMatSetData [297]
+                0.00    0.00       1/1           DSDPLAPACKSUDualMatCreate2P [312]
+-----------------------------------------------
+                0.00    0.46       1/1           DSDPSetup [20]
+[19]    28.9    0.00    0.46       1         DSDPSetUpCones2 [19]
+                0.00    0.46       3/3           DSDPConeSetUp2 [15]
+                0.00    0.00       4/38043       DSDPEventLogBegin [42]
+                0.00    0.00       4/38043       DSDPEventLogEnd [43]
+-----------------------------------------------
+                0.00    0.46       1/1           MaxCut [1]
+[20]    28.9    0.00    0.46       1         DSDPSetup [20]
+                0.00    0.46       1/1           DSDPSetUpCones2 [19]
+                0.00    0.00      21/39          DSDPVecDuplicate [219]
+                0.00    0.00       5/28          DSDPEventLogRegister [220]
+                0.00    0.00       2/89          DSDPGetConicDimension [140]
+                0.00    0.00       1/1           DSDPSetUpCones [334]
+                0.00    0.00       1/1           DSDPSchurMatSetup [321]
+                0.00    0.00       1/1           DSDPCGSetup [286]
+                0.00    0.00       1/1           DSDPComputeDataNorms [288]
+                0.00    0.00       1/1           DSDPScaleData [317]
+-----------------------------------------------
+                0.00    0.46       1/1           DSDPConeSetUp2 [15]
+[21]    28.9    0.00    0.46       1         KSDPConeSetup2 [21]
+                0.00    0.46       1/1           SDPConeSetup2 [22]
+-----------------------------------------------
+                0.00    0.46       1/1           KSDPConeSetup2 [21]
+[22]    28.9    0.00    0.46       1         SDPConeSetup2 [22]
+                0.00    0.46       1/1           DSDPBlockSetup [17]
+                0.00    0.00       1/1           SDPConeBlockNNZ [369]
+-----------------------------------------------
+                0.00    0.21       1/1           MaxCut [1]
+[23]    13.2    0.00    0.21       1         MaxCutRandomized [23]
+                0.00    0.19     426/426         SDPConeXVMultiply [26]
+                0.00    0.02     426/426         SDPConeAddXVAV [34]
+                0.00    0.00       1/1           SDPConeComputeXV [371]
+-----------------------------------------------
+                0.00    0.19     426/426         SDPConeXVMultiply [26]
+[24]    11.9    0.00    0.19     426         DSDPDualMatCholeskyForwardMultiply [24]
+                0.19    0.00     426/426         DTRUMatCholeskyForwardMultiply [25]
+-----------------------------------------------
+                0.19    0.00     426/426         DSDPDualMatCholeskyForwardMultiply [24]
+[25]    11.9    0.19    0.00     426         DTRUMatCholeskyForwardMultiply [25]
+-----------------------------------------------
+                0.00    0.19     426/426         MaxCutRandomized [23]
+[26]    11.9    0.00    0.19     426         SDPConeXVMultiply [26]
+                0.00    0.19     426/426         DSDPDualMatCholeskyForwardMultiply [24]
+                0.00    0.00     426/1281        SDPConeCheckN [71]
+                0.00    0.00     426/2146        DSDPDualMatCholeskySolveForward [61]
+                0.00    0.00     426/2146        SDPConeVecScale [64]
+                0.00    0.00     426/2146        DSDPDualMatCholeskySolveBackward [60]
+-----------------------------------------------
+                0.00    0.04     170/170         DSDPSchurMatSolve [30]
+[27]     2.5    0.00    0.04     170         DSDPApplySMW [27]
+                0.00    0.04      85/85          DTRUMatSolve [31]
+                0.00    0.00     170/377         DSDPVecNormInfinity [105]
+                0.00    0.00      85/38043       DSDPEventLogBegin [42]
+                0.00    0.00      85/18911       DSDPVecZero [47]
+                0.00    0.00      85/38043       DSDPEventLogEnd [43]
+-----------------------------------------------
+                0.04    0.00     170/170         DTRUMatSolve [31]
+[28]     2.5    0.04    0.00     170         dtrsm2 [28]
+-----------------------------------------------
+                0.00    0.00       1/86          DSDPRefineStepDirection [38]
+                0.00    0.04      85/86          DSDPComputeDualStepDirections [3]
+[29]     2.5    0.00    0.04      86         DSDPCGSolve [29]
+                0.00    0.04      85/85          DSDPSchurMatSolve [30]
+                0.00    0.00      86/38043       DSDPEventLogBegin [42]
+                0.00    0.00      86/18911       DSDPVecZero [47]
+                0.00    0.00      86/86          DSDPConjugateGradient [149]
+                0.00    0.00      86/631         DSDPVecDot [77]
+                0.00    0.00      86/38043       DSDPEventLogEnd [43]
+                0.00    0.00      84/167         DSDPGetMaxYElement [122]
+                0.00    0.00       1/18447       DSDPVecSet [49]
+-----------------------------------------------
+                0.00    0.04      85/85          DSDPCGSolve [29]
+[30]     2.5    0.00    0.04      85         DSDPSchurMatSolve [30]
+                0.00    0.04     170/170         DSDPApplySMW [27]
+-----------------------------------------------
+                0.00    0.04      85/85          DSDPApplySMW [27]
+[31]     2.5    0.00    0.04      85         DTRUMatSolve [31]
+                0.04    0.00     170/170         dtrsm2 [28]
+-----------------------------------------------
+                0.00    0.02   17892/17892       SDPConeComputeHessian [8]
+[32]     1.3    0.00    0.02   17892         DSDPDualMatInverseMultiply [32]
+                0.02    0.00   17892/17892       DTRUMatInverseMultiply [33]
+                0.00    0.00   17892/38043       DSDPEventLogBegin [42]
+                0.00    0.00   17892/38043       DSDPEventLogEnd [43]
+-----------------------------------------------
+                0.02    0.00   17892/17892       DSDPDualMatInverseMultiply [32]
+[33]     1.3    0.02    0.00   17892         DTRUMatInverseMultiply [33]
+-----------------------------------------------
+                0.00    0.02     426/426         MaxCutRandomized [23]
+[34]     1.3    0.00    0.02     426         SDPConeAddXVAV [34]
+                0.00    0.02     426/18318       DSDPBlockvAv [9]
+                0.00    0.00     426/1281        SDPConeCheckN [71]
+                0.00    0.00     426/18447       DSDPVecSet [49]
+-----------------------------------------------
+                0.00    0.01   17976/17976       SDPConeComputeHessian [8]
+[35]     0.6    0.00    0.01   17976         DSDPSchurMatRowColumnScaling [35]
+                0.01    0.00   17892/17892       DTRUMatRowNonzeros [37]
+                0.00    0.00   17976/18447       DSDPVecSet [49]
+                0.00    0.00   17892/35868       DSDPZeroFixedVariables [44]
+                0.00    0.00   17892/35784       DSDPIsFixed [45]
+                0.00    0.00      84/18911       DSDPVecZero [47]
+-----------------------------------------------
+                0.01    0.00   17892/17892       SDPConeComputeHessian [8]
+[36]     0.6    0.01    0.00   17892         DSDPSchurMatAddRow [36]
+                0.00    0.00   17892/35868       DSDPZeroFixedVariables [44]
+                0.00    0.00   17892/35784       DSDPIsFixed [45]
+                0.00    0.00   17892/17892       DTRUMatAddRow [55]
+-----------------------------------------------
+                0.01    0.00   17892/17892       DSDPSchurMatRowColumnScaling [35]
+[37]     0.6    0.01    0.00   17892         DTRUMatRowNonzeros [37]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSolve [2]
+[38]     0.0    0.00    0.00       1         DSDPRefineStepDirection [38]
+                0.00    0.00       1/86          DSDPCGSolve [29]
+-----------------------------------------------
+                0.00    0.00   76441/76441       DSDPBlockASum [117]
+[39]     0.0    0.00    0.00   76441         DSDPDataMatAddMultiple [39]
+                0.00    0.00   76440/76440       VechMatAddMultiple [40]
+                0.00    0.00       1/1           IdentityMatAddMultipleP [358]
+-----------------------------------------------
+                0.00    0.00   76440/76440       DSDPDataMatAddMultiple [39]
+[40]     0.0    0.00    0.00   76440         VechMatAddMultiple [40]
+-----------------------------------------------
+                0.00    0.00       1/76087       DSDPEventLogInitialize [303]
+                0.00    0.00   38043/76087       DSDPEventLogBegin [42]
+                0.00    0.00   38043/76087       DSDPEventLogEnd [43]
+[41]     0.0    0.00    0.00   76087         DSDPTime [41]
+-----------------------------------------------
+                0.00    0.00       1/38043       DSDPSolve [2]
+                0.00    0.00       3/38043       DSDPComputeANorm2 [287]
+                0.00    0.00       4/38043       DSDPSetUpCones [334]
+                0.00    0.00       4/38043       DSDPSetUpCones2 [19]
+                0.00    0.00       4/38043       DSDPDestroyCones [300]
+                0.00    0.00      42/38043       DSDPSchurMatFactor [197]
+                0.00    0.00      84/38043       DSDPSolveDynamicRho [4]
+                0.00    0.00      85/38043       DSDPApplySMW [27]
+                0.00    0.00      86/38043       DSDPCGSolve [29]
+                0.00    0.00     120/38043       DSDPPassXVectors [214]
+                0.00    0.00     168/38043       DSDPComputeHessian [6]
+                0.00    0.00     168/38043       DSDPInvertS [191]
+                0.00    0.00     172/38043       DSDPMonitorCones [180]
+                0.00    0.00     188/38043       DSDPComputeLogSDeterminant [164]
+                0.00    0.00     344/38043       DSDPComputeMaxStepLength [147]
+                0.00    0.00     360/38043       DSDPComputeSS [135]
+                0.00    0.00   17892/38043       DSDPDualMatInverseMultiply [32]
+                0.00    0.00   18318/38043       DSDPBlockvAv [9]
+[42]     0.0    0.00    0.00   38043         DSDPEventLogBegin [42]
+                0.00    0.00   38043/76087       DSDPTime [41]
+-----------------------------------------------
+                0.00    0.00       1/38043       DSDPSolve [2]
+                0.00    0.00       3/38043       DSDPComputeANorm2 [287]
+                0.00    0.00       4/38043       DSDPSetUpCones [334]
+                0.00    0.00       4/38043       DSDPSetUpCones2 [19]
+                0.00    0.00       4/38043       DSDPDestroyCones [300]
+                0.00    0.00      42/38043       DSDPSchurMatFactor [197]
+                0.00    0.00      84/38043       DSDPSolveDynamicRho [4]
+                0.00    0.00      85/38043       DSDPApplySMW [27]
+                0.00    0.00      86/38043       DSDPCGSolve [29]
+                0.00    0.00     120/38043       DSDPPassXVectors [214]
+                0.00    0.00     168/38043       DSDPComputeHessian [6]
+                0.00    0.00     168/38043       DSDPInvertS [191]
+                0.00    0.00     172/38043       DSDPMonitorCones [180]
+                0.00    0.00     188/38043       DSDPComputeLogSDeterminant [164]
+                0.00    0.00     344/38043       DSDPComputeMaxStepLength [147]
+                0.00    0.00     360/38043       DSDPComputeSS [135]
+                0.00    0.00   17892/38043       DSDPDualMatInverseMultiply [32]
+                0.00    0.00   18318/38043       DSDPBlockvAv [9]
+[43]     0.0    0.00    0.00   38043         DSDPEventLogEnd [43]
+                0.00    0.00   38043/76087       DSDPTime [41]
+-----------------------------------------------
+                0.00    0.00      42/35868       DSDPSchurMatDiagonalScaling [196]
+                0.00    0.00      42/35868       DSDPSchurMatAddDiagonal [194]
+                0.00    0.00   17892/35868       DSDPSchurMatRowColumnScaling [35]
+                0.00    0.00   17892/35868       DSDPSchurMatAddRow [36]
+[44]     0.0    0.00    0.00   35868         DSDPZeroFixedVariables [44]
+-----------------------------------------------
+                0.00    0.00   17892/35784       DSDPSchurMatRowColumnScaling [35]
+                0.00    0.00   17892/35784       DSDPSchurMatAddRow [36]
+[45]     0.0    0.00    0.00   35784         DSDPIsFixed [45]
+-----------------------------------------------
+                0.00    0.00    5074/22966       ComputeStepFAST [146]
+                0.00    0.00   17892/22966       SDPConeComputeHessian [8]
+[46]     0.0    0.00    0.00   22966         SDPConeVecDot [46]
+-----------------------------------------------
+                0.00    0.00       2/18911       DSDPCreate [290]
+                0.00    0.00       2/18911       DSDPConjugateGradient [149]
+                0.00    0.00      21/18911       DSDPCGMatMult [223]
+                0.00    0.00      21/18911       DSDPCGMatPre [224]
+                0.00    0.00      40/18911       DSDPSaveYForX [209]
+                0.00    0.00      42/18911       DSDPSchurMatFactor [197]
+                0.00    0.00      84/18911       DSDPSchurMatRowColumnScaling [35]
+                0.00    0.00      85/18911       DSDPApplySMW [27]
+                0.00    0.00      86/18911       DSDPCGSolve [29]
+                0.00    0.00     126/18911       DSDPComputeHessian [6]
+                0.00    0.00     426/18911       DSDPSparsityInSchurMat [98]
+                0.00    0.00   17976/18911       SDPConeComputeHessian [8]
+[47]     0.0    0.00    0.00   18911         DSDPVecZero [47]
+-----------------------------------------------
+                0.00    0.00     429/18750       DSDPDataTransposeSetup [298]
+                0.00    0.00     429/18750       SDPConeBlockNNZ [369]
+                0.00    0.00   17892/18750       SDPConeComputeHessian [8]
+[48]     0.0    0.00    0.00   18750         DSDPBlockGetMatrix [48]
+-----------------------------------------------
+                0.00    0.00       1/18447       DSDPCGSolve [29]
+                0.00    0.00       2/18447       LUBoundsSetup2 [368]
+                0.00    0.00      42/18447       DSDPSchurMatDiagonalScaling [196]
+                0.00    0.00     426/18447       SDPConeAddXVAV [34]
+                0.00    0.00   17976/18447       DSDPSchurMatRowColumnScaling [35]
+[49]     0.0    0.00    0.00   18447         DSDPVecSet [49]
+-----------------------------------------------
+                0.00    0.00     427/18319       DSDPBlockDataRank [277]
+                0.00    0.00   17892/18319       SDPConeComputeHessian [8]
+[50]     0.0    0.00    0.00   18319         DSDPDataMatGetRank [50]
+                0.00    0.00   18318/18318       VechMatGetRank [51]
+                0.00    0.00       1/1           IdentityMatGetRank [361]
+-----------------------------------------------
+                0.00    0.00   18318/18318       DSDPDataMatGetRank [50]
+[51]     0.0    0.00    0.00   18318         VechMatGetRank [51]
+-----------------------------------------------
+                0.00    0.00   17976/17976       DSDPObjectiveGH [192]
+[52]     0.0    0.00    0.00   17976         DSDPSchurMatVariableCompute [52]
+                0.00    0.00   17892/17934       DSDPSchurMatInParallel [53]
+-----------------------------------------------
+                0.00    0.00      42/17934       DSDPSchurMatDiagonalScaling [196]
+                0.00    0.00   17892/17934       DSDPSchurMatVariableCompute [52]
+[53]     0.0    0.00    0.00   17934         DSDPSchurMatInParallel [53]
+-----------------------------------------------
+                0.00    0.00   17892/17892       SDPConeComputeHessian [8]
+[54]     0.0    0.00    0.00   17892         DSDPDataMatGetEig [54]
+                0.00    0.00   17892/17892       VechMatGetEig [56]
+-----------------------------------------------
+                0.00    0.00   17892/17892       DSDPSchurMatAddRow [36]
+[55]     0.0    0.00    0.00   17892         DTRUMatAddRow [55]
+-----------------------------------------------
+                0.00    0.00   17892/17892       DSDPDataMatGetEig [54]
+[56]     0.0    0.00    0.00   17892         VechMatGetEig [56]
+-----------------------------------------------
+                0.00    0.00    6708/6708        ComputeStepFAST [146]
+[57]     0.0    0.00    0.00    6708         SDPConeVecAXPY [57]
+-----------------------------------------------
+                0.00    0.00    5160/5160        ComputeStepFAST [146]
+[58]     0.0    0.00    0.00    5160         SDPConeVecNorm2 [58]
+-----------------------------------------------
+                0.00    0.00    3440/3440        ComputeStepFAST [146]
+[59]     0.0    0.00    0.00    3440         SDPConeVecCopy [59]
+-----------------------------------------------
+                0.00    0.00     426/2146        SDPConeXVMultiply [26]
+                0.00    0.00    1720/2146        MatMult3 [68]
+[60]     0.0    0.00    0.00    2146         DSDPDualMatCholeskySolveBackward [60]
+                0.00    0.00    2146/2146        DTRUMatCholeskyBackward [62]
+-----------------------------------------------
+                0.00    0.00     426/2146        SDPConeXVMultiply [26]
+                0.00    0.00    1720/2146        MatMult3 [68]
+[61]     0.0    0.00    0.00    2146         DSDPDualMatCholeskySolveForward [61]
+                0.00    0.00    2146/2146        DTRUMatCholeskyForward [63]
+-----------------------------------------------
+                0.00    0.00    2146/2146        DSDPDualMatCholeskySolveBackward [60]
+[62]     0.0    0.00    0.00    2146         DTRUMatCholeskyBackward [62]
+-----------------------------------------------
+                0.00    0.00    2146/2146        DSDPDualMatCholeskySolveForward [61]
+[63]     0.0    0.00    0.00    2146         DTRUMatCholeskyForward [63]
+-----------------------------------------------
+                0.00    0.00     426/2146        SDPConeXVMultiply [26]
+                0.00    0.00    1720/2146        MatMult3 [68]
+[64]     0.0    0.00    0.00    2146         SDPConeVecScale [64]
+-----------------------------------------------
+                0.00    0.00    1806/1806        ComputeStepFAST [146]
+[65]     0.0    0.00    0.00    1806         SDPConeVecNormalize [65]
+-----------------------------------------------
+                0.00    0.00    1720/1720        MatMult3 [68]
+[66]     0.0    0.00    0.00    1720         DSDPDSMatMult [66]
+                0.00    0.00    1720/1720        DiagMatMult [67]
+-----------------------------------------------
+                0.00    0.00    1720/1720        DSDPDSMatMult [66]
+[67]     0.0    0.00    0.00    1720         DiagMatMult [67]
+-----------------------------------------------
+                0.00    0.00    1720/1720        ComputeStepFAST [146]
+[68]     0.0    0.00    0.00    1720         MatMult3 [68]
+                0.00    0.00    1720/2146        DSDPDualMatCholeskySolveBackward [60]
+                0.00    0.00    1720/1720        DSDPDSMatMult [66]
+                0.00    0.00    1720/2146        DSDPDualMatCholeskySolveForward [61]
+                0.00    0.00    1720/2146        SDPConeVecScale [64]
+-----------------------------------------------
+                0.00    0.00       1/1702        DSDPDefaultConvergence [175]
+                0.00    0.00       1/1702        DSDPSetDualBound [325]
+                0.00    0.00       1/1702        DSDPComputeDataNorms [288]
+                0.00    0.00       1/1702        DSDPSetScale [331]
+                0.00    0.00       1/1702        DSDPSetMaxIts [326]
+                0.00    0.00       1/1702        DSDPSetMaxTrustRadius [327]
+                0.00    0.00       1/1702        DSDPSetZBar [336]
+                0.00    0.00       1/1702        DSDPUsePenalty [342]
+                0.00    0.00       1/1702        DSDPSetPenaltyParameter [329]
+                0.00    0.00       1/1702        DSDPUseDynamicRho [341]
+                0.00    0.00       1/1702        DSDPSetPTolerance [328]
+                0.00    0.00       1/1702        DSDPSetRTolerance [330]
+                0.00    0.00       1/1702        SDPConeSetBlockSize [373]
+                0.00    0.00       1/1702        DSDPBlockDataDestroy [275]
+                0.00    0.00       1/1702        DSDPBlockSetup [17]
+                0.00    0.00       1/1702        DSDPCreateSchurMatrix [294]
+                0.00    0.00       2/1702        DSDPSetGapTolerance [258]
+                0.00    0.00       2/1702        DSDPSetPNormTolerance [260]
+                0.00    0.00       2/1702        DSDPSetR0 [262]
+                0.00    0.00       2/1702        DSDPSetPotentialParameter [261]
+                0.00    0.00       2/1702        DSDPSetMonitor [259]
+                0.00    0.00       2/1702        KSDPConeComputeSS [137]
+                0.00    0.00       3/1702        DSDPReuseMatrix [240]
+                0.00    0.00       4/1702        DSDPCreateS [18]
+                0.00    0.00       5/1702        DSDPSetBarrierParameter [230]
+                0.00    0.00       6/1702        DSDPBlockDataAllocate [227]
+                0.00    0.00      21/1702        DSDPConjugateGradient [149]
+                0.00    0.00      40/1702        DSDPComputeDualityGap [212]
+                0.00    0.00      42/1702        DSDPChooseBarrierParameter [187]
+                0.00    0.00      44/1702        DSDPComputeDualStepDirections [3]
+                0.00    0.00      44/1702        DSDPComputePNorm [115]
+                0.00    0.00      44/1702        DSDPComputePDY [171]
+                0.00    0.00      86/1702        LUBoundsComputeMaxStepLength [162]
+                0.00    0.00      86/1702        DSDPSetY [183]
+                0.00    0.00      86/1702        ComputeStepFAST [146]
+                0.00    0.00      86/1702        KSDPConeComputeMaxStepLength [161]
+                0.00    0.00      88/1702        DSDPSolveDynamicRho [4]
+                0.00    0.00     132/1702        DSDPComputePotential [126]
+                0.00    0.00     428/1702        SDPConeAddASparseVecMat [86]
+                0.00    0.00     429/1702        DSDPBlockFactorData [279]
+[69]     0.0    0.00    0.00    1702         DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00     840/1698        DSDPBlockDataAllocate [227]
+                0.00    0.00     858/1698        DSDPDataMatDestroy [73]
+[70]     0.0    0.00    0.00    1698         DSDPDataMatInitialize [70]
+-----------------------------------------------
+                0.00    0.00       1/1281        SDPConeSetRMatrix [375]
+                0.00    0.00     426/1281        SDPConeXVMultiply [26]
+                0.00    0.00     426/1281        SDPConeAddXVAV [34]
+                0.00    0.00     428/1281        SDPConeAddDataMatrix [87]
+[71]     0.0    0.00    0.00    1281         SDPConeCheckN [71]
+-----------------------------------------------
+                0.00    0.00    1278/1278        DSDPSchurSparsity [95]
+[72]     0.0    0.00    0.00    1278         DSDPConeSparsityInSchurMat [72]
+                0.00    0.00     426/426         KSDPConeSparsity [101]
+                0.00    0.00     426/426         LUBoundsSparsity [102]
+                0.00    0.00     426/426         DSDPRSparsity [94]
+-----------------------------------------------
+                0.00    0.00     429/858         DSDPBlockDataDestroy [275]
+                0.00    0.00     429/858         DSDPBlockAddDataMatrix [79]
+[73]     0.0    0.00    0.00     858         DSDPDataMatDestroy [73]
+                0.00    0.00     858/1698        DSDPDataMatInitialize [70]
+                0.00    0.00     428/428         VechMatDestroy [88]
+                0.00    0.00       1/1           IdentityMatDestroy [359]
+-----------------------------------------------
+                0.00    0.00     858/858         DSDPBlockANorm2 [273]
+[74]     0.0    0.00    0.00     858         DSDPDataMatFNorm2 [74]
+                0.00    0.00     856/856         VechMatFNorm2 [75]
+                0.00    0.00       2/2           IdentityMatFNorm2 [267]
+-----------------------------------------------
+                0.00    0.00     856/856         DSDPDataMatFNorm2 [74]
+[75]     0.0    0.00    0.00     856         VechMatFNorm2 [75]
+-----------------------------------------------
+                0.00    0.00      40/775         DSDPComputeRHS [213]
+                0.00    0.00      88/775         DSDPComputePDY [171]
+                0.00    0.00     245/775         DSDPComputePNorm [115]
+                0.00    0.00     402/775         DSDPComputeDY [116]
+[76]     0.0    0.00    0.00     775         DSDPVecWAXPBY [76]
+-----------------------------------------------
+                0.00    0.00       2/631         DSDPComputeObjective [246]
+                0.00    0.00      40/631         DSDPComputeDualityGap [212]
+                0.00    0.00      41/631         DSDPConjugateGradient [149]
+                0.00    0.00      42/631         DSDPCheckForUnboundedObjective [186]
+                0.00    0.00      43/631         DSDPSetY [183]
+                0.00    0.00      86/631         DSDPCGSolve [29]
+                0.00    0.00     132/631         DSDPComputePotential [126]
+                0.00    0.00     245/631         DSDPComputePNorm [115]
+[77]     0.0    0.00    0.00     631         DSDPVecDot [77]
+-----------------------------------------------
+                0.00    0.00       1/505         DSDPComputeDataNorms [288]
+                0.00    0.00       1/505         DSDPSolveDynamicRho [4]
+                0.00    0.00       2/505         DSDPConjugateGradient [149]
+                0.00    0.00      42/505         LUBoundsComputeMaxStepLength [162]
+                0.00    0.00      43/505         DSDPSetY [183]
+                0.00    0.00      47/505         KSDPConeComputeSS [137]
+                0.00    0.00      80/505         LUBoundsSetX [218]
+                0.00    0.00      80/505         KSDPConeSetX [217]
+                0.00    0.00      89/505         LUBoundsS [141]
+                0.00    0.00     120/505         DSDPSaveYForX [209]
+[78]     0.0    0.00    0.00     505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.00       1/429         DSDPBlockSetDataMatrix [281]
+                0.00    0.00     428/429         SDPConeAddDataMatrix [87]
+[79]     0.0    0.00    0.00     429         DSDPBlockAddDataMatrix [79]
+                0.00    0.00     429/858         DSDPDataMatDestroy [73]
+                0.00    0.00     429/429         DSDPDataMatSetData [82]
+                0.00    0.00       6/6           DSDPBlockDataAllocate [227]
+-----------------------------------------------
+                0.00    0.00       1/429         SDPConeSetRMatrix [375]
+                0.00    0.00       1/429         DSDPBlockSetDataMatrix [281]
+                0.00    0.00     427/429         SDPConeRemoveDataMatrix [91]
+[80]     0.0    0.00    0.00     429         DSDPBlockRemoveDataMatrix [80]
+-----------------------------------------------
+                0.00    0.00       1/429         DSDPGetIdentityDataMatP [306]
+                0.00    0.00     428/429         DSDPGetVechMat [85]
+[81]     0.0    0.00    0.00     429         DSDPDataMatOpsInitialize [81]
+-----------------------------------------------
+                0.00    0.00     429/429         DSDPBlockAddDataMatrix [79]
+[82]     0.0    0.00    0.00     429         DSDPDataMatSetData [82]
+-----------------------------------------------
+                0.00    0.00       1/429         SDPConeSetRMatrix [375]
+                0.00    0.00     428/429         SDPConeAddDataMatrix [87]
+[83]     0.0    0.00    0.00     429         SDPConeCheckStorageFormat [83]
+-----------------------------------------------
+                0.00    0.00       1/429         SDPConeSetRIdentity [374]
+                0.00    0.00     428/429         SDPConeAddASparseVecMat [86]
+[84]     0.0    0.00    0.00     429         SDPConeGetStorageFormat [84]
+-----------------------------------------------
+                0.00    0.00     428/428         SDPConeAddASparseVecMat [86]
+[85]     0.0    0.00    0.00     428         DSDPGetVechMat [85]
+                0.00    0.00     428/429         DSDPDataMatOpsInitialize [81]
+-----------------------------------------------
+                0.00    0.00       1/428         MaxCut [1]
+                0.00    0.00     427/428         SDPConeSetASparseVecMat [92]
+[86]     0.0    0.00    0.00     428         SDPConeAddASparseVecMat [86]
+                0.00    0.00     428/429         SDPConeGetStorageFormat [84]
+                0.00    0.00     428/1702        DSDPLogFInfo [69]
+                0.00    0.00     428/428         SDPConeAddDataMatrix [87]
+                0.00    0.00     428/428         DSDPGetVechMat [85]
+-----------------------------------------------
+                0.00    0.00     428/428         SDPConeAddASparseVecMat [86]
+[87]     0.0    0.00    0.00     428         SDPConeAddDataMatrix [87]
+                0.00    0.00     428/1281        SDPConeCheckN [71]
+                0.00    0.00     428/429         SDPConeCheckStorageFormat [83]
+                0.00    0.00     428/429         DSDPBlockAddDataMatrix [79]
+-----------------------------------------------
+                0.00    0.00     428/428         DSDPDataMatDestroy [73]
+[88]     0.0    0.00    0.00     428         VechMatDestroy [88]
+-----------------------------------------------
+                0.00    0.00       1/427         DSDPDataTransposeSetup [298]
+                0.00    0.00     426/427         KSDPConeSparsity [101]
+[89]     0.0    0.00    0.00     427         DSDPBlockDataMarkNonzeroMatrices [89]
+-----------------------------------------------
+                0.00    0.00     427/427         DSDPBlockFactorData [279]
+[90]     0.0    0.00    0.00     427         DSDPDataMatFactor [90]
+                0.00    0.00     426/426         VechMatFactor [104]
+                0.00    0.00       1/1           IdentityMatFactor [360]
+-----------------------------------------------
+                0.00    0.00     427/427         SDPConeSetASparseVecMat [92]
+[91]     0.0    0.00    0.00     427         SDPConeRemoveDataMatrix [91]
+                0.00    0.00     427/429         DSDPBlockRemoveDataMatrix [80]
+-----------------------------------------------
+                0.00    0.00     427/427         MaxCut [1]
+[92]     0.0    0.00    0.00     427         SDPConeSetASparseVecMat [92]
+                0.00    0.00     427/427         SDPConeRemoveDataMatrix [91]
+                0.00    0.00     427/428         SDPConeAddASparseVecMat [86]
+-----------------------------------------------
+                0.00    0.00     426/426         SDPConeBlockNNZ [369]
+[93]     0.0    0.00    0.00     426         DSDPDataMatCountNonzeros [93]
+                0.00    0.00     426/426         VechMatCountNonzeros [103]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPConeSparsityInSchurMat [72]
+[94]     0.0    0.00    0.00     426         DSDPRSparsity [94]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPSparsityInSchurMat [98]
+[95]     0.0    0.00    0.00     426         DSDPSchurSparsity [95]
+                0.00    0.00    1278/1278        DSDPConeSparsityInSchurMat [72]
+-----------------------------------------------
+                0.00    0.00     426/426         MaxCut [1]
+[96]     0.0    0.00    0.00     426         DSDPSetDualObjective [96]
+-----------------------------------------------
+                0.00    0.00     426/426         MaxCut [1]
+[97]     0.0    0.00    0.00     426         DSDPSetY0 [97]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPCreateSchurMatrix [294]
+[98]     0.0    0.00    0.00     426         DSDPSparsityInSchurMat [98]
+                0.00    0.00     426/18911       DSDPVecZero [47]
+                0.00    0.00     426/426         DSDPSchurSparsity [95]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPDataMatGetRowNonzeros [12]
+[99]     0.0    0.00    0.00     426         IdentityMatGetRowNnz [99]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPDataMatVecVec [10]
+[100]    0.0    0.00    0.00     426         IdentityMatVecVec [100]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPConeSparsityInSchurMat [72]
+[101]    0.0    0.00    0.00     426         KSDPConeSparsity [101]
+                0.00    0.00     426/427         DSDPBlockDataMarkNonzeroMatrices [89]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPConeSparsityInSchurMat [72]
+[102]    0.0    0.00    0.00     426         LUBoundsSparsity [102]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPDataMatCountNonzeros [93]
+[103]    0.0    0.00    0.00     426         VechMatCountNonzeros [103]
+-----------------------------------------------
+                0.00    0.00     426/426         DSDPDataMatFactor [90]
+[104]    0.0    0.00    0.00     426         VechMatFactor [104]
+-----------------------------------------------
+                0.00    0.00      40/377         DSDPSaveYForX [209]
+                0.00    0.00     167/377         DSDPGetYMaxNorm [123]
+                0.00    0.00     170/377         DSDPApplySMW [27]
+[105]    0.0    0.00    0.00     377         DSDPVecNormInfinity [105]
+-----------------------------------------------
+                0.00    0.00       1/359         DSDPBlockFactorData [279]
+                0.00    0.00      86/359         DSDPDSMatSetArray [150]
+                0.00    0.00      93/359         DSDPDualMatSetArray [133]
+                0.00    0.00     179/359         DSDPBlockASum [117]
+[106]    0.0    0.00    0.00     359         DSDPVMatGetArray [106]
+                0.00    0.00     359/359         DTPUMatGetDenseArray [109]
+-----------------------------------------------
+                0.00    0.00       1/359         DSDPBlockFactorData [279]
+                0.00    0.00      86/359         DSDPDSMatSetArray [150]
+                0.00    0.00      93/359         DSDPDualMatSetArray [133]
+                0.00    0.00     179/359         DSDPBlockASum [117]
+[107]    0.0    0.00    0.00     359         DSDPVMatGetSize [107]
+                0.00    0.00     359/359         DTPUMatGetSize [110]
+-----------------------------------------------
+                0.00    0.00       1/359         DSDPBlockFactorData [279]
+                0.00    0.00      86/359         DSDPDSMatSetArray [150]
+                0.00    0.00      93/359         DSDPDualMatSetArray [133]
+                0.00    0.00     179/359         DSDPBlockASum [117]
+[108]    0.0    0.00    0.00     359         DSDPVMatRestoreArray [108]
+                0.00    0.00     359/359         DTPUMatRestoreDenseArray [111]
+-----------------------------------------------
+                0.00    0.00     359/359         DSDPVMatGetArray [106]
+[109]    0.0    0.00    0.00     359         DTPUMatGetDenseArray [109]
+-----------------------------------------------
+                0.00    0.00     359/359         DSDPVMatGetSize [107]
+[110]    0.0    0.00    0.00     359         DTPUMatGetSize [110]
+-----------------------------------------------
+                0.00    0.00     359/359         DSDPVMatRestoreArray [108]
+[111]    0.0    0.00    0.00     359         DTPUMatRestoreDenseArray [111]
+-----------------------------------------------
+                0.00    0.00     269/269         DSDPComputeSS [135]
+[112]    0.0    0.00    0.00     269         DSDPConeComputeS [112]
+                0.00    0.00      91/91          KSDPConeComputeSS [137]
+                0.00    0.00      89/89          DSDPComputeRS [139]
+                0.00    0.00      89/89          LUBoundsS [141]
+-----------------------------------------------
+                0.00    0.00     264/264         DSDPGetConicDimension [140]
+[113]    0.0    0.00    0.00     264         DSDPConeGetDimension [113]
+                0.00    0.00      88/88          KSDPConeSize [144]
+                0.00    0.00      88/88          LUBoundsSize [145]
+                0.00    0.00      88/88          DSDPRSize [142]
+-----------------------------------------------
+                0.00    0.00     258/258         DSDPComputeMaxStepLength [147]
+[114]    0.0    0.00    0.00     258         DSDPConeComputeMaxStepLength [114]
+                0.00    0.00      86/86          KSDPConeComputeMaxStepLength [161]
+                0.00    0.00      86/86          LUBoundsComputeMaxStepLength [162]
+                0.00    0.00      86/86          DSDPComputeRStepLength [148]
+-----------------------------------------------
+                0.00    0.00      44/245         DSDPComputePDY [171]
+                0.00    0.00     201/245         DSDPComputeDY [116]
+[115]    0.0    0.00    0.00     245         DSDPComputePNorm [115]
+                0.00    0.00     245/775         DSDPVecWAXPBY [76]
+                0.00    0.00     245/631         DSDPVecDot [77]
+                0.00    0.00      44/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00      40/201         DSDPComputeDualityGap [212]
+                0.00    0.00      42/201         DSDPSolveDynamicRho [4]
+                0.00    0.00     119/201         DSDPSaveYForX [209]
+[116]    0.0    0.00    0.00     201         DSDPComputeDY [116]
+                0.00    0.00     402/775         DSDPVecWAXPBY [76]
+                0.00    0.00     201/245         DSDPComputePNorm [115]
+-----------------------------------------------
+                0.00    0.00     179/179         SDPConeComputeSS [120]
+[117]    0.0    0.00    0.00     179         DSDPBlockASum [117]
+                0.00    0.00   76441/76441       DSDPDataMatAddMultiple [39]
+                0.00    0.00     179/359         DSDPVMatGetSize [107]
+                0.00    0.00     179/359         DSDPVMatGetArray [106]
+                0.00    0.00     179/359         DSDPVMatRestoreArray [108]
+-----------------------------------------------
+                0.00    0.00     179/179         SDPConeComputeSS [120]
+[118]    0.0    0.00    0.00     179         DSDPVMatZeroEntries [118]
+                0.00    0.00     179/179         DTPUMatZero [119]
+-----------------------------------------------
+                0.00    0.00     179/179         DSDPVMatZeroEntries [118]
+[119]    0.0    0.00    0.00     179         DTPUMatZero [119]
+-----------------------------------------------
+                0.00    0.00       2/179         SDPConeComputeXV [371]
+                0.00    0.00      86/179         KSDPConeComputeMaxStepLength [161]
+                0.00    0.00      91/179         KSDPConeComputeSS [137]
+[120]    0.0    0.00    0.00     179         SDPConeComputeSS [120]
+                0.00    0.00     179/179         DSDPVMatZeroEntries [118]
+                0.00    0.00     179/179         DSDPBlockASum [117]
+-----------------------------------------------
+                0.00    0.00       1/169         DSDPInitializeVariables [311]
+                0.00    0.00      40/169         DSDPSaveYForX [209]
+                0.00    0.00      42/169         DSDPSolveDynamicRho [4]
+                0.00    0.00      86/169         DSDPGetR [156]
+[121]    0.0    0.00    0.00     169         DSDPGetRR [121]
+-----------------------------------------------
+                0.00    0.00      41/167         DSDPSaveYForX [209]
+                0.00    0.00      42/167         DSDPComputeDualStepDirections [3]
+                0.00    0.00      84/167         DSDPCGSolve [29]
+[122]    0.0    0.00    0.00     167         DSDPGetMaxYElement [122]
+                0.00    0.00     167/167         DSDPGetYMaxNorm [123]
+-----------------------------------------------
+                0.00    0.00     167/167         DSDPGetMaxYElement [122]
+[123]    0.0    0.00    0.00     167         DSDPGetYMaxNorm [123]
+                0.00    0.00     167/377         DSDPVecNormInfinity [105]
+-----------------------------------------------
+                0.00    0.00     141/141         DSDPComputeLogSDeterminant [164]
+[124]    0.0    0.00    0.00     141         DSDPConeComputeLogSDeterminant [124]
+                0.00    0.00      47/47          KSDPConeComputeLogSDeterminant [168]
+                0.00    0.00      47/47          LUBoundsPotential [169]
+                0.00    0.00      47/47          DSDPComputeRLog [165]
+-----------------------------------------------
+                0.00    0.00      42/135         DSDPSchurMatFactor [197]
+                0.00    0.00      93/135         DSDPDualMatCholeskyFactor [132]
+[125]    0.0    0.00    0.00     135         DTRUMatCholeskyFactor [125]
+-----------------------------------------------
+                0.00    0.00       1/132         DSDPInitializeVariables [311]
+                0.00    0.00      43/132         DSDPSetY [183]
+                0.00    0.00      88/132         DSDPSolveDynamicRho [4]
+[126]    0.0    0.00    0.00     132         DSDPComputePotential [126]
+                0.00    0.00     132/631         DSDPVecDot [77]
+                0.00    0.00     132/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/130         MaxCut [1]
+                0.00    0.00      43/130         DSDPDefaultConvergence [175]
+                0.00    0.00      43/130         DSDPCheckConvergence [174]
+                0.00    0.00      43/130         DSDPPrintStats [181]
+[127]    0.0    0.00    0.00     130         DSDPStopReason [127]
+-----------------------------------------------
+                0.00    0.00     129/129         DSDPMonitorCones [180]
+[128]    0.0    0.00    0.00     129         DSDPConeMonitor [128]
+                0.00    0.00      43/43          KSDPConeMonitor [184]
+                0.00    0.00      43/43          LUBoundsMonitor [185]
+                0.00    0.00      43/43          DSDPRMonitor [182]
+-----------------------------------------------
+                0.00    0.00     126/126         DSDPInvertS [191]
+[129]    0.0    0.00    0.00     126         DSDPConeInvertS [129]
+                0.00    0.00      42/42          KSDPConeInvertSS [206]
+                0.00    0.00      42/42          LUInvertS [208]
+                0.00    0.00      42/42          DSDPInvertRS [190]
+-----------------------------------------------
+                0.00    0.00     126/126         DSDPComputeHessian [6]
+[130]    0.0    0.00    0.00     126         DSDPSchurMatReducePVec [130]
+-----------------------------------------------
+                0.00    0.00     120/120         DSDPPassXVectors [214]
+[131]    0.0    0.00    0.00     120         DSDPConeSetXMaker [131]
+                0.00    0.00      40/40          KSDPConeSetX [217]
+                0.00    0.00      40/40          LUBoundsSetX [218]
+                0.00    0.00      40/40          DSDPSetX [215]
+-----------------------------------------------
+                0.00    0.00       2/93          SDPConeComputeXV [371]
+                0.00    0.00      91/93          KSDPConeComputeSS [137]
+[132]    0.0    0.00    0.00      93         DSDPDualMatCholeskyFactor [132]
+                0.00    0.00      93/135         DTRUMatCholeskyFactor [125]
+-----------------------------------------------
+                0.00    0.00       2/93          SDPConeComputeXV [371]
+                0.00    0.00      91/93          KSDPConeComputeSS [137]
+[133]    0.0    0.00    0.00      93         DSDPDualMatSetArray [133]
+                0.00    0.00      93/359         DSDPVMatGetSize [107]
+                0.00    0.00      93/359         DSDPVMatGetArray [106]
+                0.00    0.00      93/93          DTRUMatSetXMatP [134]
+                0.00    0.00      93/359         DSDPVMatRestoreArray [108]
+-----------------------------------------------
+                0.00    0.00      93/93          DSDPDualMatSetArray [133]
+[134]    0.0    0.00    0.00      93         DTRUMatSetXMatP [134]
+-----------------------------------------------
+                0.00    0.00       1/91          DSDPInitializeVariables [311]
+                0.00    0.00       2/91          DSDPChooseBarrierParameter [187]
+                0.00    0.00      88/91          DSDPSolveDynamicRho [4]
+[135]    0.0    0.00    0.00      91         DSDPComputeSS [135]
+                0.00    0.00     360/38043       DSDPEventLogEnd [43]
+                0.00    0.00     360/38043       DSDPEventLogBegin [42]
+                0.00    0.00     269/269         DSDPConeComputeS [112]
+-----------------------------------------------
+                0.00    0.00       1/91          SDPConeComputeXV [371]
+                0.00    0.00      44/91          DSDPComputePY [172]
+                0.00    0.00      46/91          DSDPComputeNewY [170]
+[136]    0.0    0.00    0.00      91         DSDPVecWAXPY [136]
+-----------------------------------------------
+                0.00    0.00      91/91          DSDPConeComputeS [112]
+[137]    0.0    0.00    0.00      91         KSDPConeComputeSS [137]
+                0.00    0.00      91/179         SDPConeComputeSS [120]
+                0.00    0.00      91/93          DSDPDualMatSetArray [133]
+                0.00    0.00      91/93          DSDPDualMatCholeskyFactor [132]
+                0.00    0.00      47/505         DSDPVecCopy [78]
+                0.00    0.00       2/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00      44/90          DSDPComputePY [172]
+                0.00    0.00      46/90          DSDPComputeNewY [170]
+[138]    0.0    0.00    0.00      90         DSDPApplyFixedVariables [138]
+-----------------------------------------------
+                0.00    0.00      89/89          DSDPConeComputeS [112]
+[139]    0.0    0.00    0.00      89         DSDPComputeRS [139]
+-----------------------------------------------
+                0.00    0.00       1/89          DSDPTakeDown [339]
+                0.00    0.00       2/89          DSDPSetup [20]
+                0.00    0.00      43/89          DSDPCheckConvergence [174]
+                0.00    0.00      43/89          DSDPGetDimension [176]
+[140]    0.0    0.00    0.00      89         DSDPGetConicDimension [140]
+                0.00    0.00     264/264         DSDPConeGetDimension [113]
+-----------------------------------------------
+                0.00    0.00      89/89          DSDPConeComputeS [112]
+[141]    0.0    0.00    0.00      89         LUBoundsS [141]
+                0.00    0.00      89/505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.00      88/88          DSDPConeGetDimension [113]
+[142]    0.0    0.00    0.00      88         DSDPRSize [142]
+-----------------------------------------------
+                0.00    0.00      42/88          DSDPComputeHessian [6]
+                0.00    0.00      46/88          DSDPComputeNewY [170]
+[143]    0.0    0.00    0.00      88         DSDPSchurMatSetR [143]
+-----------------------------------------------
+                0.00    0.00      88/88          DSDPConeGetDimension [113]
+[144]    0.0    0.00    0.00      88         KSDPConeSize [144]
+-----------------------------------------------
+                0.00    0.00      88/88          DSDPConeGetDimension [113]
+[145]    0.0    0.00    0.00      88         LUBoundsSize [145]
+-----------------------------------------------
+                0.00    0.00      86/86          DSDPLanczosStepSize [159]
+[146]    0.0    0.00    0.00      86         ComputeStepFAST [146]
+                0.00    0.00    6708/6708        SDPConeVecAXPY [57]
+                0.00    0.00    5160/5160        SDPConeVecNorm2 [58]
+                0.00    0.00    5074/22966       SDPConeVecDot [46]
+                0.00    0.00    3440/3440        SDPConeVecCopy [59]
+                0.00    0.00    1806/1806        SDPConeVecNormalize [65]
+                0.00    0.00    1720/1720        MatMult3 [68]
+                0.00    0.00      86/86          SDPConeVecSet [163]
+                0.00    0.00      86/86          DSDPGetTriDiagonalEigs [158]
+                0.00    0.00      86/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00      42/86          DSDPSolveDynamicRho [4]
+                0.00    0.00      44/86          DSDPChooseBarrierParameter [187]
+[147]    0.0    0.00    0.00      86         DSDPComputeMaxStepLength [147]
+                0.00    0.00     344/38043       DSDPEventLogEnd [43]
+                0.00    0.00     344/38043       DSDPEventLogBegin [42]
+                0.00    0.00     258/258         DSDPConeComputeMaxStepLength [114]
+-----------------------------------------------
+                0.00    0.00      86/86          DSDPConeComputeMaxStepLength [114]
+[148]    0.0    0.00    0.00      86         DSDPComputeRStepLength [148]
+-----------------------------------------------
+                0.00    0.00      86/86          DSDPCGSolve [29]
+[149]    0.0    0.00    0.00      86         DSDPConjugateGradient [149]
+                0.00    0.00      41/631         DSDPVecDot [77]
+                0.00    0.00      40/41          DSDPVecAXPY [210]
+                0.00    0.00      25/26          DSDPVecNorm2 [221]
+                0.00    0.00      22/22          DSDPVecAYPX [222]
+                0.00    0.00      21/21          DSDPCGMatMult [223]
+                0.00    0.00      21/1702        DSDPLogFInfo [69]
+                0.00    0.00      21/21          DSDPCGMatPre [224]
+                0.00    0.00       2/18911       DSDPVecZero [47]
+                0.00    0.00       2/505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.00      86/86          KSDPConeComputeMaxStepLength [161]
+[150]    0.0    0.00    0.00      86         DSDPDSMatSetArray [150]
+                0.00    0.00      86/359         DSDPVMatGetSize [107]
+                0.00    0.00      86/359         DSDPVMatGetArray [106]
+                0.00    0.00      86/86          DiagMatTakeUREntriesP [160]
+                0.00    0.00      86/359         DSDPVMatRestoreArray [108]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[151]    0.0    0.00    0.00      86         DSDPGetBarrierParameter [151]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[152]    0.0    0.00    0.00      86         DSDPGetDDObjective [152]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[153]    0.0    0.00    0.00      86         DSDPGetIts [153]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[154]    0.0    0.00    0.00      86         DSDPGetPPObjective [154]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[155]    0.0    0.00    0.00      86         DSDPGetPnorm [155]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[156]    0.0    0.00    0.00      86         DSDPGetR [156]
+                0.00    0.00      86/169         DSDPGetRR [121]
+-----------------------------------------------
+                0.00    0.00      43/86          DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPPrintStats [181]
+[157]    0.0    0.00    0.00      86         DSDPGetStepLengths [157]
+-----------------------------------------------
+                0.00    0.00      86/86          ComputeStepFAST [146]
+[158]    0.0    0.00    0.00      86         DSDPGetTriDiagonalEigs [158]
+-----------------------------------------------
+                0.00    0.00      86/86          KSDPConeComputeMaxStepLength [161]
+[159]    0.0    0.00    0.00      86         DSDPLanczosStepSize [159]
+                0.00    0.00      86/86          ComputeStepFAST [146]
+-----------------------------------------------
+                0.00    0.00      86/86          DSDPDSMatSetArray [150]
+[160]    0.0    0.00    0.00      86         DiagMatTakeUREntriesP [160]
+-----------------------------------------------
+                0.00    0.00      86/86          DSDPConeComputeMaxStepLength [114]
+[161]    0.0    0.00    0.00      86         KSDPConeComputeMaxStepLength [161]
+                0.00    0.00      86/179         SDPConeComputeSS [120]
+                0.00    0.00      86/86          DSDPDSMatSetArray [150]
+                0.00    0.00      86/86          DSDPLanczosStepSize [159]
+                0.00    0.00      86/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00      86/86          DSDPConeComputeMaxStepLength [114]
+[162]    0.0    0.00    0.00      86         LUBoundsComputeMaxStepLength [162]
+                0.00    0.00      86/1702        DSDPLogFInfo [69]
+                0.00    0.00      42/505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.00      86/86          ComputeStepFAST [146]
+[163]    0.0    0.00    0.00      86         SDPConeVecSet [163]
+-----------------------------------------------
+                0.00    0.00       1/47          DSDPInitializeVariables [311]
+                0.00    0.00      46/47          DSDPSolveDynamicRho [4]
+[164]    0.0    0.00    0.00      47         DSDPComputeLogSDeterminant [164]
+                0.00    0.00     188/38043       DSDPEventLogBegin [42]
+                0.00    0.00     188/38043       DSDPEventLogEnd [43]
+                0.00    0.00     141/141         DSDPConeComputeLogSDeterminant [124]
+-----------------------------------------------
+                0.00    0.00      47/47          DSDPConeComputeLogSDeterminant [124]
+[165]    0.0    0.00    0.00      47         DSDPComputeRLog [165]
+-----------------------------------------------
+                0.00    0.00      47/47          KSDPConeComputeLogSDeterminant [168]
+[166]    0.0    0.00    0.00      47         DSDPDualMatLogDeterminant [166]
+                0.00    0.00      47/47          DTRUMatLogDet [167]
+-----------------------------------------------
+                0.00    0.00      47/47          DSDPDualMatLogDeterminant [166]
+[167]    0.0    0.00    0.00      47         DTRUMatLogDet [167]
+-----------------------------------------------
+                0.00    0.00      47/47          DSDPConeComputeLogSDeterminant [124]
+[168]    0.0    0.00    0.00      47         KSDPConeComputeLogSDeterminant [168]
+                0.00    0.00      47/47          DSDPDualMatLogDeterminant [166]
+-----------------------------------------------
+                0.00    0.00      47/47          DSDPConeComputeLogSDeterminant [124]
+[169]    0.0    0.00    0.00      47         LUBoundsPotential [169]
+-----------------------------------------------
+                0.00    0.00      46/46          DSDPSolveDynamicRho [4]
+[170]    0.0    0.00    0.00      46         DSDPComputeNewY [170]
+                0.00    0.00      46/91          DSDPVecWAXPY [136]
+                0.00    0.00      46/88          DSDPSchurMatSetR [143]
+                0.00    0.00      46/90          DSDPApplyFixedVariables [138]
+-----------------------------------------------
+                0.00    0.00       2/44          DSDPChooseBarrierParameter [187]
+                0.00    0.00      42/44          DSDPSolveDynamicRho [4]
+[171]    0.0    0.00    0.00      44         DSDPComputePDY [171]
+                0.00    0.00      88/775         DSDPVecWAXPBY [76]
+                0.00    0.00      44/245         DSDPComputePNorm [115]
+                0.00    0.00      44/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       2/44          DSDPChooseBarrierParameter [187]
+                0.00    0.00      42/44          DSDPSolveDynamicRho [4]
+[172]    0.0    0.00    0.00      44         DSDPComputePY [172]
+                0.00    0.00      44/91          DSDPVecWAXPY [136]
+                0.00    0.00      44/90          DSDPApplyFixedVariables [138]
+-----------------------------------------------
+                0.00    0.00       1/44          DSDPSolve [2]
+                0.00    0.00      43/44          DSDPDefaultConvergence [175]
+[173]    0.0    0.00    0.00      44         DSDPSetConvergenceFlag [173]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPSolveDynamicRho [4]
+[174]    0.0    0.00    0.00      43         DSDPCheckConvergence [174]
+                0.00    0.00      43/89          DSDPGetConicDimension [140]
+                0.00    0.00      43/43          DSDPPrintStats [181]
+                0.00    0.00      43/43          DSDPDefaultConvergence [175]
+                0.00    0.00      43/43          DSDPMonitorCones [180]
+                0.00    0.00      43/130         DSDPStopReason [127]
+                0.00    0.00      42/42          DSDPCheckForUnboundedObjective [186]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPCheckConvergence [174]
+[175]    0.0    0.00    0.00      43         DSDPDefaultConvergence [175]
+                0.00    0.00      43/86          DSDPGetStepLengths [157]
+                0.00    0.00      43/86          DSDPGetPnorm [155]
+                0.00    0.00      43/86          DSDPGetIts [153]
+                0.00    0.00      43/86          DSDPGetDDObjective [152]
+                0.00    0.00      43/86          DSDPGetPPObjective [154]
+                0.00    0.00      43/86          DSDPGetR [156]
+                0.00    0.00      43/86          DSDPGetBarrierParameter [151]
+                0.00    0.00      43/43          DSDPGetDimension [176]
+                0.00    0.00      43/130         DSDPStopReason [127]
+                0.00    0.00      43/43          DSDPGetRTolerance [179]
+                0.00    0.00      43/43          DSDPGetDualityGap [177]
+                0.00    0.00      43/44          DSDPSetConvergenceFlag [173]
+                0.00    0.00       4/5           DSDPSetBarrierParameter [230]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPDefaultConvergence [175]
+[176]    0.0    0.00    0.00      43         DSDPGetDimension [176]
+                0.00    0.00      43/89          DSDPGetConicDimension [140]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPDefaultConvergence [175]
+[177]    0.0    0.00    0.00      43         DSDPGetDualityGap [177]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPPrintStats [181]
+[178]    0.0    0.00    0.00      43         DSDPGetPInfeasibility [178]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPDefaultConvergence [175]
+[179]    0.0    0.00    0.00      43         DSDPGetRTolerance [179]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPCheckConvergence [174]
+[180]    0.0    0.00    0.00      43         DSDPMonitorCones [180]
+                0.00    0.00     172/38043       DSDPEventLogBegin [42]
+                0.00    0.00     172/38043       DSDPEventLogEnd [43]
+                0.00    0.00     129/129         DSDPConeMonitor [128]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPCheckConvergence [174]
+[181]    0.0    0.00    0.00      43         DSDPPrintStats [181]
+                0.00    0.00      43/130         DSDPStopReason [127]
+                0.00    0.00      43/86          DSDPGetIts [153]
+                0.00    0.00      43/86          DSDPGetDDObjective [152]
+                0.00    0.00      43/86          DSDPGetPPObjective [154]
+                0.00    0.00      43/86          DSDPGetR [156]
+                0.00    0.00      43/43          DSDPGetPInfeasibility [178]
+                0.00    0.00      43/86          DSDPGetStepLengths [157]
+                0.00    0.00      43/86          DSDPGetBarrierParameter [151]
+                0.00    0.00      43/86          DSDPGetPnorm [155]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPConeMonitor [128]
+[182]    0.0    0.00    0.00      43         DSDPRMonitor [182]
+-----------------------------------------------
+                0.00    0.00       1/43          DSDPInitializeVariables [311]
+                0.00    0.00      42/43          DSDPSolveDynamicRho [4]
+[183]    0.0    0.00    0.00      43         DSDPSetY [183]
+                0.00    0.00      86/1702        DSDPLogFInfo [69]
+                0.00    0.00      43/505         DSDPVecCopy [78]
+                0.00    0.00      43/631         DSDPVecDot [77]
+                0.00    0.00      43/132         DSDPComputePotential [126]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPConeMonitor [128]
+[184]    0.0    0.00    0.00      43         KSDPConeMonitor [184]
+-----------------------------------------------
+                0.00    0.00      43/43          DSDPConeMonitor [128]
+[185]    0.0    0.00    0.00      43         LUBoundsMonitor [185]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPCheckConvergence [174]
+[186]    0.0    0.00    0.00      42         DSDPCheckForUnboundedObjective [186]
+                0.00    0.00      42/631         DSDPVecDot [77]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPSolveDynamicRho [4]
+[187]    0.0    0.00    0.00      42         DSDPChooseBarrierParameter [187]
+                0.00    0.00      44/86          DSDPComputeMaxStepLength [147]
+                0.00    0.00      42/42          DSDPComputePDY1 [188]
+                0.00    0.00      42/1702        DSDPLogFInfo [69]
+                0.00    0.00       2/44          DSDPComputePDY [171]
+                0.00    0.00       2/44          DSDPComputePY [172]
+                0.00    0.00       2/91          DSDPComputeSS [135]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPChooseBarrierParameter [187]
+[188]    0.0    0.00    0.00      42         DSDPComputePDY1 [188]
+                0.00    0.00      42/42          DSDPVecScaleCopy [201]
+-----------------------------------------------
+                0.00    0.00      42/42          KSDPConeInvertSS [206]
+[189]    0.0    0.00    0.00      42         DSDPDualMatInvert [189]
+                0.00    0.00      42/42          DTRUMatInvert [204]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPConeInvertS [129]
+[190]    0.0    0.00    0.00      42         DSDPInvertRS [190]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputeDualStepDirections [3]
+[191]    0.0    0.00    0.00      42         DSDPInvertS [191]
+                0.00    0.00     168/38043       DSDPEventLogBegin [42]
+                0.00    0.00     168/38043       DSDPEventLogEnd [43]
+                0.00    0.00     126/126         DSDPConeInvertS [129]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputeHessian [6]
+[192]    0.0    0.00    0.00      42         DSDPObjectiveGH [192]
+                0.00    0.00   17976/17976       DSDPSchurMatVariableCompute [52]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPConeComputeHessian [5]
+[193]    0.0    0.00    0.00      42         DSDPRHessian [193]
+-----------------------------------------------
+                0.00    0.00      42/42          LUBoundsHessian [207]
+[194]    0.0    0.00    0.00      42         DSDPSchurMatAddDiagonal [194]
+                0.00    0.00      42/35868       DSDPZeroFixedVariables [44]
+                0.00    0.00      42/42          DTRUMatAddDiag2 [202]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputeHessian [6]
+[195]    0.0    0.00    0.00      42         DSDPSchurMatAssemble [195]
+                0.00    0.00      42/42          DTRUMatAssemble [203]
+-----------------------------------------------
+                0.00    0.00      42/42          LUBoundsHessian [207]
+[196]    0.0    0.00    0.00      42         DSDPSchurMatDiagonalScaling [196]
+                0.00    0.00      42/18447       DSDPVecSet [49]
+                0.00    0.00      42/35868       DSDPZeroFixedVariables [44]
+                0.00    0.00      42/17934       DSDPSchurMatInParallel [53]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputeDualStepDirections [3]
+[197]    0.0    0.00    0.00      42         DSDPSchurMatFactor [197]
+                0.00    0.00      42/38043       DSDPEventLogBegin [42]
+                0.00    0.00      42/135         DTRUMatCholeskyFactor [125]
+                0.00    0.00      42/38043       DSDPEventLogEnd [43]
+                0.00    0.00      42/18911       DSDPVecZero [47]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputeDualStepDirections [3]
+[198]    0.0    0.00    0.00      42         DSDPSchurMatShiftDiagonal [198]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputeHessian [6]
+[199]    0.0    0.00    0.00      42         DSDPSchurMatZeroEntries [199]
+                0.00    0.00      42/42          DTRUMatZero [205]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPCGMatPre [224]
+[200]    0.0    0.00    0.00      42         DSDPVecPointwiseMult [200]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPComputePDY1 [188]
+[201]    0.0    0.00    0.00      42         DSDPVecScaleCopy [201]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPSchurMatAddDiagonal [194]
+[202]    0.0    0.00    0.00      42         DTRUMatAddDiag2 [202]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPSchurMatAssemble [195]
+[203]    0.0    0.00    0.00      42         DTRUMatAssemble [203]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPDualMatInvert [189]
+[204]    0.0    0.00    0.00      42         DTRUMatInvert [204]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPSchurMatZeroEntries [199]
+[205]    0.0    0.00    0.00      42         DTRUMatZero [205]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPConeInvertS [129]
+[206]    0.0    0.00    0.00      42         KSDPConeInvertSS [206]
+                0.00    0.00      42/42          DSDPDualMatInvert [189]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPConeComputeHessian [5]
+[207]    0.0    0.00    0.00      42         LUBoundsHessian [207]
+                0.00    0.00      42/42          DSDPSchurMatDiagonalScaling [196]
+                0.00    0.00      42/42          DSDPSchurMatAddDiagonal [194]
+-----------------------------------------------
+                0.00    0.00      42/42          DSDPConeInvertS [129]
+[208]    0.0    0.00    0.00      42         LUInvertS [208]
+-----------------------------------------------
+                0.00    0.00       1/41          DSDPInitializeVariables [311]
+                0.00    0.00      40/41          DSDPSolveDynamicRho [4]
+[209]    0.0    0.00    0.00      41         DSDPSaveYForX [209]
+                0.00    0.00     120/505         DSDPVecCopy [78]
+                0.00    0.00     119/201         DSDPComputeDY [116]
+                0.00    0.00      41/167         DSDPGetMaxYElement [122]
+                0.00    0.00      40/40          DSDPComputeRHS [213]
+                0.00    0.00      40/40          DSDPComputeDualityGap [212]
+                0.00    0.00      40/40          DSDPPassXVectors [214]
+                0.00    0.00      40/169         DSDPGetRR [121]
+                0.00    0.00      40/18911       DSDPVecZero [47]
+                0.00    0.00      40/40          BoundYConeAddX [211]
+                0.00    0.00      40/377         DSDPVecNormInfinity [105]
+-----------------------------------------------
+                0.00    0.00       1/41          DSDPCGMatMult [223]
+                0.00    0.00      40/41          DSDPConjugateGradient [149]
+[210]    0.0    0.00    0.00      41         DSDPVecAXPY [210]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPSaveYForX [209]
+[211]    0.0    0.00    0.00      40         BoundYConeAddX [211]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPSaveYForX [209]
+[212]    0.0    0.00    0.00      40         DSDPComputeDualityGap [212]
+                0.00    0.00      40/201         DSDPComputeDY [116]
+                0.00    0.00      40/631         DSDPVecDot [77]
+                0.00    0.00      40/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPSaveYForX [209]
+[213]    0.0    0.00    0.00      40         DSDPComputeRHS [213]
+                0.00    0.00      40/775         DSDPVecWAXPBY [76]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPSaveYForX [209]
+[214]    0.0    0.00    0.00      40         DSDPPassXVectors [214]
+                0.00    0.00     120/38043       DSDPEventLogEnd [43]
+                0.00    0.00     120/38043       DSDPEventLogBegin [42]
+                0.00    0.00     120/120         DSDPConeSetXMaker [131]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPConeSetXMaker [131]
+[215]    0.0    0.00    0.00      40         DSDPSetX [215]
+-----------------------------------------------
+                0.00    0.00       2/40          DSDPSchurMatDestroy [318]
+                0.00    0.00       3/40          LUBoundsDestroy [366]
+                0.00    0.00       5/40          DSDPConeTakeDown [289]
+                0.00    0.00       6/40          DSDPCGDestroy [284]
+                0.00    0.00      24/40          DSDPTakeDown [339]
+[216]    0.0    0.00    0.00      40         DSDPVecDestroy [216]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPConeSetXMaker [131]
+[217]    0.0    0.00    0.00      40         KSDPConeSetX [217]
+                0.00    0.00      80/505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.00      40/40          DSDPConeSetXMaker [131]
+[218]    0.0    0.00    0.00      40         LUBoundsSetX [218]
+                0.00    0.00      80/505         DSDPVecCopy [78]
+-----------------------------------------------
+                0.00    0.00       2/39          DSDPCreate [290]
+                0.00    0.00       2/39          DSDPSchurMatSetup [321]
+                0.00    0.00       3/39          LUBoundsSetup2 [368]
+                0.00    0.00       5/39          SDPConeSetup [376]
+                0.00    0.00       6/39          DSDPCGSetup [286]
+                0.00    0.00      21/39          DSDPSetup [20]
+[219]    0.0    0.00    0.00      39         DSDPVecDuplicate [219]
+-----------------------------------------------
+                0.00    0.00       1/28          DSDPDualMatEventInitialize [302]
+                0.00    0.00       1/28          DSDPVMatEventInitialize [344]
+                0.00    0.00       2/28          DSDPBlockEventInitialize [278]
+                0.00    0.00       2/28          DSDPSchurMatSetup [321]
+                0.00    0.00       3/28          DSDPSetCone [241]
+                0.00    0.00       5/28          DSDPSetup [20]
+                0.00    0.00      14/28          DSDPSetUpCones [334]
+[220]    0.0    0.00    0.00      28         DSDPEventLogRegister [220]
+-----------------------------------------------
+                0.00    0.00       1/26          DSDPComputeDataNorms [288]
+                0.00    0.00      25/26          DSDPConjugateGradient [149]
+[221]    0.0    0.00    0.00      26         DSDPVecNorm2 [221]
+-----------------------------------------------
+                0.00    0.00      22/22          DSDPConjugateGradient [149]
+[222]    0.0    0.00    0.00      22         DSDPVecAYPX [222]
+-----------------------------------------------
+                0.00    0.00      21/21          DSDPConjugateGradient [149]
+[223]    0.0    0.00    0.00      21         DSDPCGMatMult [223]
+                0.00    0.00      21/18911       DSDPVecZero [47]
+                0.00    0.00      20/20          DSDPSchurMatMultiply [225]
+                0.00    0.00       1/1           DSDPSchurMatMultR [320]
+                0.00    0.00       1/41          DSDPVecAXPY [210]
+-----------------------------------------------
+                0.00    0.00      21/21          DSDPConjugateGradient [149]
+[224]    0.0    0.00    0.00      21         DSDPCGMatPre [224]
+                0.00    0.00      42/42          DSDPVecPointwiseMult [200]
+                0.00    0.00      21/18911       DSDPVecZero [47]
+-----------------------------------------------
+                0.00    0.00      20/20          DSDPCGMatMult [223]
+[225]    0.0    0.00    0.00      20         DSDPSchurMatMultiply [225]
+                0.00    0.00      20/20          DTRUMatMult [226]
+-----------------------------------------------
+                0.00    0.00      20/20          DSDPSchurMatMultiply [225]
+[226]    0.0    0.00    0.00      20         DTRUMatMult [226]
+-----------------------------------------------
+                0.00    0.00       6/6           DSDPBlockAddDataMatrix [79]
+[227]    0.0    0.00    0.00       6         DSDPBlockDataAllocate [227]
+                0.00    0.00     840/1698        DSDPDataMatInitialize [70]
+                0.00    0.00       6/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       3/6           DSDPDestroyCones [300]
+                0.00    0.00       3/6           DSDPAddCone [233]
+[228]    0.0    0.00    0.00       6         DSDPConeInitialize [228]
+-----------------------------------------------
+                0.00    0.00       1/6           DSDPSetDualBound [325]
+                0.00    0.00       1/6           DSDPSetStepTolerance [333]
+                0.00    0.00       2/6           DSDPSetGapTolerance [258]
+                0.00    0.00       2/6           DSDPSetPNormTolerance [260]
+[229]    0.0    0.00    0.00       6         DSDPGetConvergenceMonitor [229]
+-----------------------------------------------
+                0.00    0.00       1/5           DSDPSetDefaultParameters [322]
+                0.00    0.00       4/5           DSDPDefaultConvergence [175]
+[230]    0.0    0.00    0.00       5         DSDPSetBarrierParameter [230]
+                0.00    0.00       5/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/4           DSDPGetLAPACKSUSchurOps [307]
+                0.00    0.00       1/4           DSDPSchurMatMultR [320]
+                0.00    0.00       2/4           DSDPLAPACKSUDualMatCreateP [255]
+[231]    0.0    0.00    0.00       4         DTRUMatMultR [231]
+-----------------------------------------------
+                0.00    0.00       2/4           DSDPBlockTakeDown [282]
+                0.00    0.00       2/4           DSDPLanczosDestroy [313]
+[232]    0.0    0.00    0.00       4         SDPConeVecDestroy [232]
+-----------------------------------------------
+                0.00    0.00       1/3           DSDPAddRCone [271]
+                0.00    0.00       1/3           DSDPAddLUBounds [270]
+                0.00    0.00       1/3           DSDPAddSDP [272]
+[233]    0.0    0.00    0.00       3         DSDPAddCone [233]
+                0.00    0.00       3/6           DSDPConeInitialize [228]
+                0.00    0.00       3/3           DSDPConeSetData [237]
+                0.00    0.00       3/3           DSDPSetCone [241]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPComputeANorm2 [287]
+[234]    0.0    0.00    0.00       3         DSDPConeANorm2 [234]
+                0.00    0.00       1/1           KSDPConeAddANorm2 [362]
+                0.00    0.00       1/1           LPANorm2 [365]
+                0.00    0.00       1/1           DSDPRANorm2 [316]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPDestroyCones [300]
+[235]    0.0    0.00    0.00       3         DSDPConeDestroy [235]
+                0.00    0.00       1/1           DSDPDestroyRCone [301]
+                0.00    0.00       1/1           LUBoundsDestroy [366]
+                0.00    0.00       1/1           KSDPConeDestroy [363]
+-----------------------------------------------
+                0.00    0.00       1/3           DSDPAddRCone [271]
+                0.00    0.00       1/3           DSDPAddLUBounds [270]
+                0.00    0.00       1/3           DSDPAddSDP [272]
+[236]    0.0    0.00    0.00       3         DSDPConeOpsInitialize [236]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPAddCone [233]
+[237]    0.0    0.00    0.00       3         DSDPConeSetData [237]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPSetUpCones [334]
+[238]    0.0    0.00    0.00       3         DSDPConeSetUp [238]
+                0.00    0.00       1/1           KSDPConeSetup [364]
+                0.00    0.00       1/1           LUBoundsSetup [367]
+                0.00    0.00       1/1           DSDPSetupRCone [337]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPSetCone [241]
+[239]    0.0    0.00    0.00       3         DSDPGetConeName [239]
+-----------------------------------------------
+                0.00    0.00       1/3           MaxCut [1]
+                0.00    0.00       2/3           DSDPSetDefaultParameters [322]
+[240]    0.0    0.00    0.00       3         DSDPReuseMatrix [240]
+                0.00    0.00       3/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPAddCone [233]
+[241]    0.0    0.00    0.00       3         DSDPSetCone [241]
+                0.00    0.00       3/3           DSDPGetConeName [239]
+                0.00    0.00       3/28          DSDPEventLogRegister [220]
+-----------------------------------------------
+                0.00    0.00       3/3           DSDPBlockSetup [17]
+[242]    0.0    0.00    0.00       3         DSDPSetMaximumLanczosIterations [242]
+-----------------------------------------------
+                0.00    0.00       1/3           DSDPSchurMatDestroy [318]
+                0.00    0.00       2/3           DSDPDualMatDestroy [249]
+[243]    0.0    0.00    0.00       3         DTRUMatDestroy [243]
+-----------------------------------------------
+                0.00    0.00       1/3           DSDPBlockSetup [17]
+                0.00    0.00       2/3           DSDPFastLanczosSetup [304]
+[244]    0.0    0.00    0.00       3         SDPConeVecDuplicate [244]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPCreateSDPCone [293]
+                0.00    0.00       1/2           SDPConeDestroy [372]
+[245]    0.0    0.00    0.00       2         DSDPBlockEventZero [245]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPInitializeVariables [311]
+[246]    0.0    0.00    0.00       2         DSDPComputeObjective [246]
+                0.00    0.00       2/631         DSDPVecDot [77]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPBlockInitialize [280]
+                0.00    0.00       1/2           DSDPDSMatDestroy [295]
+[247]    0.0    0.00    0.00       2         DSDPDSMatInitialize [247]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPDataTransposeSetup [298]
+                0.00    0.00       1/2           DSDPConeTakeDown [289]
+[248]    0.0    0.00    0.00       2         DSDPDataTransposeTakeDown [248]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPBlockTakeDown [282]
+[249]    0.0    0.00    0.00       2         DSDPDualMatDestroy [249]
+                0.00    0.00       2/3           DTRUMatDestroy [243]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPCreateSDPCone [293]
+                0.00    0.00       1/2           SDPConeDestroy [372]
+[250]    0.0    0.00    0.00       2         DSDPDualMatEventZero [250]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPBlockInitialize [280]
+[251]    0.0    0.00    0.00       2         DSDPDualMatInitialize [251]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPLAPACKSUDualMatCreateP [255]
+[252]    0.0    0.00    0.00       2         DSDPDualMatOpsInitialize [252]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPCreateS [18]
+[253]    0.0    0.00    0.00       2         DSDPDualMatSetData [253]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPCreateSDPCone [293]
+                0.00    0.00       1/2           DSDPCreateLUBoundsCone [292]
+[254]    0.0    0.00    0.00       2         DSDPGetNumberOfVariables [254]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPLAPACKSUDualMatCreate2P [312]
+[255]    0.0    0.00    0.00       2         DSDPLAPACKSUDualMatCreateP [255]
+                0.00    0.00       2/4           DTRUMatMultR [231]
+                0.00    0.00       2/2           DSDPDualMatOpsInitialize [252]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPGetLAPACKSUSchurOps [307]
+                0.00    0.00       1/2           DSDPSetDefaultSchurMatrixStructure [323]
+[256]    0.0    0.00    0.00       2         DSDPSchurMatOpsInitialize [256]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPSetSchurMatOps [264]
+[257]    0.0    0.00    0.00       2         DSDPSchurMatSetData [257]
+-----------------------------------------------
+                0.00    0.00       1/2           MaxCut [1]
+                0.00    0.00       1/2           DSDPSetDefaultParameters [322]
+[258]    0.0    0.00    0.00       2         DSDPSetGapTolerance [258]
+                0.00    0.00       2/6           DSDPGetConvergenceMonitor [229]
+                0.00    0.00       2/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPCreate [290]
+                0.00    0.00       1/2           DSDPSetStandardMonitor [332]
+[259]    0.0    0.00    0.00       2         DSDPSetMonitor [259]
+                0.00    0.00       2/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/2           MaxCut [1]
+                0.00    0.00       1/2           DSDPSetDefaultParameters [322]
+[260]    0.0    0.00    0.00       2         DSDPSetPNormTolerance [260]
+                0.00    0.00       2/6           DSDPGetConvergenceMonitor [229]
+                0.00    0.00       2/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/2           MaxCut [1]
+                0.00    0.00       1/2           DSDPSetDefaultParameters [322]
+[261]    0.0    0.00    0.00       2         DSDPSetPotentialParameter [261]
+                0.00    0.00       2/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/2           MaxCut [1]
+                0.00    0.00       1/2           DSDPSetDefaultParameters [322]
+[262]    0.0    0.00    0.00       2         DSDPSetR0 [262]
+                0.00    0.00       2/2           DSDPSetRR [263]
+                0.00    0.00       2/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPSetR0 [262]
+[263]    0.0    0.00    0.00       2         DSDPSetRR [263]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPCreateSchurMatrix [294]
+                0.00    0.00       1/2           DSDPSetDefaultSchurMatrixStructure [323]
+[264]    0.0    0.00    0.00       2         DSDPSetSchurMatOps [264]
+                0.00    0.00       2/2           DSDPSchurMatSetData [257]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPCreateSDPCone [293]
+                0.00    0.00       1/2           SDPConeDestroy [372]
+[265]    0.0    0.00    0.00       2         DSDPVMatEventZero [265]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPBlockInitialize [280]
+                0.00    0.00       1/2           DSDPVMatDestroy [343]
+[266]    0.0    0.00    0.00       2         DSDPVMatInitialize [266]
+-----------------------------------------------
+                0.00    0.00       2/2           DSDPDataMatFNorm2 [74]
+[267]    0.0    0.00    0.00       2         IdentityMatFNorm2 [267]
+-----------------------------------------------
+                0.00    0.00       1/2           DSDPSetDefaultParameters [322]
+                0.00    0.00       1/2           DSDPUsePenalty [342]
+[268]    0.0    0.00    0.00       2         RConeSetType [268]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetYBounds [335]
+[269]    0.0    0.00    0.00       1         BoundYConeSetBounds [269]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateLUBoundsCone [292]
+[270]    0.0    0.00    0.00       1         DSDPAddLUBounds [270]
+                0.00    0.00       1/3           DSDPConeOpsInitialize [236]
+                0.00    0.00       1/3           DSDPAddCone [233]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[271]    0.0    0.00    0.00       1         DSDPAddRCone [271]
+                0.00    0.00       1/3           DSDPConeOpsInitialize [236]
+                0.00    0.00       1/3           DSDPAddCone [233]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateSDPCone [293]
+[272]    0.0    0.00    0.00       1         DSDPAddSDP [272]
+                0.00    0.00       1/3           DSDPConeOpsInitialize [236]
+                0.00    0.00       1/3           DSDPAddCone [233]
+-----------------------------------------------
+                0.00    0.00       1/1           KSDPConeAddANorm2 [362]
+[273]    0.0    0.00    0.00       1         DSDPBlockANorm2 [273]
+                0.00    0.00     858/858         DSDPDataMatFNorm2 [74]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDataTransposeSetup [298]
+[274]    0.0    0.00    0.00       1         DSDPBlockCountNonzeroMatrices [274]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeDestroy [372]
+[275]    0.0    0.00    0.00       1         DSDPBlockDataDestroy [275]
+                0.00    0.00     429/858         DSDPDataMatDestroy [73]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockInitialize [280]
+[276]    0.0    0.00    0.00       1         DSDPBlockDataInitialize [276]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[277]    0.0    0.00    0.00       1         DSDPBlockDataRank [277]
+                0.00    0.00     427/18319       DSDPDataMatGetRank [50]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetup [376]
+[278]    0.0    0.00    0.00       1         DSDPBlockEventInitialize [278]
+                0.00    0.00       2/28          DSDPEventLogRegister [220]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[279]    0.0    0.00    0.00       1         DSDPBlockFactorData [279]
+                0.00    0.00     429/1702        DSDPLogFInfo [69]
+                0.00    0.00     427/427         DSDPDataMatFactor [90]
+                0.00    0.00       1/359         DSDPVMatGetSize [107]
+                0.00    0.00       1/359         DSDPVMatGetArray [106]
+                0.00    0.00       1/359         DSDPVMatRestoreArray [108]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateSDPCone [293]
+[280]    0.0    0.00    0.00       1         DSDPBlockInitialize [280]
+                0.00    0.00       2/2           DSDPDualMatInitialize [251]
+                0.00    0.00       1/2           DSDPDSMatInitialize [247]
+                0.00    0.00       1/2           DSDPVMatInitialize [266]
+                0.00    0.00       1/1           DSDPLanczosInitialize [314]
+                0.00    0.00       1/1           DSDPBlockDataInitialize [276]
+                0.00    0.00       1/1           DSDPIndexInitialize [310]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetRMatrix [375]
+[281]    0.0    0.00    0.00       1         DSDPBlockSetDataMatrix [281]
+                0.00    0.00       1/429         DSDPBlockRemoveDataMatrix [80]
+                0.00    0.00       1/429         DSDPBlockAddDataMatrix [79]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeTakeDown [289]
+[282]    0.0    0.00    0.00       1         DSDPBlockTakeDown [282]
+                0.00    0.00       2/4           SDPConeVecDestroy [232]
+                0.00    0.00       2/2           DSDPDualMatDestroy [249]
+                0.00    0.00       1/1           DSDPBlockTakeDownData [283]
+                0.00    0.00       1/1           DSDPIndexDestroy [309]
+                0.00    0.00       1/1           DSDPLanczosDestroy [313]
+                0.00    0.00       1/1           DSDPDSMatDestroy [295]
+                0.00    0.00       1/1           DSDPVMatDestroy [343]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockTakeDown [282]
+[283]    0.0    0.00    0.00       1         DSDPBlockTakeDownData [283]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPTakeDown [339]
+[284]    0.0    0.00    0.00       1         DSDPCGDestroy [284]
+                0.00    0.00       6/40          DSDPVecDestroy [216]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[285]    0.0    0.00    0.00       1         DSDPCGInitialize [285]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetup [20]
+[286]    0.0    0.00    0.00       1         DSDPCGSetup [286]
+                0.00    0.00       6/39          DSDPVecDuplicate [219]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPComputeDataNorms [288]
+[287]    0.0    0.00    0.00       1         DSDPComputeANorm2 [287]
+                0.00    0.00       3/38043       DSDPEventLogEnd [43]
+                0.00    0.00       3/38043       DSDPEventLogBegin [42]
+                0.00    0.00       3/3           DSDPConeANorm2 [234]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetup [20]
+[288]    0.0    0.00    0.00       1         DSDPComputeDataNorms [288]
+                0.00    0.00       1/1           DSDPComputeANorm2 [287]
+                0.00    0.00       1/1           DSDPFixedVariablesNorm [305]
+                0.00    0.00       1/1           DSDPVecNorm1 [349]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+                0.00    0.00       1/505         DSDPVecCopy [78]
+                0.00    0.00       1/26          DSDPVecNorm2 [221]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeDestroy [372]
+[289]    0.0    0.00    0.00       1         DSDPConeTakeDown [289]
+                0.00    0.00       5/40          DSDPVecDestroy [216]
+                0.00    0.00       1/1           DSDPBlockTakeDown [282]
+                0.00    0.00       1/2           DSDPDataTransposeTakeDown [248]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCut [1]
+[290]    0.0    0.00    0.00       1         DSDPCreate [290]
+                0.00    0.00       2/18911       DSDPVecZero [47]
+                0.00    0.00       2/39          DSDPVecDuplicate [219]
+                0.00    0.00       1/1           DSDPEventLogInitialize [303]
+                0.00    0.00       1/1           DSDPVecCreateSeq [348]
+                0.00    0.00       1/1           DSDPAddRCone [271]
+                0.00    0.00       1/1           DSDPCreateLUBoundsCone [292]
+                0.00    0.00       1/1           DSDPSetDefaultStatistics [324]
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+                0.00    0.00       1/2           DSDPSetMonitor [259]
+                0.00    0.00       1/1           DSDPSchurMatInitialize [319]
+                0.00    0.00       1/1           DSDPSetDefaultSchurMatrixStructure [323]
+                0.00    0.00       1/1           DSDPCGInitialize [285]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateS [18]
+[291]    0.0    0.00    0.00       1         DSDPCreateDiagDSMatP [291]
+                0.00    0.00       1/1           DiagMatCreate [356]
+                0.00    0.00       1/1           DSDPDSMatOpsInitialize [296]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[292]    0.0    0.00    0.00       1         DSDPCreateLUBoundsCone [292]
+                0.00    0.00       1/1           DSDPAddLUBounds [270]
+                0.00    0.00       1/2           DSDPGetNumberOfVariables [254]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCut [1]
+[293]    0.0    0.00    0.00       1         DSDPCreateSDPCone [293]
+                0.00    0.00       1/1           DSDPAddSDP [272]
+                0.00    0.00       1/2           DSDPGetNumberOfVariables [254]
+                0.00    0.00       1/1           DSDPBlockInitialize [280]
+                0.00    0.00       1/1           DSDPUseDefaultDualMatrix [340]
+                0.00    0.00       1/2           DSDPBlockEventZero [245]
+                0.00    0.00       1/2           DSDPDualMatEventZero [250]
+                0.00    0.00       1/2           DSDPVMatEventZero [265]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSchurMatSetup [321]
+[294]    0.0    0.00    0.00       1         DSDPCreateSchurMatrix [294]
+                0.00    0.00     426/426         DSDPSparsityInSchurMat [98]
+                0.00    0.00       1/1           DSDPGetLAPACKSUSchurOps [307]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+                0.00    0.00       1/2           DSDPSetSchurMatOps [264]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockTakeDown [282]
+[295]    0.0    0.00    0.00       1         DSDPDSMatDestroy [295]
+                0.00    0.00       1/1           DiagMatDestroy [357]
+                0.00    0.00       1/2           DSDPDSMatInitialize [247]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateDiagDSMatP [291]
+[296]    0.0    0.00    0.00       1         DSDPDSMatOpsInitialize [296]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateS [18]
+[297]    0.0    0.00    0.00       1         DSDPDSMatSetData [297]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetup [376]
+[298]    0.0    0.00    0.00       1         DSDPDataTransposeSetup [298]
+                0.00    0.00     429/18750       DSDPBlockGetMatrix [48]
+                0.00    0.00       1/2           DSDPDataTransposeTakeDown [248]
+                0.00    0.00       1/427         DSDPBlockDataMarkNonzeroMatrices [89]
+                0.00    0.00       1/1           DSDPBlockCountNonzeroMatrices [274]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCut [1]
+[299]    0.0    0.00    0.00       1         DSDPDestroy [299]
+                0.00    0.00       1/1           DSDPTakeDown [339]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPTakeDown [339]
+[300]    0.0    0.00    0.00       1         DSDPDestroyCones [300]
+                0.00    0.00       4/38043       DSDPEventLogBegin [42]
+                0.00    0.00       4/38043       DSDPEventLogEnd [43]
+                0.00    0.00       3/6           DSDPConeInitialize [228]
+                0.00    0.00       3/3           DSDPConeDestroy [235]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeDestroy [235]
+[301]    0.0    0.00    0.00       1         DSDPDestroyRCone [301]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetup [376]
+[302]    0.0    0.00    0.00       1         DSDPDualMatEventInitialize [302]
+                0.00    0.00       1/28          DSDPEventLogRegister [220]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[303]    0.0    0.00    0.00       1         DSDPEventLogInitialize [303]
+                0.00    0.00       1/76087       DSDPTime [41]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[304]    0.0    0.00    0.00       1         DSDPFastLanczosSetup [304]
+                0.00    0.00       2/3           SDPConeVecDuplicate [244]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPComputeDataNorms [288]
+[305]    0.0    0.00    0.00       1         DSDPFixedVariablesNorm [305]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetRIdentity [374]
+[306]    0.0    0.00    0.00       1         DSDPGetIdentityDataMatP [306]
+                0.00    0.00       1/429         DSDPDataMatOpsInitialize [81]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateSchurMatrix [294]
+[307]    0.0    0.00    0.00       1         DSDPGetLAPACKSUSchurOps [307]
+                0.00    0.00       1/4           DTRUMatMultR [231]
+                0.00    0.00       1/2           DSDPSchurMatOpsInitialize [256]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[308]    0.0    0.00    0.00       1         DSDPIndexCreate [308]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockTakeDown [282]
+[309]    0.0    0.00    0.00       1         DSDPIndexDestroy [309]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockInitialize [280]
+[310]    0.0    0.00    0.00       1         DSDPIndexInitialize [310]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSolve [2]
+[311]    0.0    0.00    0.00       1         DSDPInitializeVariables [311]
+                0.00    0.00       2/2           DSDPComputeObjective [246]
+                0.00    0.00       1/169         DSDPGetRR [121]
+                0.00    0.00       1/91          DSDPComputeSS [135]
+                0.00    0.00       1/43          DSDPSetY [183]
+                0.00    0.00       1/41          DSDPSaveYForX [209]
+                0.00    0.00       1/47          DSDPComputeLogSDeterminant [164]
+                0.00    0.00       1/132         DSDPComputePotential [126]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateS [18]
+[312]    0.0    0.00    0.00       1         DSDPLAPACKSUDualMatCreate2P [312]
+                0.00    0.00       2/2           DSDPLAPACKSUDualMatCreateP [255]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockTakeDown [282]
+[313]    0.0    0.00    0.00       1         DSDPLanczosDestroy [313]
+                0.00    0.00       2/4           SDPConeVecDestroy [232]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockInitialize [280]
+[314]    0.0    0.00    0.00       1         DSDPLanczosInitialize [314]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[315]    0.0    0.00    0.00       1         DSDPMakeVMat [315]
+                0.00    0.00       1/1           DSDPVMatSetData [347]
+                0.00    0.00       1/1           DSDPXMatPCreate [353]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeANorm2 [234]
+[316]    0.0    0.00    0.00       1         DSDPRANorm2 [316]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetup [20]
+[317]    0.0    0.00    0.00       1         DSDPScaleData [317]
+                0.00    0.00       1/1           DSDPSetScale [331]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPTakeDown [339]
+[318]    0.0    0.00    0.00       1         DSDPSchurMatDestroy [318]
+                0.00    0.00       2/40          DSDPVecDestroy [216]
+                0.00    0.00       1/3           DTRUMatDestroy [243]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[319]    0.0    0.00    0.00       1         DSDPSchurMatInitialize [319]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCGMatMult [223]
+[320]    0.0    0.00    0.00       1         DSDPSchurMatMultR [320]
+                0.00    0.00       1/4           DTRUMatMultR [231]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetup [20]
+[321]    0.0    0.00    0.00       1         DSDPSchurMatSetup [321]
+                0.00    0.00       2/39          DSDPVecDuplicate [219]
+                0.00    0.00       2/28          DSDPEventLogRegister [220]
+                0.00    0.00       1/1           DSDPCreateSchurMatrix [294]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[322]    0.0    0.00    0.00       1         DSDPSetDefaultParameters [322]
+                0.00    0.00       2/3           DSDPReuseMatrix [240]
+                0.00    0.00       1/1           DSDPSetMaxIts [326]
+                0.00    0.00       1/2           DSDPSetGapTolerance [258]
+                0.00    0.00       1/2           DSDPSetPNormTolerance [260]
+                0.00    0.00       1/2           RConeSetType [268]
+                0.00    0.00       1/1           DSDPSetDualBound [325]
+                0.00    0.00       1/1           DSDPSetStepTolerance [333]
+                0.00    0.00       1/1           DSDPSetRTolerance [330]
+                0.00    0.00       1/1           DSDPSetPTolerance [328]
+                0.00    0.00       1/1           DSDPSetMaxTrustRadius [327]
+                0.00    0.00       1/1           DSDPUsePenalty [342]
+                0.00    0.00       1/5           DSDPSetBarrierParameter [230]
+                0.00    0.00       1/2           DSDPSetPotentialParameter [261]
+                0.00    0.00       1/1           DSDPUseDynamicRho [341]
+                0.00    0.00       1/2           DSDPSetR0 [262]
+                0.00    0.00       1/1           DSDPSetPenaltyParameter [329]
+                0.00    0.00       1/1           DSDPSetYBounds [335]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[323]    0.0    0.00    0.00       1         DSDPSetDefaultSchurMatrixStructure [323]
+                0.00    0.00       1/2           DSDPSchurMatOpsInitialize [256]
+                0.00    0.00       1/2           DSDPSetSchurMatOps [264]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[324]    0.0    0.00    0.00       1         DSDPSetDefaultStatistics [324]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[325]    0.0    0.00    0.00       1         DSDPSetDualBound [325]
+                0.00    0.00       1/6           DSDPGetConvergenceMonitor [229]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[326]    0.0    0.00    0.00       1         DSDPSetMaxIts [326]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[327]    0.0    0.00    0.00       1         DSDPSetMaxTrustRadius [327]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[328]    0.0    0.00    0.00       1         DSDPSetPTolerance [328]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[329]    0.0    0.00    0.00       1         DSDPSetPenaltyParameter [329]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[330]    0.0    0.00    0.00       1         DSDPSetRTolerance [330]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPScaleData [317]
+[331]    0.0    0.00    0.00       1         DSDPSetScale [331]
+                0.00    0.00       1/1           DSDPVecScale [352]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCut [1]
+[332]    0.0    0.00    0.00       1         DSDPSetStandardMonitor [332]
+                0.00    0.00       1/2           DSDPSetMonitor [259]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[333]    0.0    0.00    0.00       1         DSDPSetStepTolerance [333]
+                0.00    0.00       1/6           DSDPGetConvergenceMonitor [229]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetup [20]
+[334]    0.0    0.00    0.00       1         DSDPSetUpCones [334]
+                0.00    0.00      14/28          DSDPEventLogRegister [220]
+                0.00    0.00       4/38043       DSDPEventLogBegin [42]
+                0.00    0.00       4/38043       DSDPEventLogEnd [43]
+                0.00    0.00       3/3           DSDPConeSetUp [238]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[335]    0.0    0.00    0.00       1         DSDPSetYBounds [335]
+                0.00    0.00       1/1           BoundYConeSetBounds [269]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCut [1]
+[336]    0.0    0.00    0.00       1         DSDPSetZBar [336]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeSetUp [238]
+[337]    0.0    0.00    0.00       1         DSDPSetupRCone [337]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeSetUp2 [15]
+[338]    0.0    0.00    0.00       1         DSDPSetupRCone2 [338]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDestroy [299]
+[339]    0.0    0.00    0.00       1         DSDPTakeDown [339]
+                0.00    0.00      24/40          DSDPVecDestroy [216]
+                0.00    0.00       1/1           DSDPCGDestroy [284]
+                0.00    0.00       1/1           DSDPDestroyCones [300]
+                0.00    0.00       1/1           DSDPSchurMatDestroy [318]
+                0.00    0.00       1/89          DSDPGetConicDimension [140]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateSDPCone [293]
+[340]    0.0    0.00    0.00       1         DSDPUseDefaultDualMatrix [340]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[341]    0.0    0.00    0.00       1         DSDPUseDynamicRho [341]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetDefaultParameters [322]
+[342]    0.0    0.00    0.00       1         DSDPUsePenalty [342]
+                0.00    0.00       1/2           RConeSetType [268]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockTakeDown [282]
+[343]    0.0    0.00    0.00       1         DSDPVMatDestroy [343]
+                0.00    0.00       1/1           DTPUMatDestroy [354]
+                0.00    0.00       1/2           DSDPVMatInitialize [266]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetup [376]
+[344]    0.0    0.00    0.00       1         DSDPVMatEventInitialize [344]
+                0.00    0.00       1/28          DSDPEventLogRegister [220]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[345]    0.0    0.00    0.00       1         DSDPVMatExist [345]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPXMatPCreate [353]
+[346]    0.0    0.00    0.00       1         DSDPVMatOpsInitialize [346]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPMakeVMat [315]
+[347]    0.0    0.00    0.00       1         DSDPVMatSetData [347]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreate [290]
+[348]    0.0    0.00    0.00       1         DSDPVecCreateSeq [348]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPComputeDataNorms [288]
+[349]    0.0    0.00    0.00       1         DSDPVecNorm1 [349]
+-----------------------------------------------
+                0.00    0.00       1/1           LUBoundsSetup2 [368]
+[350]    0.0    0.00    0.00       1         DSDPVecPointwiseMax [350]
+-----------------------------------------------
+                0.00    0.00       1/1           LUBoundsSetup2 [368]
+[351]    0.0    0.00    0.00       1         DSDPVecPointwiseMin [351]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPSetScale [331]
+[352]    0.0    0.00    0.00       1         DSDPVecScale [352]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPMakeVMat [315]
+[353]    0.0    0.00    0.00       1         DSDPXMatPCreate [353]
+                0.00    0.00       1/1           DTPUMatEigs [355]
+                0.00    0.00       1/1           DSDPVMatOpsInitialize [346]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPVMatDestroy [343]
+[354]    0.0    0.00    0.00       1         DTPUMatDestroy [354]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPXMatPCreate [353]
+[355]    0.0    0.00    0.00       1         DTPUMatEigs [355]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPCreateDiagDSMatP [291]
+[356]    0.0    0.00    0.00       1         DiagMatCreate [356]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDSMatDestroy [295]
+[357]    0.0    0.00    0.00       1         DiagMatDestroy [357]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDataMatAddMultiple [39]
+[358]    0.0    0.00    0.00       1         IdentityMatAddMultipleP [358]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDataMatDestroy [73]
+[359]    0.0    0.00    0.00       1         IdentityMatDestroy [359]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDataMatFactor [90]
+[360]    0.0    0.00    0.00       1         IdentityMatFactor [360]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPDataMatGetRank [50]
+[361]    0.0    0.00    0.00       1         IdentityMatGetRank [361]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeANorm2 [234]
+[362]    0.0    0.00    0.00       1         KSDPConeAddANorm2 [362]
+                0.00    0.00       1/1           DSDPBlockANorm2 [273]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeDestroy [235]
+[363]    0.0    0.00    0.00       1         KSDPConeDestroy [363]
+                0.00    0.00       1/1           SDPConeDestroy [372]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeSetUp [238]
+[364]    0.0    0.00    0.00       1         KSDPConeSetup [364]
+                0.00    0.00       1/1           SDPConeSetup [376]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeANorm2 [234]
+[365]    0.0    0.00    0.00       1         LPANorm2 [365]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeDestroy [235]
+[366]    0.0    0.00    0.00       1         LUBoundsDestroy [366]
+                0.00    0.00       3/40          DSDPVecDestroy [216]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeSetUp [238]
+[367]    0.0    0.00    0.00       1         LUBoundsSetup [367]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPConeSetUp2 [15]
+[368]    0.0    0.00    0.00       1         LUBoundsSetup2 [368]
+                0.00    0.00       3/39          DSDPVecDuplicate [219]
+                0.00    0.00       2/18447       DSDPVecSet [49]
+                0.00    0.00       1/1           DSDPVecPointwiseMax [350]
+                0.00    0.00       1/1           DSDPVecPointwiseMin [351]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetup2 [22]
+[369]    0.0    0.00    0.00       1         SDPConeBlockNNZ [369]
+                0.00    0.00     429/18750       DSDPBlockGetMatrix [48]
+                0.00    0.00     426/426         DSDPDataMatCountNonzeros [93]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeComputeXV [371]
+[370]    0.0    0.00    0.00       1         SDPConeCheckJ [370]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCutRandomized [23]
+[371]    0.0    0.00    0.00       1         SDPConeComputeXV [371]
+                0.00    0.00       2/179         SDPConeComputeSS [120]
+                0.00    0.00       2/93          DSDPDualMatSetArray [133]
+                0.00    0.00       2/93          DSDPDualMatCholeskyFactor [132]
+                0.00    0.00       1/1           SDPConeCheckJ [370]
+                0.00    0.00       1/91          DSDPVecWAXPY [136]
+-----------------------------------------------
+                0.00    0.00       1/1           KSDPConeDestroy [363]
+[372]    0.0    0.00    0.00       1         SDPConeDestroy [372]
+                0.00    0.00       1/1           DSDPConeTakeDown [289]
+                0.00    0.00       1/1           DSDPBlockDataDestroy [275]
+                0.00    0.00       1/2           DSDPBlockEventZero [245]
+                0.00    0.00       1/2           DSDPDualMatEventZero [250]
+                0.00    0.00       1/2           DSDPVMatEventZero [265]
+-----------------------------------------------
+                0.00    0.00       1/1           MaxCut [1]
+[373]    0.0    0.00    0.00       1         SDPConeSetBlockSize [373]
+                0.00    0.00       1/1702        DSDPLogFInfo [69]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetup [376]
+[374]    0.0    0.00    0.00       1         SDPConeSetRIdentity [374]
+                0.00    0.00       1/429         SDPConeGetStorageFormat [84]
+                0.00    0.00       1/1           SDPConeSetRMatrix [375]
+                0.00    0.00       1/1           DSDPGetIdentityDataMatP [306]
+-----------------------------------------------
+                0.00    0.00       1/1           SDPConeSetRIdentity [374]
+[375]    0.0    0.00    0.00       1         SDPConeSetRMatrix [375]
+                0.00    0.00       1/1281        SDPConeCheckN [71]
+                0.00    0.00       1/429         SDPConeCheckStorageFormat [83]
+                0.00    0.00       1/429         DSDPBlockRemoveDataMatrix [80]
+                0.00    0.00       1/1           DSDPBlockSetDataMatrix [281]
+-----------------------------------------------
+                0.00    0.00       1/1           KSDPConeSetup [364]
+[376]    0.0    0.00    0.00       1         SDPConeSetup [376]
+                0.00    0.00       5/39          DSDPVecDuplicate [219]
+                0.00    0.00       1/1           SDPConeSetRIdentity [374]
+                0.00    0.00       1/1           DSDPDataTransposeSetup [298]
+                0.00    0.00       1/1           DSDPBlockEventInitialize [278]
+                0.00    0.00       1/1           DSDPDualMatEventInitialize [302]
+                0.00    0.00       1/1           DSDPVMatEventInitialize [344]
+-----------------------------------------------
+                0.00    0.00       1/1           DSDPBlockSetup [17]
+[377]    0.0    0.00    0.00       1         SDPConeVecCreate [377]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+
+Index by function name
+
+ [211] BoundYConeAddX        [304] DSDPFastLanczosSetup  [210] DSDPVecAXPY
+ [269] BoundYConeSetBounds   [305] DSDPFixedVariablesNorm [222] DSDPVecAYPX
+ [146] ComputeStepFAST       [151] DSDPGetBarrierParameter [78] DSDPVecCopy
+  [16] CountNonzeros         [239] DSDPGetConeName       [348] DSDPVecCreateSeq
+ [233] DSDPAddCone           [140] DSDPGetConicDimension [216] DSDPVecDestroy
+ [270] DSDPAddLUBounds       [229] DSDPGetConvergenceMonitor [77] DSDPVecDot
+ [271] DSDPAddRCone          [152] DSDPGetDDObjective    [219] DSDPVecDuplicate
+ [272] DSDPAddSDP            [176] DSDPGetDimension      [349] DSDPVecNorm1
+ [138] DSDPApplyFixedVariables [177] DSDPGetDualityGap   [221] DSDPVecNorm2
+  [27] DSDPApplySMW          [306] DSDPGetIdentityDataMatP [105] DSDPVecNormInfinity
+ [273] DSDPBlockANorm2       [153] DSDPGetIts            [350] DSDPVecPointwiseMax
+ [117] DSDPBlockASum         [307] DSDPGetLAPACKSUSchurOps [351] DSDPVecPointwiseMin
+  [79] DSDPBlockAddDataMatrix [122] DSDPGetMaxYElement   [200] DSDPVecPointwiseMult
+ [274] DSDPBlockCountNonzeroMatrices [254] DSDPGetNumberOfVariables [352] DSDPVecScale
+ [227] DSDPBlockDataAllocate [178] DSDPGetPInfeasibility [201] DSDPVecScaleCopy
+ [275] DSDPBlockDataDestroy  [154] DSDPGetPPObjective     [49] DSDPVecSet
+ [276] DSDPBlockDataInitialize [155] DSDPGetPnorm         [76] DSDPVecWAXPBY
+  [89] DSDPBlockDataMarkNonzeroMatrices [156] DSDPGetR   [136] DSDPVecWAXPY
+ [277] DSDPBlockDataRank     [121] DSDPGetRR              [47] DSDPVecZero
+  [14] DSDPBlockDataRowSparsity [179] DSDPGetRTolerance  [353] DSDPXMatPCreate
+ [278] DSDPBlockEventInitialize [157] DSDPGetStepLengths  [44] DSDPZeroFixedVariables
+ [245] DSDPBlockEventZero    [158] DSDPGetTriDiagonalEigs [354] DTPUMatDestroy
+ [279] DSDPBlockFactorData    [85] DSDPGetVechMat        [355] DTPUMatEigs
+  [48] DSDPBlockGetMatrix    [123] DSDPGetYMaxNorm       [109] DTPUMatGetDenseArray
+ [280] DSDPBlockInitialize   [308] DSDPIndexCreate       [110] DTPUMatGetSize
+  [80] DSDPBlockRemoveDataMatrix [309] DSDPIndexDestroy  [111] DTPUMatRestoreDenseArray
+ [281] DSDPBlockSetDataMatrix [310] DSDPIndexInitialize  [119] DTPUMatZero
+  [17] DSDPBlockSetup        [311] DSDPInitializeVariables [202] DTRUMatAddDiag2
+ [282] DSDPBlockTakeDown     [190] DSDPInvertRS           [55] DTRUMatAddRow
+ [283] DSDPBlockTakeDownData [191] DSDPInvertS           [203] DTRUMatAssemble
+   [9] DSDPBlockvAv           [45] DSDPIsFixed            [62] DTRUMatCholeskyBackward
+ [284] DSDPCGDestroy         [312] DSDPLAPACKSUDualMatCreate2P [125] DTRUMatCholeskyFactor
+ [285] DSDPCGInitialize      [255] DSDPLAPACKSUDualMatCreateP [63] DTRUMatCholeskyForward
+ [223] DSDPCGMatMult         [313] DSDPLanczosDestroy     [25] DTRUMatCholeskyForwardMultiply
+ [224] DSDPCGMatPre          [314] DSDPLanczosInitialize [243] DTRUMatDestroy
+ [286] DSDPCGSetup           [159] DSDPLanczosStepSize    [33] DTRUMatInverseMultiply
+  [29] DSDPCGSolve            [69] DSDPLogFInfo          [204] DTRUMatInvert
+ [174] DSDPCheckConvergence  [315] DSDPMakeVMat          [167] DTRUMatLogDet
+ [186] DSDPCheckForUnboundedObjective [180] DSDPMonitorCones [226] DTRUMatMult
+ [187] DSDPChooseBarrierParameter [192] DSDPObjectiveGH  [231] DTRUMatMultR
+ [287] DSDPComputeANorm2     [214] DSDPPassXVectors       [37] DTRUMatRowNonzeros
+ [116] DSDPComputeDY         [181] DSDPPrintStats        [134] DTRUMatSetXMatP
+ [288] DSDPComputeDataNorms  [316] DSDPRANorm2            [31] DTRUMatSolve
+   [3] DSDPComputeDualStepDirections [193] DSDPRHessian  [205] DTRUMatZero
+ [212] DSDPComputeDualityGap [182] DSDPRMonitor          [356] DiagMatCreate
+   [6] DSDPComputeHessian    [142] DSDPRSize             [357] DiagMatDestroy
+ [164] DSDPComputeLogSDeterminant [94] DSDPRSparsity      [67] DiagMatMult
+ [147] DSDPComputeMaxStepLength [38] DSDPRefineStepDirection [160] DiagMatTakeUREntriesP
+ [170] DSDPComputeNewY       [240] DSDPReuseMatrix       [358] IdentityMatAddMultipleP
+ [246] DSDPComputeObjective  [209] DSDPSaveYForX         [359] IdentityMatDestroy
+ [171] DSDPComputePDY        [317] DSDPScaleData         [267] IdentityMatFNorm2
+ [188] DSDPComputePDY1       [194] DSDPSchurMatAddDiagonal [360] IdentityMatFactor
+ [115] DSDPComputePNorm       [36] DSDPSchurMatAddRow    [361] IdentityMatGetRank
+ [172] DSDPComputePY         [195] DSDPSchurMatAssemble   [99] IdentityMatGetRowNnz
+ [126] DSDPComputePotential  [318] DSDPSchurMatDestroy   [100] IdentityMatVecVec
+ [213] DSDPComputeRHS        [196] DSDPSchurMatDiagonalScaling [362] KSDPConeAddANorm2
+ [165] DSDPComputeRLog       [197] DSDPSchurMatFactor      [7] KSDPConeComputeHessian
+ [139] DSDPComputeRS          [53] DSDPSchurMatInParallel [168] KSDPConeComputeLogSDeterminant
+ [148] DSDPComputeRStepLength [319] DSDPSchurMatInitialize [161] KSDPConeComputeMaxStepLength
+ [135] DSDPComputeSS         [320] DSDPSchurMatMultR     [137] KSDPConeComputeSS
+ [234] DSDPConeANorm2        [225] DSDPSchurMatMultiply  [363] KSDPConeDestroy
+   [5] DSDPConeComputeHessian [256] DSDPSchurMatOpsInitialize [206] KSDPConeInvertSS
+ [124] DSDPConeComputeLogSDeterminant [130] DSDPSchurMatReducePVec [184] KSDPConeMonitor
+ [114] DSDPConeComputeMaxStepLength [35] DSDPSchurMatRowColumnScaling [217] KSDPConeSetX
+ [112] DSDPConeComputeS      [257] DSDPSchurMatSetData   [364] KSDPConeSetup
+ [235] DSDPConeDestroy       [143] DSDPSchurMatSetR       [21] KSDPConeSetup2
+ [113] DSDPConeGetDimension  [321] DSDPSchurMatSetup     [144] KSDPConeSize
+ [228] DSDPConeInitialize    [198] DSDPSchurMatShiftDiagonal [101] KSDPConeSparsity
+ [129] DSDPConeInvertS        [30] DSDPSchurMatSolve     [365] LPANorm2
+ [128] DSDPConeMonitor        [52] DSDPSchurMatVariableCompute [162] LUBoundsComputeMaxStepLength
+ [236] DSDPConeOpsInitialize [199] DSDPSchurMatZeroEntries [366] LUBoundsDestroy
+ [237] DSDPConeSetData        [95] DSDPSchurSparsity     [207] LUBoundsHessian
+ [238] DSDPConeSetUp         [230] DSDPSetBarrierParameter [185] LUBoundsMonitor
+  [15] DSDPConeSetUp2        [241] DSDPSetCone           [169] LUBoundsPotential
+ [131] DSDPConeSetXMaker     [173] DSDPSetConvergenceFlag [141] LUBoundsS
+  [72] DSDPConeSparsityInSchurMat [322] DSDPSetDefaultParameters [218] LUBoundsSetX
+ [289] DSDPConeTakeDown      [323] DSDPSetDefaultSchurMatrixStructure [367] LUBoundsSetup
+ [149] DSDPConjugateGradient [324] DSDPSetDefaultStatistics [368] LUBoundsSetup2
+ [290] DSDPCreate            [325] DSDPSetDualBound      [145] LUBoundsSize
+ [291] DSDPCreateDiagDSMatP   [96] DSDPSetDualObjective  [102] LUBoundsSparsity
+ [292] DSDPCreateLUBoundsCone [258] DSDPSetGapTolerance  [208] LUInvertS
+  [18] DSDPCreateS           [326] DSDPSetMaxIts          [68] MatMult3
+ [293] DSDPCreateSDPCone     [327] DSDPSetMaxTrustRadius  [23] MaxCutRandomized
+ [294] DSDPCreateSchurMatrix [242] DSDPSetMaximumLanczosIterations [268] RConeSetType
+ [295] DSDPDSMatDestroy      [259] DSDPSetMonitor         [86] SDPConeAddASparseVecMat
+ [247] DSDPDSMatInitialize   [260] DSDPSetPNormTolerance  [87] SDPConeAddDataMatrix
+  [66] DSDPDSMatMult         [328] DSDPSetPTolerance      [34] SDPConeAddXVAV
+ [296] DSDPDSMatOpsInitialize [329] DSDPSetPenaltyParameter [369] SDPConeBlockNNZ
+ [150] DSDPDSMatSetArray     [261] DSDPSetPotentialParameter [370] SDPConeCheckJ
+ [297] DSDPDSMatSetData      [262] DSDPSetR0              [71] SDPConeCheckN
+  [39] DSDPDataMatAddMultiple [263] DSDPSetRR             [83] SDPConeCheckStorageFormat
+  [93] DSDPDataMatCountNonzeros [330] DSDPSetRTolerance    [8] SDPConeComputeHessian
+  [73] DSDPDataMatDestroy    [331] DSDPSetScale          [120] SDPConeComputeSS
+  [74] DSDPDataMatFNorm2     [264] DSDPSetSchurMatOps    [371] SDPConeComputeXV
+  [90] DSDPDataMatFactor     [332] DSDPSetStandardMonitor [372] SDPConeDestroy
+  [54] DSDPDataMatGetEig     [333] DSDPSetStepTolerance   [84] SDPConeGetStorageFormat
+  [50] DSDPDataMatGetRank    [334] DSDPSetUpCones         [91] SDPConeRemoveDataMatrix
+  [12] DSDPDataMatGetRowNonzeros [19] DSDPSetUpCones2     [92] SDPConeSetASparseVecMat
+  [70] DSDPDataMatInitialize [215] DSDPSetX              [373] SDPConeSetBlockSize
+  [81] DSDPDataMatOpsInitialize [183] DSDPSetY           [374] SDPConeSetRIdentity
+  [82] DSDPDataMatSetData     [97] DSDPSetY0             [375] SDPConeSetRMatrix
+  [10] DSDPDataMatVecVec     [335] DSDPSetYBounds        [376] SDPConeSetup
+ [298] DSDPDataTransposeSetup [336] DSDPSetZBar           [22] SDPConeSetup2
+ [248] DSDPDataTransposeTakeDown [20] DSDPSetup           [57] SDPConeVecAXPY
+ [175] DSDPDefaultConvergence [337] DSDPSetupRCone        [59] SDPConeVecCopy
+ [299] DSDPDestroy           [338] DSDPSetupRCone2       [377] SDPConeVecCreate
+ [300] DSDPDestroyCones        [2] DSDPSolve             [232] SDPConeVecDestroy
+ [301] DSDPDestroyRCone        [4] DSDPSolveDynamicRho    [46] SDPConeVecDot
+ [132] DSDPDualMatCholeskyFactor [98] DSDPSparsityInSchurMat [244] SDPConeVecDuplicate
+  [24] DSDPDualMatCholeskyForwardMultiply [127] DSDPStopReason [58] SDPConeVecNorm2
+  [60] DSDPDualMatCholeskySolveBackward [339] DSDPTakeDown [65] SDPConeVecNormalize
+  [61] DSDPDualMatCholeskySolveForward [41] DSDPTime      [64] SDPConeVecScale
+ [249] DSDPDualMatDestroy    [340] DSDPUseDefaultDualMatrix [163] SDPConeVecSet
+ [302] DSDPDualMatEventInitialize [341] DSDPUseDynamicRho [26] SDPConeXVMultiply
+ [250] DSDPDualMatEventZero  [342] DSDPUsePenalty         [40] VechMatAddMultiple
+ [251] DSDPDualMatInitialize [343] DSDPVMatDestroy       [103] VechMatCountNonzeros
+  [32] DSDPDualMatInverseMultiply [344] DSDPVMatEventInitialize [88] VechMatDestroy
+ [189] DSDPDualMatInvert     [265] DSDPVMatEventZero      [75] VechMatFNorm2
+ [166] DSDPDualMatLogDeterminant [345] DSDPVMatExist     [104] VechMatFactor
+ [252] DSDPDualMatOpsInitialize [106] DSDPVMatGetArray    [56] VechMatGetEig
+ [133] DSDPDualMatSetArray   [107] DSDPVMatGetSize        [51] VechMatGetRank
+ [253] DSDPDualMatSetData    [266] DSDPVMatInitialize     [13] VechMatGetRowNnz
+  [42] DSDPEventLogBegin     [346] DSDPVMatOpsInitialize  [11] VechMatVecVec
+  [43] DSDPEventLogEnd       [108] DSDPVMatRestoreArray   [28] dtrsm2
+ [303] DSDPEventLogInitialize [347] DSDPVMatSetData
+ [220] DSDPEventLogRegister  [118] DSDPVMatZeroEntries
