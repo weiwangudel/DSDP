@@ -348,7 +348,114 @@ int DSDPSolve(DSDP dsdp){
   dsdp->pdfeasible=DSDP_PDUNKNOWN;
   info=DSDPSetConvergenceFlag(dsdp,CONTINUE_ITERATING);DSDPCHKERR(info); 
   info=DSDPInitializeVariables(dsdp);DSDPCHKERR(info);
-  info=DSDPSolveDynamicRho(dsdp);DSDPCHKERR(info);
+  //info=DSDPSolveDynamicRho(dsdp);DSDPCHKERR(info);
+  //Wei:   inlined function body of DSDPSolveDynamicRho 
+  {
+  //int DSDPSolveDynamicRho(DSDP dsdp){
+  
+    int info,attempt,maxattempts;
+    double dd1,dd2,mutarget,ppnorm;
+    DSDPTerminationReason reason;
+    DSDPTruth cg1;
+    DSDPTruth psdefinite;
+  
+    info=DSDPVecCopy(dsdp->y,dsdp->y0);DSDPCHKERR(info);
+    for (dsdp->itnow=0; dsdp->itnow <= dsdp->maxiter+1 ; dsdp->itnow++){
+  
+      /* Check Convergence, and print information if desired */
+      info=DSDPCheckConvergence(dsdp,&reason);DSDPCHKERR(info);
+      if (reason != CONTINUE_ITERATING){break;}
+      if (dsdp->mu0>0){dsdp->mutarget=DSDPMin(dsdp->mutarget,dsdp->mu0);}
+      /* Compute the Gram matrix M and rhs */
+      info=DSDPComputeDualStepDirections(dsdp); DSDPCHKERR(info);
+      //Wei: inlined function body of DSDPComputeDualStepDirections
+      {
+
+
+
+
+
+      }  // end of inlined function body of DSDPComputeDualStepDirections
+      if (dsdp->reason==DSDP_INDEFINITE_SCHUR_MATRIX){continue;}
+  
+      info=DSDPComputePDY(dsdp,dsdp->mutarget,dsdp->dy,&dsdp->pnorm); DSDPCHKERR(info);
+  
+      DSDPEventLogBegin(dsdp->ptime);
+      info=DSDPComputePY(dsdp,1.0,dsdp->ytemp);DSDPCHKERR(info);
+      info=DSDPComputeSS(dsdp,dsdp->ytemp,PRIMAL_FACTOR,&psdefinite);DSDPCHKERR(info);
+      if (psdefinite==DSDP_TRUE){
+        dsdp->pstep=1.0;
+        info=DSDPSaveYForX(dsdp,dsdp->mutarget,dsdp->pstep);DSDPCHKERR(info);
+      } else {
+        dsdp->pstep=0.0;
+      }
+  
+      if (dsdp->usefixedrho==DSDP_TRUE){
+        dsdp->rho=dsdp->rhon*dsdp->np;
+        mutarget=(dsdp->ppobj-dsdp->ddobj)/(dsdp->rho);
+        dsdp->pstep=0.5;
+      } else {
+        info = DSDPChooseBarrierParameter(dsdp,dsdp->mutarget,&dsdp->pstep,&mutarget);DSDPCHKERR(info);
+        dsdp->rho=(dsdp->ppobj-dsdp->ddobj)/(mutarget);
+      }
+      DSDPEventLogEnd(dsdp->ptime);
+      
+      DSDPLogInfo(0,6,"Current mu=%4.8e, Target X with mu=%4.8e, Rho: %8.4e, Primal Step Length: %4.8f, pnorm: %4.8e\n",dsdp->mu,mutarget,dsdp->rho/dsdp->np,dsdp->pstep, dsdp->pnorm);
+  
+      /* Take Dual Step */
+      /* Compute distance from chosen point on central path Pnorm */
+      DSDPEventLogBegin(dsdp->dtime);
+      info=DSDPComputeDY(dsdp,mutarget,dsdp->dy,&dsdp->pnorm); DSDPCHKERR(info);
+      if (dsdp->pnorm<0.1){ mutarget/=10;  info=DSDPComputeDY(dsdp,mutarget,dsdp->dy,&dsdp->pnorm); DSDPCHKERR(info);}
+  
+      info=DSDPYStepLineSearch(dsdp, mutarget, 1.0, dsdp->dy);DSDPCHKERR(info);
+      DSDPEventLogEnd(dsdp->dtime);
+  
+      maxattempts=dsdp->reuseM;
+      if (dsdp->dstep<1 && dsdp->rgap<1e-5) maxattempts=0;
+      if (dsdp->dstep<1e-13) maxattempts=0;
+      if (dsdp->rgap<1e-6) maxattempts=0;
+      if (maxattempts>dsdp->reuseM) maxattempts=dsdp->reuseM;
+      for (attempt=0;attempt<maxattempts;attempt++){
+        double cgtol=1e-6;
+        if (attempt>0 && dsdp->pnorm < 0.1) break;
+        if (attempt > 0 && dsdp->dstep<1e-4) break;
+        if (dsdp->rflag) break;
+        DSDPEventLogBegin(dsdp->ctime);
+        DSDPLogInfo(0,2,"Reuse Matrix %d: Ddobj: %12.8e, Pnorm: %4.2f, Step: %4.2f\n",attempt,dsdp->ddobj,dsdp->pnorm,dsdp->dstep);
+        info=DSDPInvertS(dsdp);DSDPCHKERR(info);
+        info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+        if (dsdp->slestype==2 || dsdp->slestype==3){
+  	if (dsdp->rflag){info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs1,dsdp->dy1,cgtol,&cg1);DSDPCHKERR(info);}
+  	info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs2,dsdp->dy2,cgtol,&cg1);DSDPCHKERR(info);
+        }
+        info=DSDPVecDot(dsdp->b,dsdp->dy1,&dd1);DSDPCHKERR(info);
+        info=DSDPVecDot(dsdp->b,dsdp->dy2,&dd2);DSDPCHKERR(info);
+        if (dd1>0 && dd2>0){
+  	mutarget=DSDPMin(mutarget,dd1/dd2*dsdp->schurmu);
+        }
+        mutarget=mutarget*(dsdp->np/(dsdp->np+sqrt(dsdp->np)));	  
+        info=DSDPComputeDY(dsdp,mutarget,dsdp->dy, &ppnorm);DSDPCHKERR(info);
+        if (ppnorm<=0){ DSDPEventLogEnd(dsdp->ctime);  break; }
+        dsdp->pnorm=ppnorm;
+        info=DSDPYStepLineSearch2(dsdp, mutarget, dsdp->dstep, dsdp->dy);DSDPCHKERR(info);
+        DSDPEventLogEnd(dsdp->ctime);
+      }
+      if (attempt>0)dsdp->dstep=1.0;
+      
+      dsdp->mutarget=DSDPMin(dsdp->mu,mutarget);
+      info=DSDPGetRR(dsdp,&dd1);DSDPCHKERR(info);
+      if (dsdp->itnow==0 && dsdp->xmaker[0].pstep<1.0 && dd1> 0 && dsdp->pstep<1.0 && dsdp->goty0==DSDP_FALSE){
+        info=DSDPResetY0(dsdp);DSDPCHKERR(info); continue;
+        dsdp->goty0=DSDP_FALSE;
+      }
+      
+    } /* End of Dual Scaling Algorithm */
+    
+    
+  //} 
+
+  } // end of inlined function body of DSDPSolveDynamicRho
   if (dsdp->pstep==1){info=DSDPRefineStepDirection(dsdp,dsdp->xmakerrhs,dsdp->xmaker[0].dy);DSDPCHKERR(info);}
   if (dsdp->pdfeasible==DSDP_PDUNKNOWN) dsdp->pdfeasible=DSDP_PDFEASIBLE;
   info=DSDPEventLogEnd(dsdp->solvetime);
