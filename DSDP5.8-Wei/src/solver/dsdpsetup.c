@@ -643,6 +643,12 @@ int DSDPSolve(DSDP dsdp){
         if (ppnorm<=0){ DSDPEventLogEnd(dsdp->ctime);  break; }
         dsdp->pnorm=ppnorm;
         info=DSDPYStepLineSearch2(dsdp, mutarget, dsdp->dstep, dsdp->dy);DSDPCHKERR(info);
+        //Wei: inlined function body of DSDPYStepLineSearch2
+        {
+
+
+
+        } // end of inlined function body of DSDPYStepLineSearch2
         DSDPEventLogEnd(dsdp->ctime);
       }
       if (attempt>0)dsdp->dstep=1.0;

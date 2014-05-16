@@ -96,6 +96,11 @@ int DSDPYStepLineSearch2(DSDP dsdp, double mutarget, double dstep0, DSDPVec dy){
   DSDPTruth psdefinite;
   DSDPFunctionBegin;
   info=DSDPComputeMaxStepLength(dsdp,dy,DUAL_FACTOR,&maxmaxstep);DSDPCHKERR(info);
+  //Wei: inlined function body of DSDPComputeMaxStepLength 
+  {
+
+  
+  }  // end of inlined function body of DSDPComputeMaxStepLength
   info=DSDPComputePotential2(dsdp,dsdp->y,mutarget, dsdp->logdet,&oldpotential);DSDPCHKERR(info);
   info=DSDPVecDot(dsdp->rhs,dy,&bdotdy);DSDPCHKERR(info);
   dstep=DSDPMin(dstep0,0.95*maxmaxstep);
