@@ -642,11 +642,96 @@ int DSDPSolve(DSDP dsdp){
         info=DSDPComputeDY(dsdp,mutarget,dsdp->dy, &ppnorm);DSDPCHKERR(info);
         if (ppnorm<=0){ DSDPEventLogEnd(dsdp->ctime);  break; }
         dsdp->pnorm=ppnorm;
-        info=DSDPYStepLineSearch2(dsdp, mutarget, dsdp->dstep, dsdp->dy);DSDPCHKERR(info);
+        //info=DSDPYStepLineSearch2(dsdp, mutarget, dsdp->dstep, dsdp->dy);DSDPCHKERR(info);
         //Wei: inlined function body of DSDPYStepLineSearch2
         {
-
-
+        //int DSDPYStepLineSearch2(DSDP dsdp, double mutarget, double dstep0, DSDPVec dy){
+	  double dstep0 = dsdp->dstep;    //passing param 3
+          
+          /* The merit function is the objective (DD) plus the barrier function */
+          /* This line search is used in the corrector steps */
+          int info, attempt, maxattempts=10;
+          double dstep,newpotential,bdotdy,oldpotential,logdet;
+          double maxmaxstep=0,steptol=1e-6;
+          double a,b;
+          DSDPTruth psdefinite;
+          //info=DSDPComputeMaxStepLength(dsdp,dy,DUAL_FACTOR,&maxmaxstep);DSDPCHKERR(info);
+          //Wei: inlined function body of DSDPComputeMaxStepLength 
+          {
+          //int DSDPComputeMaxStepLength(DSDP dsdp, DSDPVec DY, DSDPDualFactorMatrix flag, double *maxsteplength){
+            DSDPDualFactorMatrix flag = DUAL_FACTOR;           //passing param 3
+            double* maxsteplength = &maxmaxstep;               //passing param 4
+            int info,kk;
+            double msteplength=1.0e30,conesteplength;
+        
+            if (flag==DUAL_FACTOR){
+              //DSDPEventLogBegin(ConeMaxDStep);
+            } else if (flag==PRIMAL_FACTOR){
+              //DSDPEventLogBegin(ConeMaxPStep);
+            }
+            for (kk=0;kk<dsdp->ncones;kk++){
+              DSDPEventLogBegin(dsdp->K[kk].coneid);
+              conesteplength=1.0e20;
+              //info=DSDPConeComputeMaxStepLength(dsdp->K[kk].cone,DY,flag,&conesteplength);DSDPCHKCONEERR(kk,info);
+              //Wei:  inlined function body of DSDPConeComputeMaxStepLength
+              {
+              //int DSDPConeComputeMaxStepLength(DSDPCone K, DSDPVec DY, DSDPDualFactorMatrix flag, double *maxsteplength){
+                DSDPCone K=dsdp->K[kk].cone;       // passing param 1
+                
+                int info;
+                double inner_conesteplength=1.0e20;
+                conesteplength=1.0e30;
+                if (K.dsdpops->conemaxsteplength){
+                  info=K.dsdpops->conemaxsteplength(K.conedata,dsdp->dy,flag,&inner_conesteplength);//DSDPChkConeError(K,info);
+                } else {
+                  //DSDPNoOperationError(K);
+          	exit(-1);                      //omit error handling
+                }
+                //*maxsteplength=conesteplength;
+                conesteplength = inner_conesteplength;
+              //}
+          
+              } // end of inlined function body of DSDPConeComputeMaxStepLength
+              msteplength=DSDPMin(msteplength,conesteplength);
+              DSDPEventLogEnd(dsdp->K[kk].coneid);
+            }
+            *maxsteplength=msteplength;
+            if (flag==DUAL_FACTOR){
+              //DSDPEventLogEnd(ConeMaxDStep);
+            } else if (flag==PRIMAL_FACTOR){
+              //DSDPEventLogEnd(ConeMaxPStep);
+            }
+          //} //original function body end
+          }  // end of inlined function body of DSDPComputeMaxStepLength
+          info=DSDPComputePotential2(dsdp,dsdp->y,mutarget, dsdp->logdet,&oldpotential);DSDPCHKERR(info);
+          info=DSDPVecDot(dsdp->rhs,dsdp->dy,&bdotdy);DSDPCHKERR(info);
+          dstep=DSDPMin(dstep0,0.95*maxmaxstep);
+          if (dstep * dsdp->pnorm > dsdp->maxtrustradius) dstep=dsdp->maxtrustradius/dsdp->pnorm;
+          DSDPLogInfo(0,8,"Full Dual StepLength %4.4e, %4.4e\n",maxmaxstep,dstep);
+          for (psdefinite=DSDP_FALSE,attempt=0; attempt<maxattempts && psdefinite==DSDP_FALSE; attempt++){
+            if (dstep < steptol) break;
+            info=DSDPComputeNewY(dsdp,dstep,dsdp->ytemp);DSDPCHKERR(info);
+            info=DSDPComputeSS(dsdp,dsdp->ytemp,DUAL_FACTOR,&psdefinite);DSDPCHKERR(info);
+            if (psdefinite==DSDP_TRUE){
+              info=DSDPComputeLogSDeterminant(dsdp,&logdet);DSDPCHKERR(info);
+              info=DSDPComputePotential2(dsdp,dsdp->ytemp,mutarget,logdet,&newpotential);DSDPCHKERR(info);
+              b=bdotdy; a=2*(newpotential-oldpotential+bdotdy*dstep)/(dstep*dstep);
+              if (newpotential>oldpotential-0.1*dstep*bdotdy ){
+        	DSDPLogInfo(0,2,"Not sufficient reduction. Reduce stepsize.  Step:: %4.4e\n",dstep);
+        	psdefinite=DSDP_FALSE;
+        	if (b/a<dstep && b/a>0){ dstep=b/a;} else { dstep=dstep/2; } 
+              } 
+            } else {
+              dstep=dstep/2.0;
+              DSDPLogInfo(0,2,"Dual Matrix not Positive Definite: Reduce step %4.4e",dstep);
+            }
+          } /* Hopefully, the initial step size works and only go through loop once */
+          if (psdefinite==DSDP_TRUE && dstep>=steptol){
+            info=DSDPSetY(dsdp,dstep,logdet,dsdp->ytemp);DSDPCHKERR(info);
+          } else {
+            info=DSDPSetY(dsdp,0,dsdp->logdet,dsdp->y);DSDPCHKERR(info);
+          }
+        //} //end of the original function body
 
         } // end of inlined function body of DSDPYStepLineSearch2
         DSDPEventLogEnd(dsdp->ctime);
