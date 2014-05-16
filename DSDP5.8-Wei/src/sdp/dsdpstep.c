@@ -257,7 +257,114 @@ int DSDPLanczosStepSize( DSDPLanczosStepLength *LZ, SDPConeVec W1, SDPConeVec W2
   m=LZ->lanczosm;
 
   if (LZ->type==1){
-    info = ComputeStepFAST(A,LZ->Q,m,W1,LZ->dwork4n,LZ->iwork10n,&smaxstep,&mineig);DSDPCHKERR(info);
+    //info = ComputeStepFAST(A,LZ->Q,m,W1,LZ->dwork4n,LZ->iwork10n,&smaxstep,&mineig);DSDPCHKERR(info);
+    //Wei: inlined function body of ComputeStepFAST
+    {
+    //static int ComputeStepFAST(Mat3 A, SDPConeVec *Q, int m, SDPConeVec W, double *dwork, int *iwork,double *maxstep ,double *mineig){
+    
+      int i,j,n,info;
+      double tt,wnorm, phi;
+      double lambda1=0,lambda2=0,delta=0;
+      double res1,res2,beta;
+      double one=1.0;
+      int N=m;
+      double *diag,*subdiag,*ddwork;
+    
+      diag=LZ->dwork4n;
+      subdiag=LZ->dwork4n+m;
+      ddwork=LZ->dwork4n+2*m;
+    
+      if (A->type==1){
+        for (i=0; i<m; i++){ diag[i]=-1; subdiag[i]=0;}
+      } else {
+        for (i=0; i<m; i++){ diag[i]=1.0; subdiag[i]=0;}
+      }
+      info = SDPConeVecSet(one,LZ->Q[0]);DSDPCHKERR(info);
+      info = SDPConeVecNormalize(LZ->Q[0]);DSDPCHKERR(info);
+    
+      for (i=0; i<m; i++){
+        info = MatMult3(A,LZ->Q[0],W1);DSDPCHKERR(info);
+        info = SDPConeVecNorm2(W1,&phi);DSDPCHKERR(info);
+        if (phi!=phi){ smaxstep = 0.0;  return 0;} 
+        if (i>0){
+          tt=-subdiag[i-1];
+          info = SDPConeVecAXPY(tt,LZ->Q[1],W1);DSDPCHKERR(info);
+        }
+        info = SDPConeVecDot(W1,LZ->Q[0],&tt);DSDPCHKERR(info);
+        diag[i]=tt;
+        tt*=-1.0;
+        info = SDPConeVecAXPY(tt,LZ->Q[0],W1);DSDPCHKERR(info);
+        info = SDPConeVecNorm2(W1,&wnorm);DSDPCHKERR(info);
+        if (wnorm <= 1.0 * phi){
+          for (j=0;j<=i;j++){
+    	if (j==i-1){
+    	  info = SDPConeVecDot(W1,LZ->Q[1],&tt);DSDPCHKERR(info);
+    	  if (tt==tt){tt*=-1.0;} else {tt=0;}
+    	  info = SDPConeVecAXPY(tt,LZ->Q[1],W1);DSDPCHKERR(info);
+    	  subdiag[i-1]-=tt;
+    	} else if (j==i){
+    	  info = SDPConeVecDot(W1,LZ->Q[0],&tt);DSDPCHKERR(info);
+    	  if (tt==tt){tt*=-1.0;} else {tt=0;}
+    	  info = SDPConeVecAXPY(tt,LZ->Q[0],W1);DSDPCHKERR(info);
+    	  diag[i]-=tt; 
+    	}
+    
+          } 
+        }
+        
+        info = SDPConeVecNorm2(W1,&wnorm);DSDPCHKERR(info);
+        /*    printf("PHI: %4.4e, VNORM: %4.2e Diag: %4.2e\n",phi,wnorm,diag[i]); */
+        if (i<m-1){
+          subdiag[i]=wnorm;
+        }
+        if (fabs(wnorm)<=1.0e-10){i++;break;}
+        info=SDPConeVecCopy(LZ->Q[0],LZ->Q[1]);DSDPCHKERR(info);
+        info=SDPConeVecCopy(W1,LZ->Q[0]);DSDPCHKERR(info);
+        info=SDPConeVecNormalize(LZ->Q[0]); DSDPCHKERR(info);
+        
+      }
+      
+      /*  DSDPEventLogBegin(id1); */
+      info=DSDPGetTriDiagonalEigs(m,diag,subdiag,ddwork,LZ->iwork10n);  DSDPCHKERR(info);
+      /*  DSDPEventLogEnd(id1); */
+      if (N==0){
+        lambda1=-0.0;
+        delta=1.0e-20;
+        mineig=0;
+      } else if (N==1){
+        lambda1=-diag[0];
+        delta=1.0e-20;
+        mineig=diag[0];
+      } else if (N>1){
+        lambda1=-diag[N-1];
+        lambda2=-diag[N-2];
+    
+        res1=1.0e-8;
+        res2=1.0e-8;
+         
+        tt = -lambda1 + lambda2 - res2;
+        if (tt>0) beta=tt;
+        else beta=1.0e-20;
+        delta = DSDPMin(res1,sqrt(res1)/beta);
+        
+        mineig=diag[0];
+      }
+    
+      
+      if (delta-lambda1>0)
+        smaxstep = 1.0/(delta-lambda1);
+      else
+        smaxstep = 1.0e+30;
+    
+      info=SDPConeVecGetSize(W1,&n);DSDPCHKERR(info);
+      DSDPLogInfo(0,19,"Step Length: Fast Lanczos Iterates: %2d, Max: %d, Block Size: %d, VNorm: %3.1e, Lambda1: %4.4e, Lambda2: %4.4e, Delta: %4.2e, Maxstep: %4.2e\n",
+    	      i,m,n,wnorm,lambda1,lambda2,delta,smaxstep);
+    
+    //}
+
+
+
+    } // end of inlined function body of COmputeStepFAST
     *maxstep=smaxstep;
   } else if (LZ->type==2){
     info = ComputeStepROBUST(A,LZ->Q,m,LZ->Q[m],W1,LZ->darray/*LZ->TT*/,LZ->Tv,LZ->dwork4n,&smaxstep,&mineig);DSDPCHKERR(info);
