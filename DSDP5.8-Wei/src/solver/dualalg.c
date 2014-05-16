@@ -95,11 +95,53 @@ int DSDPYStepLineSearch2(DSDP dsdp, double mutarget, double dstep0, DSDPVec dy){
   double a,b;
   DSDPTruth psdefinite;
   DSDPFunctionBegin;
-  info=DSDPComputeMaxStepLength(dsdp,dy,DUAL_FACTOR,&maxmaxstep);DSDPCHKERR(info);
+  //info=DSDPComputeMaxStepLength(dsdp,dy,DUAL_FACTOR,&maxmaxstep);DSDPCHKERR(info);
   //Wei: inlined function body of DSDPComputeMaxStepLength 
   {
+  //int DSDPComputeMaxStepLength(DSDP dsdp, DSDPVec DY, DSDPDualFactorMatrix flag, double *maxsteplength){
+    DSDPDualFactorMatrix flag = DUAL_FACTOR;           //passing param 3
+    double* maxsteplength = &maxmaxstep;               //passing param 4
+    int info,kk;
+    double msteplength=1.0e30,conesteplength;
 
+    if (flag==DUAL_FACTOR){
+      //DSDPEventLogBegin(ConeMaxDStep);
+    } else if (flag==PRIMAL_FACTOR){
+      //DSDPEventLogBegin(ConeMaxPStep);
+    }
+    for (kk=0;kk<dsdp->ncones;kk++){
+      DSDPEventLogBegin(dsdp->K[kk].coneid);
+      conesteplength=1.0e20;
+      //info=DSDPConeComputeMaxStepLength(dsdp->K[kk].cone,DY,flag,&conesteplength);DSDPCHKCONEERR(kk,info);
+      //Wei:  inlined function body of DSDPConeComputeMaxStepLength
+      {
+      //int DSDPConeComputeMaxStepLength(DSDPCone K, DSDPVec DY, DSDPDualFactorMatrix flag, double *maxsteplength){
+        DSDPCone K=dsdp->K[kk].cone;       // passing param 1
+        
+        int info;
+        double inner_conesteplength=1.0e20;
+        conesteplength=1.0e30;
+        if (K.dsdpops->conemaxsteplength){
+          info=K.dsdpops->conemaxsteplength(K.conedata,dy,flag,&inner_conesteplength);//DSDPChkConeError(K,info);
+        } else {
+          //DSDPNoOperationError(K);
+  	exit(-1);                      //omit error handling
+        }
+        //*maxsteplength=conesteplength;
+        conesteplength = inner_conesteplength;
+      //}
   
+      } // end of inlined function body of DSDPConeComputeMaxStepLength
+      msteplength=DSDPMin(msteplength,conesteplength);
+      DSDPEventLogEnd(dsdp->K[kk].coneid);
+    }
+    *maxsteplength=msteplength;
+    if (flag==DUAL_FACTOR){
+      //DSDPEventLogEnd(ConeMaxDStep);
+    } else if (flag==PRIMAL_FACTOR){
+      //DSDPEventLogEnd(ConeMaxPStep);
+    }
+  //} //original function body end
   }  // end of inlined function body of DSDPComputeMaxStepLength
   info=DSDPComputePotential2(dsdp,dsdp->y,mutarget, dsdp->logdet,&oldpotential);DSDPCHKERR(info);
   info=DSDPVecDot(dsdp->rhs,dy,&bdotdy);DSDPCHKERR(info);
