@@ -1,6 +1,22 @@
 #include "dsdp.h"
 #include "dsdpsys.h"
 #include "dsdp5.h"
+
+#include "dsdpschurmat_impl.h"    //Inline need
+#include "dsdpschurmat.h"
+#include "dsdpbasictypes.h"
+#include "dsdpsys.h"
+#include "dsdpvec.h"
+#include "dsdpbasictypes.h"
+#include "dsdpcg.h"
+
+//ComputeHessian Needed
+#include "dsdpcone.h"    //Wei-inlining
+#include "dsdpcone_impl.h"  //
+#include <../sdp/dsdpsdp.h>    //Wei-inlining needed, rel
+
+
+
 //#include "libenergy.h"
 /*!
   \file dsdpsetup.c
@@ -367,13 +383,201 @@ int DSDPSolve(DSDP dsdp){
       if (reason != CONTINUE_ITERATING){break;}
       if (dsdp->mu0>0){dsdp->mutarget=DSDPMin(dsdp->mutarget,dsdp->mu0);}
       /* Compute the Gram matrix M and rhs */
-      info=DSDPComputeDualStepDirections(dsdp); DSDPCHKERR(info);
+      //info=DSDPComputeDualStepDirections(dsdp); DSDPCHKERR(info);
       //Wei: inlined function body of DSDPComputeDualStepDirections
       {
-
-
-
-
+      //int DSDPComputeDualStepDirections(DSDP dsdp){
+        int info,computem=1;
+        double madd,ymax,cgtol=1e-7;
+        DSDPTruth cg1,cg2,psdefinite;
+      
+        if (dsdp->itnow>30) dsdp->slestype=3;
+        if (dsdp->rgap<1e-3) dsdp->slestype=3;
+        if (dsdp->m<40) dsdp->slestype=3;
+        if (0 && dsdp->itnow>20 && dsdp->m<500) dsdp->slestype=3;
+        info=DSDPGetMaxYElement(dsdp,&ymax);DSDPCHKERR(info);
+        if (dsdp->slestype==1){
+          cg1=DSDP_TRUE; cg2=DSDP_TRUE;
+          info=DSDPInvertS(dsdp);DSDPCHKERR(info);
+          info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+          info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs1,dsdp->dy1,cgtol,&cg1);DSDPCHKERR(info);
+          if (cg1==DSDP_TRUE){info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs2,dsdp->dy2,cgtol,&cg2);DSDPCHKERR(info);}
+          if (cg1==DSDP_FALSE || cg2==DSDP_FALSE) dsdp->slestype=2;
+        }
+        if (dsdp->slestype==2){
+          cg1=DSDP_TRUE; cg2=DSDP_TRUE;
+          DSDPLogInfo(0,9,"Compute Hessian\n");
+          info=DSDPInvertS(dsdp);DSDPCHKERR(info);
+          //info=DSDPComputeHessian(dsdp,dsdp->M,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+          //Wei: inline function body of DSDPComputeHessian
+          {
+          //int DSDPComputeHessian( DSDP dsdp , DSDPSchurMat M,  DSDPVec vrhs1, DSDPVec vrhs2)
+          //{
+            int info,kk; double r;
+            //DSDPEventLogBegin(ConeComputeH); // ignore log, do not know how to handle staic ConeComputeH
+            dsdp->schurmu=dsdp->mutarget;
+            info=DSDPVecGetR(dsdp->y,&r);DSDPCHKERR(info);
+            info=DSDPSchurMatSetR(dsdp->M,r);DSDPCHKERR(info);
+            info=DSDPSchurMatZeroEntries(dsdp->M);DSDPCHKERR(info);
+            info=DSDPVecZero(dsdp->rhs1);DSDPCHKERR(info);
+            info=DSDPVecZero(dsdp->rhs2);DSDPCHKERR(info);
+            info=DSDPVecZero((dsdp->M).schur->rhs3);DSDPCHKERR(info);
+            info=DSDPObjectiveGH(dsdp,dsdp->M,dsdp->rhs1); DSDPCHKERR(info);
+            for (kk=dsdp->ncones-1;kk>=0;kk--){
+              DSDPEventLogBegin(dsdp->K[kk].coneid);
+              //info=DSDPConeComputeHessian(dsdp->K[kk].cone,dsdp->schurmu,M,vrhs1,vrhs2);DSDPCHKCONEERR(kk,info);
+              //Wei: Inline(1) Function Body of DSDPConeComputeHessian
+              if (dsdp->K[kk].cone.dsdpops->conehessian){
+                // Wei@05/15/14: printf("%x\n", dsdp->K[kk].cone.dsdpops->conehessian);
+                // Wei: Cannot inline: conehessian are dynamically changed. 
+                // Wei: KSDPConeComputeHessian only takes 1/3 of calls, but consumes most of time 
+                dsdp->K[kk].cone.dsdpops->conehessian(dsdp->K[kk].cone.conedata,dsdp->schurmu,dsdp->M,dsdp->rhs1,dsdp->rhs2); // DSDPChkConeError(K,info);
+              } else {
+                 //DSDPNoOperationError(K);
+                 // error handling omitted
+                 exit(-1);
+              }
+              DSDPEventLogEnd(dsdp->K[kk].coneid);
+            }
+            info=DSDPSchurMatAssemble(dsdp->M);DSDPCHKERR(info);
+            /*    DSDPSchurMatView(M); */
+            info=DSDPSchurMatReducePVec(dsdp->M,dsdp->rhs1);DSDPCHKERR(info);
+            info=DSDPSchurMatReducePVec(dsdp->M,dsdp->rhs2);DSDPCHKERR(info);
+            info=DSDPSchurMatReducePVec(dsdp->M,(dsdp->M).schur->rhs3);DSDPCHKERR(info);
+            if (0 && dsdp->UsePenalty==DSDPNever){   //why having this 0 && ????
+              info=DSDPVecAXPY(1.0,dsdp->M.schur->rhs3,dsdp->rhs2);DSDPCHKERR(info);
+              info=DSDPVecZero((dsdp->M).schur->rhs3);DSDPCHKERR(info);
+              info=DSDPVecZero((dsdp->M).schur->dy3);DSDPCHKERR(info);
+              info=DSDPVecSetR(dsdp->rhs1,0);DSDPCHKERR(info);
+              info=DSDPVecSetR(dsdp->rhs2,r);DSDPCHKERR(info);
+            }
+            //DSDPEventLogEnd(ConeComputeH);
+          //}
+      
+          } // end of inline function body of DSDPComputeHessian
+          computem=0;
+          DSDPLogInfo(0,9,"Apply CG\n");
+          info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs1,dsdp->dy1,cgtol,&cg1);DSDPCHKERR(info);
+          if (cg1==DSDP_TRUE){info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs2,dsdp->dy2,cgtol,&cg2);DSDPCHKERR(info);}
+          if (cg1==DSDP_FALSE || cg2==DSDP_FALSE) dsdp->slestype=3;
+          
+        }
+        if (dsdp->slestype==3){
+          DSDPLogInfo(0,9,"Factor Hessian\n");
+          psdefinite=DSDP_FALSE;
+          if (dsdp->Mshift < 1e-12 || dsdp->rgap<0.1 || dsdp->Mshift > 1e-6){
+            madd=dsdp->Mshift;
+          } else {
+            madd=1e-13;
+          }
+          if (computem){
+            info=DSDPInvertS(dsdp);DSDPCHKERR(info);
+          }
+          while (psdefinite==DSDP_FALSE){
+            if (0==1 && dsdp->Mshift>dsdp->maxschurshift){ 
+      	info = DSDPSetConvergenceFlag(dsdp,DSDP_INDEFINITE_SCHUR_MATRIX); DSDPCHKERR(info);  
+      	break;
+            }
+            if (0 && dsdp->Mshift*ymax>dsdp->pinfeastol/10){ 
+      	info = DSDPSetConvergenceFlag(dsdp,DSDP_INDEFINITE_SCHUR_MATRIX); DSDPCHKERR(info);  
+      	break;
+            }
+            if (madd*ymax>dsdp->pinfeastol*1000){ 
+      	info = DSDPSetConvergenceFlag(dsdp,DSDP_INDEFINITE_SCHUR_MATRIX); DSDPCHKERR(info);  
+      	break;
+            }
+            if (computem){
+      	//info=DSDPComputeHessian(dsdp,dsdp->M,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+              //Wei: inline function body of DSDPComputeHessian
+              {
+              //int DSDPComputeHessian( DSDP dsdp , DSDPSchurMat M,  DSDPVec vrhs1, DSDPVec vrhs2)
+              //{
+                int info,kk; double r;
+                //DSDPEventLogBegin(ConeComputeH); // ignore log, do not know how to handle staic ConeComputeH
+                dsdp->schurmu=dsdp->mutarget;
+                info=DSDPVecGetR(dsdp->y,&r);DSDPCHKERR(info);
+                info=DSDPSchurMatSetR(dsdp->M,r);DSDPCHKERR(info);
+                info=DSDPSchurMatZeroEntries(dsdp->M);DSDPCHKERR(info);
+                info=DSDPVecZero(dsdp->rhs1);DSDPCHKERR(info);
+                info=DSDPVecZero(dsdp->rhs2);DSDPCHKERR(info);
+                info=DSDPVecZero((dsdp->M).schur->rhs3);DSDPCHKERR(info);
+                info=DSDPObjectiveGH(dsdp,dsdp->M,dsdp->rhs1); DSDPCHKERR(info);
+                for (kk=dsdp->ncones-1;kk>=0;kk--){
+                  DSDPEventLogBegin(dsdp->K[kk].coneid);
+                  //info=DSDPConeComputeHessian(dsdp->K[kk].cone,dsdp->schurmu,M,vrhs1,vrhs2);DSDPCHKCONEERR(kk,info);
+                  //Wei: Inline(1) Function Body of DSDPConeComputeHessian
+                  if (dsdp->K[kk].cone.dsdpops->conehessian){
+                    // Wei@05/15/14: printf("%x\n", dsdp->K[kk].cone.dsdpops->conehessian);
+                    // Wei: Cannot inline: conehessian are dynamically changed. 
+                    // Wei: KSDPConeComputeHessian only takes 1/3 of calls, but consumes most of time 
+                    dsdp->K[kk].cone.dsdpops->conehessian(dsdp->K[kk].cone.conedata,dsdp->schurmu,dsdp->M,dsdp->rhs1,dsdp->rhs2); // DSDPChkConeError(K,info);
+                  } else {
+                     //DSDPNoOperationError(K);
+                     // error handling omitted
+                     exit(-1);
+                  }
+                  DSDPEventLogEnd(dsdp->K[kk].coneid);
+                }
+                info=DSDPSchurMatAssemble(dsdp->M);DSDPCHKERR(info);
+                /*    DSDPSchurMatView(M); */
+                info=DSDPSchurMatReducePVec(dsdp->M,dsdp->rhs1);DSDPCHKERR(info);
+                info=DSDPSchurMatReducePVec(dsdp->M,dsdp->rhs2);DSDPCHKERR(info);
+                info=DSDPSchurMatReducePVec(dsdp->M,(dsdp->M).schur->rhs3);DSDPCHKERR(info);
+                if (0 && dsdp->UsePenalty==DSDPNever){   //why having this 0 && ????
+                  info=DSDPVecAXPY(1.0,dsdp->M.schur->rhs3,dsdp->rhs2);DSDPCHKERR(info);
+                  info=DSDPVecZero((dsdp->M).schur->rhs3);DSDPCHKERR(info);
+                  info=DSDPVecZero((dsdp->M).schur->dy3);DSDPCHKERR(info);
+                  info=DSDPVecSetR(dsdp->rhs1,0);DSDPCHKERR(info);
+                  info=DSDPVecSetR(dsdp->rhs2,r);DSDPCHKERR(info);
+                }
+                //DSDPEventLogEnd(ConeComputeH);
+              //}
+      
+          	} // end of inline function body of DSDPComputeHessian
+      	
+            }
+            if (0==1){info=DSDPSchurMatView(dsdp->M);DSDPCHKERR(info);}
+            info = DSDPSchurMatShiftDiagonal(dsdp->M,madd);DSDPCHKERR(info);
+            //info = DSDPSchurMatFactor(dsdp->M,&psdefinite); DSDPCHKERR(info);
+            //Wei: inline function body of DSDPSchurMatFactor 
+            {
+              //int DSDPSchurMatFactor(DSDPSchurMat M, DSDPTruth *successful)
+              //{
+              int info,flag=0;
+              DSDPVec rhs3=(dsdp->M).schur->rhs3,dy3=(dsdp->M).schur->dy3;
+      
+              psdefinite=DSDP_TRUE;
+              //DSDPEventLogBegin(hfactorevent);  //cannot link hfactorevent
+              if ((dsdp->M).dsdpops->matfactor){
+                info=((dsdp->M).dsdpops->matfactor)((dsdp->M).data,&flag); // DSDPChkMatError((dsdp->M),info);
+                if (flag){ 
+                  psdefinite=DSDP_FALSE;
+                  DSDPLogInfo(0,2,"Indefinite Schur Matrix -- Bad Factorization\n");
+                }
+              } else {
+                //DSDPNoOperationError(M);
+                exit(-1);   // omit error handling
+              }
+              //DSDPEventLogEnd(hfactorevent);
+              if ((dsdp->M).schur->r){
+                info=DSDPSchurMatSolveM((dsdp->M),rhs3,dy3);DSDPCHKERR(info);
+              }
+              else {info=DSDPVecZero(dy3);DSDPCHKERR(info);}
+              //}
+            }  // end of inline function body of DSDPSchurMatFactor 
+            computem=1;
+            if (psdefinite==DSDP_FALSE){ 
+      	madd=madd*4 + 1.0e-13;
+            }
+          }
+          dsdp->Mshift=madd;
+          if (psdefinite==DSDP_TRUE){
+            info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs1,dsdp->dy1,cgtol,&cg1);DSDPCHKERR(info);
+            info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs2,dsdp->dy2,cgtol,&cg2);DSDPCHKERR(info);
+          }
+        }
+        
+      //}
 
       }  // end of inlined function body of DSDPComputeDualStepDirections
       if (dsdp->reason==DSDP_INDEFINITE_SCHUR_MATRIX){continue;}
@@ -451,7 +655,6 @@ int DSDPSolve(DSDP dsdp){
       }
       
     } /* End of Dual Scaling Algorithm */
-    
     
   //} 
 
