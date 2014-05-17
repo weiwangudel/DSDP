@@ -330,7 +330,42 @@ int DSDPCGSolve(DSDP dsdp, DSDPSchurMat MM, DSDPVec RHS, DSDPVec X,double cgtol,
     CGM.M=MM;
     CGM.dsdp=dsdp;
     maxit=3;
-    info=DSDPSchurMatSolve(MM,RHS,X);DSDPCHKERR(info);
+    //info=DSDPSchurMatSolve(MM,RHS,X);DSDPCHKERR(info);
+    //Wei: inlined function body of DSDPSchurMatSolve
+    {
+      
+    //int DSDPSchurMatSolve(DSDPSchurMat M, DSDPVec b, DSDPVec x){
+      int info;
+      //info=DSDPSchurMatSolveM(M,b,x);DSDPCHKERR(info);
+      //Wei: inline function body DSDPSchurMatSolveM
+      {  
+      //int DSDPSchurMatSolveM(DSDPSchurMat M, DSDPVec b, DSDPVec x)
+      //{
+        int info,n;
+        double *xx,*bb;
+        //info=DSDPEventLogBegin(hsolveevent);  //cannot track static
+        if (MM.dsdpops->matsolve){
+          info=DSDPVecGetArray(RHS,&bb); DSDPCHKERR(info);
+          info=DSDPVecGetSize(X,&n); DSDPCHKERR(info);
+          info=DSDPVecZero(X);DSDPCHKERR(info);
+          info=DSDPVecGetArray(X,&xx); DSDPCHKERR(info);
+          info=(MM.dsdpops->matsolve)(MM.data,bb+1,xx+1,n-2); //DSDPChkMatError(MM,info);
+          info=DSDPVecRestoreArray(RHS,&bb); DSDPCHKERR(info);
+          info=DSDPVecRestoreArray(X,&xx); DSDPCHKERR(info);
+        } else {
+          //DSDPNoOperationError(MM);
+	  exit(-1);         // omit error handling
+        }
+        info=DSDPVecSetR(X,0.0);DSDPCHKERR(info);
+        info=DSDPVecSetC(X,0.0);DSDPCHKERR(info);
+        //info=DSDPEventLogEnd(hsolveevent);
+      //}
+      }   // end of inlined function body DSDPSchurMatSolveM
+      info=DSDPApplySMW(MM,RHS,X);DSDPCHKERR(info);
+      info=DSDPZeroFixedVariables(MM,X);DSDPCHKERR(info);
+    //} // end of original function body
+
+    } // end of inlined function DSDPSchurMatSolve
   }
   if (n<maxit) maxit=n;
   
