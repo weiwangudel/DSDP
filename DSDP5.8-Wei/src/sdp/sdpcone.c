@@ -19,7 +19,30 @@ int SDPConeComputeSS(SDPCone sdpcone, int blockj, DSDPVec Y, DSDPVMat SS){
   int info;
   DSDPFunctionBegin;
   info=DSDPVMatZeroEntries(SS); DSDPCHKBLOCKERR(blockj,info);
-  info=DSDPBlockASum(&sdpcone->blk[blockj].ADATA,1,Y,SS); DSDPCHKBLOCKERR(blockj,info);
+  //info=DSDPBlockASum(&sdpcone->blk[blockj].ADATA,1,Y,SS); DSDPCHKBLOCKERR(blockj,info);
+  //Wei: inlined function body of DSDPBlockASum
+  {
+  //int DSDPBlockASum(DSDPBlockData *ADATA, double aa, DSDPVec Yk, DSDPVMat XX){
+    DSDPBlockData *ADATA=&sdpcone->blk[blockj];
+    double aa = 1;
+    DSDPVec Yk = Y;
+    DSDPVMat XX = SS;
+ 
+    double *xx,ytmp,scl=ADATA->scl;
+    int    ii,vari,n,nn,info;
+  
+    info=DSDPVMatGetSize(XX, &n); DSDPCHKERR(info);
+    info=DSDPVMatGetArray(XX, &xx, &nn); DSDPCHKERR(info);
+    for (ii=0;ii<ADATA->nnzmats;ii++){
+      vari=ADATA->nzmat[ii];
+      info=DSDPVecGetElement(Yk,vari,&ytmp);DSDPCHKVARERR(vari,info);
+      if (ytmp==0) continue;
+      info = DSDPDataMatAddMultiple(ADATA->A[ii], -aa*scl*ytmp, xx,nn,n); DSDPCHKVARERR(vari,info);
+    }
+    info=DSDPVMatRestoreArray(XX, &xx, &nn); DSDPCHKERR(info);
+  //} //original end before inlining
+
+  }  // end of inlined function body of DSDPBlockASum
   DSDPFunctionReturn(0);
 }
 
