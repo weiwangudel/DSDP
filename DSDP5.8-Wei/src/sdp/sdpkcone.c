@@ -378,7 +378,28 @@ static int KSDPConeComputeMaxStepLength(void *K, DSDPVec DY, DSDPDualFactorMatri
           info = SDPConeVecNormalize(LZ->Q[0]);DSDPCHKERR(info);
         
           for (i=0; i<m; i++){
-            info = MatMult3(A,LZ->Q[0],W1);DSDPCHKERR(info);
+            //info = MatMult3(A,LZ->Q[0],W1);DSDPCHKERR(info);
+	    //Wei: inline function body of MatMult3
+            {
+	    //int MatMult3(Mat3 A, SDPConeVec X, SDPConeVec Y){
+	      SDPConeVec X = LZ->Q[0];
+	      SDPConeVec Y = W1; 
+	      int info=0;
+	      double minus_one=-1.0;
+	    
+	      /*  DSDPEventLogBegin(id2); */
+	      if (A->type==2){
+	        info=DSDPVMatMult(A->x,X,Y);DSDPCHKERR(info);
+	      } else {
+	        info=DSDPDualMatCholeskySolveBackward(A->ss,X,Y); DSDPCHKERR(info);
+	        info=DSDPDSMatMult(A->ds,Y,A->V); DSDPCHKERR(info);
+	        info=DSDPDualMatCholeskySolveForward(A->ss,A->V,Y); DSDPCHKERR(info);
+	        info=SDPConeVecScale(minus_one,Y); DSDPCHKERR(info);
+	      }
+	      /*  DSDPEventLogEnd(id2);*/
+	    //} // original end of MatMult3
+	    
+            } //end of inline function body MatMult3
             info = SDPConeVecNorm2(W1,&phi);DSDPCHKERR(info);
             if (phi!=phi){ smaxstep = 0.0;  return 0;} 
             if (i>0){
