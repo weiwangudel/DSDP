@@ -13,7 +13,7 @@ static int hfactorevent=0,hsolveevent=0;
 #define DSDPNoOperationError(a);  { DSDPSETERR1(10,"Schur matrix type: %s, Operation not defined\n",(a).dsdpops->matname); }
 #define DSDPChkMatError(a,b);  { if (b){ DSDPSETERR1(b,"Schur matrix type: %s,\n",(a).dsdpops->matname);} }
 
-static int DSDPApplySMW(DSDPSchurMat, DSDPVec, DSDPVec);
+int DSDPApplySMW(DSDPSchurMat, DSDPVec, DSDPVec);
 int DSDPSchurMatSolveM(DSDPSchurMat, DSDPVec, DSDPVec);
 //static int DSDPSchurMatSolveM(DSDPSchurMat, DSDPVec, DSDPVec);
 
@@ -499,7 +499,7 @@ int DSDPSchurMatSolve(DSDPSchurMat M, DSDPVec b, DSDPVec x){
 
 #undef __FUNCT__  
 #define __FUNCT__ "DSDPApplySMW"
-static int DSDPApplySMW(DSDPSchurMat M, DSDPVec rhs, DSDPVec dy){
+int DSDPApplySMW(DSDPSchurMat M, DSDPVec rhs, DSDPVec dy){
   int info;
   double r=M.schur->r,rr,dr,rhsr,rssr;
   double rhsnorm,rhsnorm3,rhs1mrhs3=0,rhs3mrhs3=0;
