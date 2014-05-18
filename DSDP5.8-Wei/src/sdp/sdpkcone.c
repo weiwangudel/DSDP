@@ -184,8 +184,79 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
   SDPConeValid(sdpcone);
   for (kk=0; kk<sdpcone->nblocks; kk++){      
     if (sdpcone->blk[kk].n<1) continue;
-    info=SDPConeComputeRHS(sdpcone,kk,mu,vrow,vrhs1,vrhs2); DSDPCHKBLOCKERR(kk,info);
-  }
+    //info=SDPConeComputeRHS(sdpcone,kk,mu,vrow,vrhs1,vrhs2); DSDPCHKBLOCKERR(kk,info);
+    //Wei: inlined function body of SDPConeComputeRHS
+    {
+    //int SDPConeComputeRHS( SDPCone sdpcone, int blockj, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec vrhs2){
+      int blockj = kk; 
+      int info,i,ii,k,rank,nnzmats;
+      double dtmp,dyiscale=1,ack,scl,rtemp;
+      SDPblk *sdp=&sdpcone->blk[blockj];
+      SDPConeVec W=sdp->W,W2=sdp->W2;
+      DSDPDataMat AA;
+      DSDPVMat T=sdp->T;
+      DSDPDualMat S=sdp->S;
+      DSDPTruth method1;
+      DSDPIndex IS=sdp->IS;
+    
+      info=SDPConeCheckJ(sdpcone,blockj);DSDPCHKERR(info);
+      method1=DSDP_TRUE;
+      method1=DSDP_FALSE;
+    
+      if (method1==DSDP_TRUE){
+        info=DSDPBlockCountNonzeroMatrices(&sdp->ADATA,&nnzmats);DSDPCHKERR(info);
+        for (i=0;i<nnzmats;i++){
+          info=DSDPBlockGetMatrix(&sdp->ADATA,i,&ii,&scl,&AA);DSDPCHKERR(info);
+          info=DSDPVecGetElement(vrow,ii,&dyiscale);DSDPCHKVARERR(ii,info);
+          if (dyiscale==0) continue;
+          info=DSDPDataMatGetRank(AA,&rank,sdp->n);DSDPCHKVARERR(ii,info);
+          for (k=0; k<rank; k++){
+    	info=DSDPDataMatGetEig(AA,k,W,IS,&ack); DSDPCHKVARERR(ii,info);
+    	if (ack==0) continue;
+    	info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKVARERR(ii,info);
+    	info=SDPConeVecDot(W,W2,&rtemp); DSDPCHKVARERR(ii,info);
+    	dtmp=rtemp*ack*mu*dyiscale*scl;
+    	info=DSDPVecAddElement(vrhs2,ii,dtmp);DSDPCHKVARERR(ii,info);
+          }
+        }
+        
+      } else {
+        info=DSDPVMatZeroEntries(T);DSDPCHKERR(info);
+        info=DSDPDualMatInverseAdd(S,mu,T);DSDPCHKERR(info);
+        //info=DSDPBlockADot(&sdp->ADATA,1.0,vrow,T,vrhs2);DSDPCHKERR(info);
+        //Wei: inlined function body of DSDPBlockADot
+        {
+        //int DSDPBlockADot(DSDPBlockData *ADATA, double aa, DSDPVec Alpha, DSDPVMat X, DSDPVec AX){
+          DSDPBlockData *ADATA = &sdp->ADATA;
+          double aa = 1.0;
+          DSDPVec Alpha = vrow;
+          DSDPVMat X=T; 
+          DSDPVec AX=vrhs2;
+    
+          int    ii,vari,n,nn,info;
+          double *x,sum=0,aalpha=0,scl=ADATA->scl;
+        
+          //DSDPEventLogBegin(sdpdotevent);
+          info=DSDPVMatScaleDiagonal(X,0.5); DSDPCHKERR(info);
+          info=DSDPVMatGetSize(X, &n); DSDPCHKERR(info);
+          info=DSDPVMatGetArray(X, &x, &nn); DSDPCHKERR(info);
+          for (ii=0;ii<ADATA->nnzmats; ii++){  /* Matrix Entries */
+            vari=ADATA->nzmat[ii];
+            info=DSDPVecGetElement(Alpha,vari,&aalpha);DSDPCHKVARERR(vari,info);
+            if (aalpha==0.0) continue;
+            info=DSDPDataMatDot(ADATA->A[ii],x,nn,n,&sum);DSDPCHKVARERR(vari,info);
+            info=DSDPVecAddElement(AX,vari,aa*aalpha*sum*scl);DSDPCHKVARERR(vari,info);
+          }
+          info=DSDPVMatRestoreArray(X, &x, &nn); DSDPCHKERR(info);
+          info=DSDPVMatScaleDiagonal(X,2.0); DSDPCHKERR(info);
+          //DSDPEventLogEnd(sdpdotevent);
+        //}
+    
+        } // end of inlined function body of DSDPBlockADot
+      }
+    //}
+    } // end of inlined function body of SDPConeComputeRHS
+  } 
   DSDPFunctionReturn(0);   
 }
 

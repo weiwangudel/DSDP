@@ -1561,6 +1561,10 @@ int DSDPSolve(DSDP dsdp){
         DSDPLogInfo(0,2,"Reuse Matrix %d: Ddobj: %12.8e, Pnorm: %4.2f, Step: %4.2f\n",attempt,dsdp->ddobj,dsdp->pnorm,dsdp->dstep);
         info=DSDPInvertS(dsdp);DSDPCHKERR(info);
         info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+        //Wei: inlined function body of DSDPComputeG
+        {
+
+        } // end of inlined function body DSDPComputeG
         if (dsdp->slestype==2 || dsdp->slestype==3){
   	if (dsdp->rflag){
 	  //info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs1,dsdp->dy1,cgtol,&cg1);DSDPCHKERR(info);
