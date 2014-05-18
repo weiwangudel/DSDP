@@ -407,7 +407,53 @@ int DSDPSolve(DSDP dsdp){
         if (dsdp->slestype==1){
           cg1=DSDP_TRUE; cg2=DSDP_TRUE;
           info=DSDPInvertS(dsdp);DSDPCHKERR(info);
-          info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+          //info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+          //Wei: inlined functino body of DSDPComputeG
+          {
+          //int DSDPComputeG( DSDP dsdp , DSDPVec vt, DSDPVec vrhs1, DSDPVec vrhs2){
+	    DSDPVec vt = dsdp->rhstemp;
+            DSDPVec vrhs1=dsdp->rhs1;
+            DSDPVec vrhs2=dsdp->rhs2;
+            int info,kk; double r;
+            //DSDPEventLogBegin(ConeRHS);
+            info=DSDPVecZero(vrhs1);DSDPCHKERR(info);
+            info=DSDPVecZero(vrhs2);DSDPCHKERR(info);
+            info=DSDPVecGetR(dsdp->y,&r);DSDPCHKERR(info);
+            info=DSDPSchurMatSetR(dsdp->M,r);DSDPCHKERR(info);
+            info=DSDPSchurMatRowScaling(dsdp->M,vt);DSDPCHKERR(info);
+            info=DSDPObjectiveGH(dsdp,dsdp->M,vrhs1); DSDPCHKERR(info);
+            if (0 && r==0){info=DSDPVecSetR(vrhs1,0);info=DSDPVecSetR(vrhs2,0);}
+            /*  info=DSDPVecScale(1.0/dsdp->schurmu,vrhs1); DSDPCHKERR(info); */
+            for (kk=0;kk<dsdp->ncones;kk++){
+              DSDPEventLogBegin(dsdp->K[kk].coneid);
+              //info=DSDPConeComputeRHS(dsdp->K[kk].cone,dsdp->schurmu,vt,vrhs1,vrhs2);DSDPCHKCONEERR(kk,info);
+              // Wei: inlined function body of DSDPConeComputeRHS
+              {
+              //int DSDPConeComputeRHS( DSDPCone K , double mu, DSDPVec vrow,DSDPVec rhs1,DSDPVec rhs2){
+	        DSDPCone K=dsdp->K[kk].cone;
+                double mu = dsdp->schurmu;
+	        DSDPVec vrow=vt;
+	        DSDPVec rhs1=vrhs1;
+	        DSDPVec rhs2=vrhs2;
+	  
+                int info;
+                if (K.dsdpops->conerhs){
+                  info=K.dsdpops->conerhs(K.conedata,mu,vrow,rhs1,rhs2);//DSDPChkConeError(K,info);
+                } else {
+                  //DSDPNoOperationError(K);
+	  	exit(-1); //omit error handling
+                }
+              //}
+              } // end of inlined function body of DSDPConeComputeRHS
+              DSDPEventLogEnd(dsdp->K[kk].coneid);
+            }
+            //DSDPEventLogEnd(ConeRHS);
+            info=DSDPSchurMatReducePVec(dsdp->M,vrhs1);DSDPCHKERR(info);
+            info=DSDPSchurMatReducePVec(dsdp->M,vrhs2);DSDPCHKERR(info);
+          //}
+
+          } // end of inlined function body DSDPComputeG
+         
           //info=DSDPCGSolve(dsdp,dsdp->M,dsdp->rhs1,dsdp->dy1,cgtol,&cg1);DSDPCHKERR(info);
 	  //Wei: inlined function body of DSDPCGSolve 
 	  {
@@ -1560,9 +1606,50 @@ int DSDPSolve(DSDP dsdp){
         DSDPEventLogBegin(dsdp->ctime);
         DSDPLogInfo(0,2,"Reuse Matrix %d: Ddobj: %12.8e, Pnorm: %4.2f, Step: %4.2f\n",attempt,dsdp->ddobj,dsdp->pnorm,dsdp->dstep);
         info=DSDPInvertS(dsdp);DSDPCHKERR(info);
-        info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
+        //info=DSDPComputeG(dsdp,dsdp->rhstemp,dsdp->rhs1,dsdp->rhs2);DSDPCHKERR(info);
         //Wei: inlined function body of DSDPComputeG
         {
+        //int DSDPComputeG( DSDP dsdp , DSDPVec vt, DSDPVec vrhs1, DSDPVec vrhs2){
+	  DSDPVec vt = dsdp->rhstemp;
+          DSDPVec vrhs1=dsdp->rhs1;
+          DSDPVec vrhs2=dsdp->rhs2;
+          int info,kk; double r;
+          //DSDPEventLogBegin(ConeRHS);
+          info=DSDPVecZero(vrhs1);DSDPCHKERR(info);
+          info=DSDPVecZero(vrhs2);DSDPCHKERR(info);
+          info=DSDPVecGetR(dsdp->y,&r);DSDPCHKERR(info);
+          info=DSDPSchurMatSetR(dsdp->M,r);DSDPCHKERR(info);
+          info=DSDPSchurMatRowScaling(dsdp->M,vt);DSDPCHKERR(info);
+          info=DSDPObjectiveGH(dsdp,dsdp->M,vrhs1); DSDPCHKERR(info);
+          if (0 && r==0){info=DSDPVecSetR(vrhs1,0);info=DSDPVecSetR(vrhs2,0);}
+          /*  info=DSDPVecScale(1.0/dsdp->schurmu,vrhs1); DSDPCHKERR(info); */
+          for (kk=0;kk<dsdp->ncones;kk++){
+            DSDPEventLogBegin(dsdp->K[kk].coneid);
+            //info=DSDPConeComputeRHS(dsdp->K[kk].cone,dsdp->schurmu,vt,vrhs1,vrhs2);DSDPCHKCONEERR(kk,info);
+            // Wei: inlined function body of DSDPConeComputeRHS
+            {
+            //int DSDPConeComputeRHS( DSDPCone K , double mu, DSDPVec vrow,DSDPVec rhs1,DSDPVec rhs2){
+	      DSDPCone K=dsdp->K[kk].cone;
+              double mu = dsdp->schurmu;
+	      DSDPVec vrow=vt;
+	      DSDPVec rhs1=vrhs1;
+	      DSDPVec rhs2=vrhs2;
+	
+              int info;
+              if (K.dsdpops->conerhs){
+                info=K.dsdpops->conerhs(K.conedata,mu,vrow,rhs1,rhs2);//DSDPChkConeError(K,info);
+              } else {
+                //DSDPNoOperationError(K);
+		exit(-1); //omit error handling
+              }
+            //}
+            } // end of inlined function body of DSDPConeComputeRHS
+            DSDPEventLogEnd(dsdp->K[kk].coneid);
+          }
+          //DSDPEventLogEnd(ConeRHS);
+          info=DSDPSchurMatReducePVec(dsdp->M,vrhs1);DSDPCHKERR(info);
+          info=DSDPSchurMatReducePVec(dsdp->M,vrhs2);DSDPCHKERR(info);
+        //}
 
         } // end of inlined function body DSDPComputeG
         if (dsdp->slestype==2 || dsdp->slestype==3){
