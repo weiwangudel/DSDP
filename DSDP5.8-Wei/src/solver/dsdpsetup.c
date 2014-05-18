@@ -1477,7 +1477,48 @@ int DSDPSolve(DSDP dsdp){
   
       DSDPEventLogBegin(dsdp->ptime);
       info=DSDPComputePY(dsdp,1.0,dsdp->ytemp);DSDPCHKERR(info);
-      info=DSDPComputeSS(dsdp,dsdp->ytemp,PRIMAL_FACTOR,&psdefinite);DSDPCHKERR(info);
+      //info=DSDPComputeSS(dsdp,dsdp->ytemp,PRIMAL_FACTOR,&psdefinite);DSDPCHKERR(info);
+      //Wei: inlined function body of DSDPComputeSS 
+      {
+      //int DSDPComputeSS(DSDP dsdp, DSDPVec Y, DSDPDualFactorMatrix flag, DSDPTruth *ispsdefinite){
+        DSDPVec Y=dsdp->ytemp;
+        DSDPDualFactorMatrix flag = PRIMAL_FACTOR;
+        DSDPTruth *ispsdefinite = &psdefinite;
+
+        int info,kk;
+        DSDPTruth psd=DSDP_TRUE;
+        if (flag==DUAL_FACTOR){
+          //DSDPEventLogBegin(ConeComputeS);
+        } else if (flag==PRIMAL_FACTOR){
+          //DSDPEventLogBegin(ConeComputeSS);
+        }
+        for (kk=dsdp->ncones-1; kk>=0 && psd==DSDP_TRUE;kk--){
+          DSDPEventLogBegin(dsdp->K[kk].coneid);
+          //info=DSDPConeComputeS(dsdp->K[kk].cone,Y,flag,&psd); DSDPCHKCONEERR(kk,info);
+          //Wei: inlined function body of DSDPConeComputeS
+          {
+          //int DSDPConeComputeS(DSDPCone K, DSDPVec Y, DSDPDualFactorMatrix flag, DSDPTruth *ispsdefinite){
+            DSDPCone K=dsdp->K[kk].cone;
+            DSDPTruth *ispsdefinite = &psd;
+            int info;
+            if (K.dsdpops->conecomputes){
+              info=K.dsdpops->conecomputes(K.conedata,Y,flag,ispsdefinite); //DSDPChkConeError(K,info);
+            } else {
+              //DSDPNoOperationError(K);
+      	exit(-1);   //omit error handling
+            }
+          //}
+          } // end of inlined function body of DSDPConeComputeS
+          DSDPEventLogEnd(dsdp->K[kk].coneid);
+        }
+        *ispsdefinite=psd;
+        if (flag==DUAL_FACTOR){
+          //DSDPEventLogEnd(ConeComputeS);
+        } else if (flag==PRIMAL_FACTOR){
+          //DSDPEventLogEnd(ConeComputeSS);
+        }
+      //}
+      } // end of inlined function body of DSDPComputeSS
       if (psdefinite==DSDP_TRUE){
         dsdp->pstep=1.0;
         info=DSDPSaveYForX(dsdp,dsdp->mutarget,dsdp->pstep);DSDPCHKERR(info);
@@ -1897,7 +1938,49 @@ int DSDPSolve(DSDP dsdp){
           for (psdefinite=DSDP_FALSE,attempt=0; attempt<maxattempts && psdefinite==DSDP_FALSE; attempt++){
             if (dstep < steptol) break;
             info=DSDPComputeNewY(dsdp,dstep,dsdp->ytemp);DSDPCHKERR(info);
-            info=DSDPComputeSS(dsdp,dsdp->ytemp,DUAL_FACTOR,&psdefinite);DSDPCHKERR(info);
+            //info=DSDPComputeSS(dsdp,dsdp->ytemp,DUAL_FACTOR,&psdefinite);DSDPCHKERR(info);
+            //Wei: inlined function body of DSDPComputeSS 
+            {
+            //int DSDPComputeSS(DSDP dsdp, DSDPVec Y, DSDPDualFactorMatrix flag, DSDPTruth *ispsdefinite){
+              DSDPVec Y=dsdp->ytemp;
+              DSDPDualFactorMatrix flag = DUAL_FACTOR;
+              DSDPTruth *ispsdefinite = &psdefinite;
+
+              int info,kk;
+              DSDPTruth psd=DSDP_TRUE;
+              if (flag==DUAL_FACTOR){
+                //DSDPEventLogBegin(ConeComputeS);
+              } else if (flag==PRIMAL_FACTOR){
+                //DSDPEventLogBegin(ConeComputeSS);
+              }
+              for (kk=dsdp->ncones-1; kk>=0 && psd==DSDP_TRUE;kk--){
+                DSDPEventLogBegin(dsdp->K[kk].coneid);
+                //info=DSDPConeComputeS(dsdp->K[kk].cone,Y,flag,&psd); DSDPCHKCONEERR(kk,info);
+                //Wei: inlined function body of DSDPConeComputeS
+                {
+                //int DSDPConeComputeS(DSDPCone K, DSDPVec Y, DSDPDualFactorMatrix flag, DSDPTruth *ispsdefinite){
+                  DSDPCone K=dsdp->K[kk].cone;
+                  DSDPTruth *ispsdefinite = &psd;
+                  int info;
+                  if (K.dsdpops->conecomputes){
+                    info=K.dsdpops->conecomputes(K.conedata,Y,flag,ispsdefinite); //DSDPChkConeError(K,info);
+                  } else {
+                    //DSDPNoOperationError(K);
+            	exit(-1);   //omit error handling
+                  }
+                //}
+                } // end of inlined function body of DSDPConeComputeS
+                DSDPEventLogEnd(dsdp->K[kk].coneid);
+              }
+              *ispsdefinite=psd;
+              if (flag==DUAL_FACTOR){
+                //DSDPEventLogEnd(ConeComputeS);
+              } else if (flag==PRIMAL_FACTOR){
+                //DSDPEventLogEnd(ConeComputeSS);
+              }
+            //}
+            } // end of inlined function body of DSDPComputeSS
+            
             if (psdefinite==DSDP_TRUE){
               info=DSDPComputeLogSDeterminant(dsdp,&logdet);DSDPCHKERR(info);
               info=DSDPComputePotential2(dsdp,dsdp->ytemp,mutarget,logdet,&newpotential);DSDPCHKERR(info);

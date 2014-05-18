@@ -296,7 +296,21 @@ int DSDPComputeSS(DSDP dsdp, DSDPVec Y, DSDPDualFactorMatrix flag, DSDPTruth *is
   }
   for (kk=dsdp->ncones-1; kk>=0 && psd==DSDP_TRUE;kk--){
     DSDPEventLogBegin(dsdp->K[kk].coneid);
-    info=DSDPConeComputeS(dsdp->K[kk].cone,Y,flag,&psd); DSDPCHKCONEERR(kk,info);
+    //info=DSDPConeComputeS(dsdp->K[kk].cone,Y,flag,&psd); DSDPCHKCONEERR(kk,info);
+    //Wei: inlined function body of DSDPConeComputeS
+    {
+    //int DSDPConeComputeS(DSDPCone K, DSDPVec Y, DSDPDualFactorMatrix flag, DSDPTruth *ispsdefinite){
+      DSDPCone K=dsdp->K[kk].cone;
+      DSDPTruth *ispsdefinite = &psd;
+      int info;
+      if (K.dsdpops->conecomputes){
+        info=K.dsdpops->conecomputes(K.conedata,Y,flag,ispsdefinite); //DSDPChkConeError(K,info);
+      } else {
+        //DSDPNoOperationError(K);
+	exit(-1);   //omit error handling
+      }
+    //}
+    } // end of inlined function body of DSDPConeComputeS
     DSDPEventLogEnd(dsdp->K[kk].coneid);
   }
   *ispsdefinite=psd;
