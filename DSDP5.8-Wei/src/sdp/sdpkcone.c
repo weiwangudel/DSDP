@@ -138,7 +138,21 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
         if (ncols==1 && i==m-1)method1=DSDP_FALSE;
         if (n<5) method1=DSDP_TRUE;
        //wei      if (0==1) method1=DSDP_FALSE;
-        if (method1==DSDP_TRUE){info=DSDPVMatZeroEntries(T);DSDPCHKBLOCKERR(kk,info);}
+        if (method1==DSDP_TRUE){
+	  //info=DSDPVMatZeroEntries(T);DSDPCHKBLOCKERR(kk,info);
+          {
+          //int DSDPVMatZeroEntries(DSDPVMat X){
+	    DSDPVMat X=T; 
+            int info;
+            if (X.dsdpops->matzeroentries){
+              info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            } else {
+	      exit(-1);
+              //DSDPNoOperationError(X);
+            }
+          //}
+	  } // end of inlining DSDPVMatZeroEntries
+	}
         for (k=0; k<rank; k++){
   	
   	info=DSDPDataMatGetEig(AA,k,W,IS,&ack); DSDPCHKBLOCKERR(kk,info);
@@ -415,7 +429,19 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
         }
         
       } else {
-        info=DSDPVMatZeroEntries(T);DSDPCHKERR(info);
+        //info=DSDPVMatZeroEntries(T);DSDPCHKERR(info);
+        {
+        //int DSDPVMatZeroEntries(DSDPVMat X){
+	  DSDPVMat X=T; 
+          int info;
+          if (X.dsdpops->matzeroentries){
+            info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+          } else {
+	    exit(-1);
+            //DSDPNoOperationError(X);
+          }
+        //}
+	} // end of inlining DSDPVMatZeroEntries
         info=DSDPDualMatInverseAdd(S,mu,T);DSDPCHKERR(info);
         //info=DSDPBlockADot(&sdp->ADATA,1.0,vrow,T,vrhs2);DSDPCHKERR(info);
         //Wei: inlined function body of DSDPBlockADot
