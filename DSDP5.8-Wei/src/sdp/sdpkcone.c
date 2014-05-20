@@ -144,7 +144,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
   	info=DSDPDataMatGetEig(AA,k,W,IS,&ack); DSDPCHKBLOCKERR(kk,info);
   	if (ack==0.0) continue;
   	ack*=scl;
-  	info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKBLOCKERR(kk,info);
+  	//info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKBLOCKERR(kk,info);
 	{
         //int DSDPDualMatInverseMultiply(DSDPDualMat S, DSDPIndex IS, SDPConeVec B, SDPConeVec X){
 	  SDPConeVec B=W;
