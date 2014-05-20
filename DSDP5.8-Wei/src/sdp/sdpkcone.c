@@ -172,7 +172,33 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           //}
 	  } // end of DSDPVMatAddOuterProduct
   	} else {
-  	  info=DSDPBlockvAv(&blk[kk].ADATA,ack*mu,Select,W2,MRowI);//DSDPCHKBLOCKERR(kk,info);
+  	  //info=DSDPBlockvAv(&blk[kk].ADATA,ack*mu,Select,W2,MRowI);//DSDPCHKBLOCKERR(kk,info);
+	  {
+          //int DSDPBlockvAv(DSDPBlockData *ADATA, double aa, DSDPVec Alpha, SDPConeVec V, DSDPVec VAV){
+          
+            DSDPBlockData *ADATA = &blk[kk].ADATA;
+            int    ii,vari,info;
+            double sum=0,aalpha=0,scl=ADATA->scl;
+            double aa = ack*mu;
+            DSDPVec Alpha = Select;
+            SDPConeVec V = W2;
+            DSDPVec VAV = MRowI;            
+ 
+            //DSDPEventLogBegin(sdpvecvecevent);
+            if (aa==0){/* do nothing */ }
+	    else {
+            for (ii=0;ii<ADATA->nnzmats; ii++){  /* Matrix Entries */
+              vari=ADATA->nzmat[ii];
+              info=DSDPVecGetElement(Alpha,vari,&aalpha);DSDPCHKVARERR(vari,info);
+              if (aalpha==0.0) continue;
+              info=DSDPDataMatVecVec(ADATA->A[ii],V,&sum);DSDPCHKVARERR(vari,info);
+              info=DSDPVecAddElement(VAV,vari,aa*aalpha*sum*scl);DSDPCHKVARERR(vari,info);
+            }
+ 	    } // end of else
+            //DSDPEventLogEnd(sdpvecvecevent);
+          //}  //  original end of DSDPBlockvAv
+
+	  } // end of DSDPBlockvAv
   	} /* End row computations for rank kk of block kk */
    
         }   /* End row computations for all of block kk     */
