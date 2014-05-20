@@ -140,7 +140,20 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           //}
 	} // end of DSDPBlockGetMatrix 
         //Wei      if (ii!=i){DSDPSETERR2(8,"Data Transpose Error: var %d does not equal %d.\n",i,ii);}
-        info = DSDPDataMatGetRank(AA,&rank,blk[kk].n);DSDPCHKBLOCKERR(kk,info);
+        //info = DSDPDataMatGetRank(AA,&rank,blk[kk].n);DSDPCHKBLOCKERR(kk,info);
+	{
+        //int DSDPDataMatGetRank(DSDPDataMat A, int *rank, int n){
+	  DSDPDataMat A=AA;
+	  int n = blk[kk].n; 
+          int info;
+          if (A.dsdpops->matgetrank){
+            info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+          } else {
+            //DSDPNoOperationError(A);
+	    exit(-1);
+          }
+        //} // original  end
+	} // end of DSDPDataMatGetRank
         if (rank==0) continue;
   
         T=blk[kk].T; S=blk[kk].S; W=blk[kk].W; W2=blk[kk].W2;
