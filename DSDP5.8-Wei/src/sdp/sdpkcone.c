@@ -155,7 +155,30 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	}
         for (k=0; k<rank; k++){
   	
-  	info=DSDPDataMatGetEig(AA,k,W,IS,&ack); DSDPCHKBLOCKERR(kk,info);
+  	//info=DSDPDataMatGetEig(AA,k,W,IS,&ack); DSDPCHKBLOCKERR(kk,info);
+	{
+        //int DSDPDataMatGetEig(DSDPDataMat A, int rr, SDPConeVec V, DSDPIndex S, double *eigenvalue){
+	  DSDPDataMat A=AA;
+	  int rr = k;
+	  SDPConeVec V=W;
+	  DSDPIndex S=IS;
+	  double *eigenvalue =&ack;
+
+          int info,n;
+          double *vv;
+          if (A.dsdpops->matgeteig){
+            info=SDPConeVecGetArray(V,&vv); DSDPCHKERR(info);
+            info=SDPConeVecGetSize(V,&n); DSDPCHKERR(info);
+            info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+            info=SDPConeVecRestoreArray(V,&vv); DSDPCHKERR(info);
+          } else {
+            //DSDPNoOperationError(A);
+	    exit (-1);
+          }
+        //}
+
+
+	} // end of DSDPDataMatGetEig
   	if (ack==0.0) continue;
   	ack*=scl;
   	//info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKBLOCKERR(kk,info);
