@@ -17,6 +17,10 @@
 #include "dsdpxmat_impl.h"
 #include "dsdpxmat.h"
 
+#include "dsdpdualmat_impl.h"
+#include "dsdpdualmat.h"
+
+
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -141,6 +145,28 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
   	if (ack==0.0) continue;
   	ack*=scl;
   	info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKBLOCKERR(kk,info);
+	{
+        //int DSDPDualMatInverseMultiply(DSDPDualMat S, DSDPIndex IS, SDPConeVec B, SDPConeVec X){
+	  SDPConeVec B=W;
+          SDPConeVec X=W2;
+          int info,n;
+          double *bb,*xx;
+          //DSDPEventLogBegin(sdpdualsolve);
+          if (S.dsdpops->matinversemultiply){
+            info=SDPConeVecGetSize(X,&n); DSDPCHKERR(info);
+            info=SDPConeVecGetArray(B,&bb); DSDPCHKERR(info);
+            info=SDPConeVecGetArray(X,&xx); DSDPCHKERR(info);
+            info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
+            info=SDPConeVecRestoreArray(X,&xx); DSDPCHKERR(info);
+            info=SDPConeVecRestoreArray(B,&bb); DSDPCHKERR(info);
+          } else {
+            //DSDPNoOperationError(S);
+	    exit (-1);
+          }
+          //DSDPEventLogEnd(sdpdualsolve);
+        //}  end of original
+
+	} // end of DSDPDualMatInverseMultiply
   
   	/* RHS terms */
   	info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
@@ -359,7 +385,29 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
           for (k=0; k<rank; k++){
     	info=DSDPDataMatGetEig(AA,k,W,IS,&ack); DSDPCHKVARERR(ii,info);
     	if (ack==0) continue;
-    	info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKVARERR(ii,info);
+    	//info=DSDPDualMatInverseMultiply(S,IS,W,W2);DSDPCHKVARERR(ii,info);
+	{
+        //int DSDPDualMatInverseMultiply(DSDPDualMat S, DSDPIndex IS, SDPConeVec B, SDPConeVec X){
+	  SDPConeVec B=W;
+          SDPConeVec X=W2;
+          int info,n;
+          double *bb,*xx;
+          //DSDPEventLogBegin(sdpdualsolve);
+          if (S.dsdpops->matinversemultiply){
+            info=SDPConeVecGetSize(X,&n); DSDPCHKERR(info);
+            info=SDPConeVecGetArray(B,&bb); DSDPCHKERR(info);
+            info=SDPConeVecGetArray(X,&xx); DSDPCHKERR(info);
+            info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); DSDPChkDMatError(S,info);
+            info=SDPConeVecRestoreArray(X,&xx); DSDPCHKERR(info);
+            info=SDPConeVecRestoreArray(B,&bb); DSDPCHKERR(info);
+          } else {
+            //DSDPNoOperationError(S);
+	    exit (-1);
+          }
+          //DSDPEventLogEnd(sdpdualsolve);
+        //}  end of original
+
+	} // end of DSDPDualMatInverseMultiply
     	info=SDPConeVecDot(W,W2,&rtemp); DSDPCHKVARERR(ii,info);
     	dtmp=rtemp*ack*mu*dyiscale*scl;
     	info=DSDPVecAddElement(vrhs2,ii,dtmp);DSDPCHKVARERR(ii,info);
