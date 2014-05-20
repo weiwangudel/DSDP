@@ -76,7 +76,40 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
       /* Which Coluns */
       rhs1i=0;rhs2i=0;
       info=DSDPVecZero(MRowI);DSDPCHKERR(info);
-      info=DSDPSchurMatRowColumnScaling(M,i,Select,&ncols); DSDPCHKERR(info); 
+      //info=DSDPSchurMatRowColumnScaling(M,i,Select,&ncols); DSDPCHKERR(info); 
+      {
+      //int DSDPSchurMatRowColumnScaling(DSDPSchurMat M,int row, DSDPVec V, int *nzcols){
+	int row = i;
+        DSDPVec V=Select;
+        int *nzcols = &ncols;
+
+        int info,m;
+        double *cols,r=M.schur->r;
+        DSDPTruth flag;
+        info=DSDPVecSet(0.0,V);DSDPCHKERR(info);
+        info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
+        if (row==0){info=DSDPVecZero(V);DSDPCHKERR(info);*nzcols=0;}
+        else if (row==m-1){
+          info=DSDPVecZero(V);DSDPCHKERR(info);*nzcols=0;
+          if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);*nzcols=1;}
+        } else if (M.dsdpops->matrownonzeros){
+          info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
+          info=DSDPVecGetArray(V,&cols);DSDPCHKERR(info);
+          info=(M.dsdpops->matrownonzeros)(M.data,row-1,cols+1,nzcols,m-2); //DSDPChkMatError(M,info);
+          info=DSDPVecRestoreArray(V,&cols);DSDPCHKERR(info);
+          info=DSDPZeroFixedVariables(M,V);DSDPCHKERR(info);
+          info=DSDPVecSetC(V,0.0);DSDPCHKERR(info);
+          if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);}
+          info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
+          if (flag==DSDP_TRUE&&*nzcols>0){info=DSDPVecZero(V);*nzcols=0;DSDPFunctionReturn(0);}
+        } else {
+          //DSDPNoOperationError(M);
+	  exit(-1);
+        }
+      //}
+	
+      } // end of DSDPSchurMatRowColumnScaling
+
       if (ncols==0){continue;}
    
       for (kt=0; kt<ATranspose.nnzblocks[i]; kt++){ /* Loop over all blocks */
