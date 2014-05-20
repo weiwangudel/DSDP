@@ -107,7 +107,23 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           info=DSDPZeroFixedVariables(M,V);DSDPCHKERR(info);
           info=DSDPVecSetC(V,0.0);DSDPCHKERR(info);
           if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);}
-          info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
+          //info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
+	  {
+	  //int DSDPIsFixed( DSDPSchurMat M, int vari, DSDPTruth *flag){
+	    int vari = row;
+	    int i;
+	    FixedVariables *fv=&M.schur->fv;
+	    flag=DSDP_FALSE;
+	    for (i=0;i<fv->nvars;i++){
+	      if (fv->var[i]==vari){
+	        flag=DSDP_TRUE;
+	        break;
+	      }
+	    }
+	  //} original end 
+
+	  } // end of DSDPIsFixed 
+		
           if (flag==DSDP_TRUE&&*nzcols>0){info=DSDPVecZero(V);*nzcols=0;DSDPFunctionReturn(0);}
         } else {
           //DSDPNoOperationError(M);
