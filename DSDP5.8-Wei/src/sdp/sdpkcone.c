@@ -179,8 +179,35 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           /*    v[row]=DSDPMax(0,v[row]); v[row]+=1.0e-15; */
           for (j=0;j<m;j++){ if (fabs(v[j]) < 1e-25 && row!=j){ v[j]=0.0;} }
           v[row]*=(1.0+dd);
-          info=DSDPZeroFixedVariables(M,R);DSDPCHKERR(info);
-          info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
+          //info=DSDPZeroFixedVariables(M,R);DSDPCHKERR(info);
+	  {
+          //int DSDPZeroFixedVariables( DSDPSchurMat M, DSDPVec dy){
+            int i,info; 
+            FixedVariables *fv=&M.schur->fv;
+            for (i=0;i<fv->nvars;i++){
+              info=DSDPVecSetElement(R,fv->var[i],0.0);DSDPCHKERR(info);
+            }
+          //} end of original end
+
+          } // end of DSDPZeroFixedVariables
+
+          //info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
+	  {
+	  //int DSDPIsFixed( DSDPSchurMat M, int vari, DSDPTruth *flag){
+	    int vari = row;
+	    int i;
+	    FixedVariables *fv=&M.schur->fv;
+	    flag=DSDP_FALSE;
+	    for (i=0;i<fv->nvars;i++){
+	      if (fv->var[i]==vari){
+	        flag=DSDP_TRUE;
+	        break;
+	      }
+	    }
+	  //} original end 
+
+	  } // end of DSDPIsFixed 
+
           if (flag==DSDP_TRUE){info=DSDPVecSetBasis(R,row);DSDPCHKERR(info);}
           info=(M.dsdpops->mataddrow)(M.data,row-1,alpha,v+1,m-2); // DSDPChkMatError(M,info);
           info=DSDPVecRestoreArray(R,&v); DSDPCHKERR(info);  
