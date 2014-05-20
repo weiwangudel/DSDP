@@ -122,7 +122,23 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
       for (kt=0; kt<ATranspose.nnzblocks[i]; kt++){ /* Loop over all blocks */
         kk=ATranspose.nzblocks[i][kt];
         idA=ATranspose.idA[i][kt];
-        info=DSDPBlockGetMatrix(&blk[kk].ADATA,idA,&ii,&scl,&AA);DSDPCHKBLOCKERR(kk,info);
+        //info=DSDPBlockGetMatrix(&blk[kk].ADATA,idA,&ii,&scl,&AA);DSDPCHKBLOCKERR(kk,info);
+	{
+        //int DSDPBlockGetMatrix(DSDPBlockData *ADATA,int id, int *vari, double *scl, DSDPDataMat *A){
+	  DSDPBlockData *ADATA = &blk[kk].ADATA;
+          int id = idA;
+	  int *vari = &ii;
+	  DSDPDataMat *A=&AA;
+
+          if (id>=0 && id < ADATA->nnzmats){
+            if (vari) *vari=ADATA->nzmat[id];
+            if (scl) scl=ADATA->scl;
+            if (A) *A=ADATA->A[id];
+          } else {
+            DSDPSETERR2(2,"Invalid Matrix request.  0 <= %d < %d\n",id,ADATA->nnzmats);
+          }
+          //}
+	} // end of DSDPBlockGetMatrix 
         //Wei      if (ii!=i){DSDPSETERR2(8,"Data Transpose Error: var %d does not equal %d.\n",i,ii);}
         info = DSDPDataMatGetRank(AA,&rank,blk[kk].n);DSDPCHKBLOCKERR(kk,info);
         if (rank==0) continue;
