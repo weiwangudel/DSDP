@@ -14,6 +14,9 @@
 #include "dsdpschurmat.h"
 #include "dsdpbasictypes.h"
 
+#include "dsdpxmat_impl.h"
+#include "dsdpxmat.h"
+
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -146,9 +149,30 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
   	ack*=(ggamma+bmu);
   
   	if (method1==DSDP_TRUE){
-  	  info=DSDPVMatAddOuterProduct(T,ack*mu,W2);DSDPCHKBLOCKERR(kk,info);
+  	  //info=DSDPVMatAddOuterProduct(T,ack*mu,W2);DSDPCHKBLOCKERR(kk,info);
+	  {
+          //int DSDPVMatAddOuterProduct(DSDPVMat X, double alpha, SDPConeVec V){
+	    DSDPVMat X=T;
+            double alpha=ack*mu;
+	    SDPConeVec V=W2;
+
+            int info,n;
+            double *v;
+            //DSDPEventLogBegin(sdpxmatevent);
+            info=SDPConeVecGetSize(V,&n); //DSDPCHKERR(info);
+            if (X.dsdpops->mataddouterproduct){
+              info=SDPConeVecGetArray(V,&v); DSDPCHKERR(info);
+              info=(X.dsdpops->mataddouterproduct)(X.matdata,alpha,v,n); //DSDPChkMatError(X,info);
+              info=SDPConeVecRestoreArray(V,&v); //DSDPCHKERR(info);
+            } else {
+              //DSDPNoOperationError(X);
+	      exit (-1);
+            }
+            //DSDPEventLogEnd(sdpxmatevent);
+          //}
+	  } // end of DSDPVMatAddOuterProduct
   	} else {
-  	  info=DSDPBlockvAv(&blk[kk].ADATA,ack*mu,Select,W2,MRowI);DSDPCHKBLOCKERR(kk,info);
+  	  info=DSDPBlockvAv(&blk[kk].ADATA,ack*mu,Select,W2,MRowI);//DSDPCHKBLOCKERR(kk,info);
   	} /* End row computations for rank kk of block kk */
    
         }   /* End row computations for all of block kk     */
