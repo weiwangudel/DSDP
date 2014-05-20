@@ -10,6 +10,10 @@
 #include "dsdplanczos.h"
 #include "dsdplapack.h"
 
+#include "dsdpschurmat_impl.h"
+#include "dsdpschurmat.h"
+#include "dsdpbasictypes.h"
+
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -155,9 +159,41 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
       }     /* End row computations for all blocks          */
       info=DSDPVecAddElement(vrhs1,i,rhs1i);DSDPCHKERR(info);
       info=DSDPVecAddElement(vrhs2,i,rhs2i);DSDPCHKERR(info);
-      info=DSDPSchurMatAddRow(M,i,1.0,MRowI);DSDPCHKERR(info);
+      //info=DSDPSchurMatAddRow(M,i,1.0,MRowI);DSDPCHKERR(info);
+      {
+      //int DSDPSchurMatAddRow(DSDPSchurMat M, int row, double alpha, DSDPVec R){
+	int row = i;
+	double alpha=1.0;
+	DSDPVec R = MRowI;
+        int info,j,m;
+        double *v,rr,dd=1e-1*M.schur->dd;
+        DSDPVec rhs3=M.schur->rhs3;
+        DSDPTruth flag;
+        info=DSDPVecGetSize(R,&m); DSDPCHKERR(info);
+        if (row==0){
+        } else if (row==m-1){
+          info=DSDPVecGetR(R,&rr);DSDPCHKERR(info);
+          info=DSDPVecAddR(rhs3,alpha*rr);DSDPCHKERR(info);
+        } else if (M.dsdpops->mataddrow){
+          info=DSDPVecGetArray(R,&v); DSDPCHKERR(info);
+          /*    v[row]=DSDPMax(0,v[row]); v[row]+=1.0e-15; */
+          for (j=0;j<m;j++){ if (fabs(v[j]) < 1e-25 && row!=j){ v[j]=0.0;} }
+          v[row]*=(1.0+dd);
+          info=DSDPZeroFixedVariables(M,R);DSDPCHKERR(info);
+          info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
+          if (flag==DSDP_TRUE){info=DSDPVecSetBasis(R,row);DSDPCHKERR(info);}
+          info=(M.dsdpops->mataddrow)(M.data,row-1,alpha,v+1,m-2); // DSDPChkMatError(M,info);
+          info=DSDPVecRestoreArray(R,&v); DSDPCHKERR(info);  
+          info=DSDPVecGetR(R,&rr); DSDPCHKERR(info);
+          info=DSDPVecAddElement(rhs3,row,alpha*rr); DSDPCHKERR(info);
+        } else {
+          //DSDPNoOperationError(M);
+	  exit (-1);
+        }
+      //} end of original DSDPSchurMatAddRow
+      } // end of DSDPSchurMatAddRow
     }
-  //}
+  //} // end of original SDPConeComputeHessian
   }   //Wei: end of inlined body of SDPConeComputeHessian
   DSDPFunctionReturn(0);   
 }
