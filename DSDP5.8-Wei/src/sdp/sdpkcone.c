@@ -300,6 +300,26 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
               info=DSDPVecGetElement(Alpha,vari,&aalpha);DSDPCHKVARERR(vari,info);
               if (aalpha==0.0) continue;
               info=DSDPDataMatVecVec(ADATA->A[ii],V,&sum);DSDPCHKVARERR(vari,info);
+	      {
+              //int DSDPDataMatVecVec(DSDPDataMat A, SDPConeVec W, double *v){
+		DSDPDataMat A = ADATA->A[ii];
+		SDPConeVec W = V;
+		double*v = &sum;
+                int info,n;
+                double *x;
+              
+                if (A.dsdpops->matvecvec){
+                  info=SDPConeVecGetSize(W,&n); DSDPCHKERR(info);
+                  info=SDPConeVecGetArray(W,&x); DSDPCHKERR(info);
+                  info=(A.dsdpops->matvecvec)(A.matdata,x,n,v); // DSDPChkDataError(A,info);
+                  info=SDPConeVecRestoreArray(W,&x); DSDPCHKERR(info);
+                } else {
+                  //DSDPNoOperationError(A);
+		  exit (-1);
+                }
+              //}
+
+	      } // end of DSDPDataMatVecVec
               info=DSDPVecAddElement(VAV,vari,aa*aalpha*sum*scl);DSDPCHKVARERR(vari,info);
             }
  	    } // end of else
@@ -372,7 +392,20 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             } //Wei: end of inline function body of DSDPDataMatDot
             info=DSDPVecAddElement(MRowI,vari,1.0*aalpha*sum*scl);DSDPCHKVARERR(vari,info);
           }
-          info=DSDPVMatRestoreArray(T, &x, &nn); DSDPCHKERR(info);
+          //info=DSDPVMatRestoreArray(T, &x, &nn); DSDPCHKERR(info);
+	  {
+          //int DSDPVMatRestoreArray(DSDPVMat X, double **v, int *nn){
+	    DSDPVMat X=T;
+	    double **v = &x;
+            int info;
+            if (X.dsdpops->matrestoreurarray){
+              info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            } else {
+              *v=0;
+              nn=0;
+            }
+          //}
+	  } // end of DSDPVMatRestoreArray
           info=DSDPVMatScaleDiagonal(T,2.0); DSDPCHKERR(info);
           //DSDPEventLogEnd(sdpdotevent);
           }   //Wei: end of inline function body of DSDPBlockADot
@@ -566,6 +599,18 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
             info=DSDPVecAddElement(AX,vari,aa*aalpha*sum*scl);DSDPCHKVARERR(vari,info);
           }
           info=DSDPVMatRestoreArray(X, &x, &nn); DSDPCHKERR(info);
+	  {
+          //int DSDPVMatRestoreArray(DSDPVMat X, double **v, int *nn){
+	    double **v = &x;
+            int info;
+            if (X.dsdpops->matrestoreurarray){
+              info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            } else {
+              *v=0;
+              nn=0;
+            }
+          //}
+	  } // end of DSDPVMatRestoreArray
           info=DSDPVMatScaleDiagonal(X,2.0); DSDPCHKERR(info);
           //DSDPEventLogEnd(sdpdotevent);
         //}
@@ -688,9 +733,24 @@ static int KSDPConeComputeSS(void *K, DSDPVec Y, DSDPDualFactorMatrix flag, DSDP
             if (ytmp==0) continue;
             info = DSDPDataMatAddMultiple(ADATA->A[ii], -aa*scl*ytmp, xx,nn,n); DSDPCHKVARERR(vari,info);
           }
-          info=DSDPVMatRestoreArray(XX, &xx, &nn); DSDPCHKERR(info);
+          //info=DSDPVMatRestoreArray(XX, &xx, &nn); DSDPCHKERR(info);
+	  {
+	  //int DSDPVMatRestoreArray(DSDPVMat X, double **v, int *nn){
+	    DSDPVMat X=XX;
+	    double **v=&xx;
+	    
+	    int info;
+	    //DSDPFunctionBegin;
+	    if (X.dsdpops->matrestoreurarray){
+	      info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+	    } else {
+	      *v=0;
+	      nn=0;
+	    }
+	    //DSDPFunctionReturn(0);
+	  //} end of original function body
+	  } // end of DSDPVMatRestoreArray
         //} //original end before inlining
-      
         }  // end of inlined function body of DSDPBlockASum
       //}  // end of original SDPConeCOmputeSS before inlining
       } // end of SDPConeComputeSS
