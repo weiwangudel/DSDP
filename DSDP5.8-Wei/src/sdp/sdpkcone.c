@@ -319,8 +319,23 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           int    ii,vari,n,nn,info;
           double *x,sum=0,aalpha=0,scl=blk[kk].ADATA.scl;
           //DSDPEventLogBegin(sdpdotevent);   //ignore event
-          info=DSDPVMatScaleDiagonal(T,0.5); DSDPCHKERR(info);
-          info=DSDPVMatGetSize(T, &n); DSDPCHKERR(info);
+          info=DSDPVMatScaleDiagonal(T,0.5); //DSDPCHKERR(info);
+          //info=DSDPVMatGetSize(T, &n); DSDPCHKERR(info);
+	  {
+          //int DSDPVMatGetSize(DSDPVMat X,int*n){
+	    DSDPVMat X=T;
+            int info;
+            if (X.dsdpops->matgetsize){
+              info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
+            } else {
+              /*
+              DSDPNoOperationError(X);
+              */
+	      exit(-1);
+            }
+          //}
+
+	  } // end of DSDPVMatGetSize 
           //info=DSDPVMatGetArray(T, &x, &nn); DSDPCHKERR(info);
 	  {
           //int DSDPVMatGetArray(DSDPVMat X, double **v, int *nn){
@@ -329,7 +344,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             int info;
             DSDPFunctionBegin;
             if (X.dsdpops->matgeturarray){
-              info=(X.dsdpops->matgeturarray)(X.matdata,v,&nn); DSDPChkMatError(X,info);
+              info=(X.dsdpops->matgeturarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
             } else {
               *v=0;
               nn=0;
