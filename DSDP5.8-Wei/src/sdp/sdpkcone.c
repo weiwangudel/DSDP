@@ -122,9 +122,23 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
         //}
 	}  // end of DSDPVecSet
         info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
-        if (row==0){info=DSDPVecZero(V);DSDPCHKERR(info);*nzcols=0;}
+        if (row==0){
+	  //info=DSDPVecZero(V);DSDPCHKERR(info);
+	  {
+            int n=V.dim;
+            double *v=V.val;
+            memset((void*)v,0,n*sizeof(double));
+	  } // end of DSDPVecZero
+	  *nzcols=0;
+	}
         else if (row==m-1){
-          info=DSDPVecZero(V);DSDPCHKERR(info);*nzcols=0;
+          //info=DSDPVecZero(V);DSDPCHKERR(info);
+	  {
+  	    int n=V.dim;
+  	    double *v=V.val;
+  	    memset((void*)v,0,n*sizeof(double));
+	  } // end of DSDPVecZero
+	  *nzcols=0;
           if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);*nzcols=1;}
         } else if (M.dsdpops->matrownonzeros){
           info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
