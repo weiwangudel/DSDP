@@ -82,7 +82,16 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
   
       /* Which Coluns */
       rhs1i=0;rhs2i=0;
-      info=DSDPVecZero(MRowI);DSDPCHKERR(info);
+      //info=DSDPVecZero(MRowI);DSDPCHKERR(info);
+      {
+      //int DSDPVecZero(DSDPVec V){
+	DSDPVec V=MRowI;
+        int n=V.dim;
+        double *v=V.val;
+        memset((void*)v,0,n*sizeof(double));
+      //}
+
+      } // end of DSDPVecZero
       //info=DSDPSchurMatRowColumnScaling(M,i,Select,&ncols); DSDPCHKERR(info); 
       {
       //int DSDPSchurMatRowColumnScaling(DSDPSchurMat M,int row, DSDPVec V, int *nzcols){
@@ -93,7 +102,25 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
         int info,m;
         double *cols,r=M.schur->r;
         DSDPTruth flag;
-        info=DSDPVecSet(0.0,V);DSDPCHKERR(info);
+        //info=DSDPVecSet(0.0,V);DSDPCHKERR(info);
+	{
+        //int DSDPVecSet(double alpha, DSDPVec V){
+       	  double alpha = 0.0; 
+          int i,ii,n=V.dim;
+          double *val=V.val;
+        
+          if (alpha==0.0){
+            memset((void*)val,0,n*sizeof(double));
+          }
+          /* for (ii=0; ii<n/4; ++ii){
+            i=ii*4;
+            val[i] = val[i+1] = val[i+2] = val[i+3] = alpha; 
+          }
+          for (i=4*(n/4); i<n; ++i){
+            val[i]= alpha;
+          } */
+        //}
+	}  // end of DSDPVecSet
         info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
         if (row==0){info=DSDPVecZero(V);DSDPCHKERR(info);*nzcols=0;}
         else if (row==m-1){
@@ -251,7 +278,17 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	} // end of DSDPDualMatInverseMultiply
   
   	/* RHS terms */
-  	info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
+  	//info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
+	{
+        //int SDPConeVecDot(SDPConeVec V1, SDPConeVec V2, double *ans){
+	  double *ans = &rtemp;
+	  SDPConeVec V1 = W;
+	  SDPConeVec V2 = W2;
+          ffinteger ione=1, nn=V1.dim;
+          double *v1=V1.val,*v2=V2.val;
+          *ans=ddot(&nn,v1,&ione,v2,&ione);
+        //}
+	} // end of SDPConeVecDot
   	if (rtemp==0.0) continue;
   	rhs1i+=rtemp*ack*bmu; rhs2i+=rtemp*ack*ggamma*mu;
   	ack*=(ggamma+bmu);
@@ -579,7 +616,17 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
         //}  end of original
 
 	} // end of DSDPDualMatInverseMultiply
-    	info=SDPConeVecDot(W,W2,&rtemp); DSDPCHKVARERR(ii,info);
+    	//info=SDPConeVecDot(W,W2,&rtemp); DSDPCHKVARERR(ii,info);
+	{
+        //int SDPConeVecDot(SDPConeVec V1, SDPConeVec V2, double *ans){
+	  double *ans = &rtemp;
+	  SDPConeVec V1 = W;
+	  SDPConeVec V2 = W2;
+          ffinteger ione=1, nn=V1.dim;
+          double *v1=V1.val,*v2=V2.val;
+          *ans=ddot(&nn,v1,&ione,v2,&ione);
+        //}
+	} // end of SDPConeVecDot
     	dtmp=rtemp*ack*mu*dyiscale*scl;
     	info=DSDPVecAddElement(vrhs2,ii,dtmp);DSDPCHKVARERR(ii,info);
           }
