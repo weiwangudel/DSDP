@@ -145,7 +145,18 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           info=DSDPVecGetArray(V,&cols);DSDPCHKERR(info);
           info=(M.dsdpops->matrownonzeros)(M.data,row-1,cols+1,nzcols,m-2); //DSDPChkMatError(M,info);
           info=DSDPVecRestoreArray(V,&cols);DSDPCHKERR(info);
-          info=DSDPZeroFixedVariables(M,V);DSDPCHKERR(info);
+          //info=DSDPZeroFixedVariables(M,V);DSDPCHKERR(info);
+	  {
+          //int DSDPZeroFixedVariables( DSDPSchurMat M, DSDPVec dy){
+            int i,info; 
+            FixedVariables *fv=&M.schur->fv;
+            for (i=0;i<fv->nvars;i++){
+              info=DSDPVecSetElement(V,fv->var[i],0.0);DSDPCHKERR(info);
+            }
+          //}
+
+
+	  }  // end of DSDPZeroFixedVariables 
           info=DSDPVecSetC(V,0.0);DSDPCHKERR(info);
           if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);}
           //info=DSDPIsFixed(M,row,&flag);DSDPCHKERR(info); 
