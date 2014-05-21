@@ -321,7 +321,22 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           //DSDPEventLogBegin(sdpdotevent);   //ignore event
           info=DSDPVMatScaleDiagonal(T,0.5); DSDPCHKERR(info);
           info=DSDPVMatGetSize(T, &n); DSDPCHKERR(info);
-          info=DSDPVMatGetArray(T, &x, &nn); DSDPCHKERR(info);
+          //info=DSDPVMatGetArray(T, &x, &nn); DSDPCHKERR(info);
+	  {
+          //int DSDPVMatGetArray(DSDPVMat X, double **v, int *nn){
+	    DSDPVMat X=T;
+	    double **v = &x;
+            int info;
+            DSDPFunctionBegin;
+            if (X.dsdpops->matgeturarray){
+              info=(X.dsdpops->matgeturarray)(X.matdata,v,&nn); DSDPChkMatError(X,info);
+            } else {
+              *v=0;
+              nn=0;
+            }
+          //}
+
+	  } // end of DSFPVMatGetArray
           for (ii=0;ii<blk[kk].ADATA.nnzmats; ii++){  /* Matrix Entries */
             vari=blk[kk].ADATA.nzmat[ii];
             info=DSDPVecGetElement(Select,vari,&aalpha);DSDPCHKVARERR(vari,info);
