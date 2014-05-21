@@ -299,7 +299,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
               vari=ADATA->nzmat[ii];
               info=DSDPVecGetElement(Alpha,vari,&aalpha);DSDPCHKVARERR(vari,info);
               if (aalpha==0.0) continue;
-              info=DSDPDataMatVecVec(ADATA->A[ii],V,&sum);DSDPCHKVARERR(vari,info);
+              //info=DSDPDataMatVecVec(ADATA->A[ii],V,&sum);DSDPCHKVARERR(vari,info);
 	      {
               //int DSDPDataMatVecVec(DSDPDataMat A, SDPConeVec W, double *v){
 		DSDPDataMat A = ADATA->A[ii];
@@ -339,7 +339,19 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           int    ii,vari,n,nn,info;
           double *x,sum=0,aalpha=0,scl=blk[kk].ADATA.scl;
           //DSDPEventLogBegin(sdpdotevent);   //ignore event
-          info=DSDPVMatScaleDiagonal(T,0.5); //DSDPCHKERR(info);
+          //info=DSDPVMatScaleDiagonal(T,0.5); //DSDPCHKERR(info);
+	  {
+          //int DSDPVMatScaleDiagonal(DSDPVMat X, double dscale){
+	    DSDPVMat X=T;
+	    double dscale=0.5;
+            int info;
+            if (X.dsdpops->matscalediagonal){
+              info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+            } else {
+	      exit (-1);
+            }
+          //}
+	  } // end of DSDPVMatScaleDiagonal 
           //info=DSDPVMatGetSize(T, &n); DSDPCHKERR(info);
 	  {
           //int DSDPVMatGetSize(DSDPVMat X,int*n){
@@ -406,7 +418,21 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             }
           //}
 	  } // end of DSDPVMatRestoreArray
-          info=DSDPVMatScaleDiagonal(T,2.0); DSDPCHKERR(info);
+          //info=DSDPVMatScaleDiagonal(T,2.0); DSDPCHKERR(info);
+	  {
+	  //int DSDPVMatScaleDiagonal(DSDPVMat X, double dscale){
+	    DSDPVMat X=T;
+	    double dscale=2.0;
+
+	    int info;
+	    if (X.dsdpops->matscalediagonal){
+	      info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+	    } else {
+	      exit (-1);
+	    }
+	  //}
+	  }  // end of DSDPVMatScaleDiagonal
+
           //DSDPEventLogEnd(sdpdotevent);
           }   //Wei: end of inline function body of DSDPBlockADot
         }   /* End row computations for all of block ll     */
