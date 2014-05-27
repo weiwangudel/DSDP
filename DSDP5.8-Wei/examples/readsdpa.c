@@ -97,60 +97,66 @@ int ReadSDPAFile(int argc,char *argv[]){
   SDPCone  sdpcone=0;
   LPCone   lpcone=0;
   int *ittt,sspot,ione=1;
-
-  if (argc<2){ printf("%s",help); DSDPPrintOptions(); return(0); }
-  for (i=0; i<argc; i++){ if (strncmp(argv[i],"-help",5)==0){
-    printf("%s",help); DSDPPrintOptions(); return(0);}}
+  
+  //if (argc<2){ printf("%s",help); DSDPPrintOptions(); return(0); }
+  //for (i=0; i<argc; i++){ if (strncmp(argv[i],"-help",5)==0){
+  //  printf("%s",help); DSDPPrintOptions(); return(0);}}
   for (i=1; i<argc; i++){ printf("%s ",argv[i]); } printf("\n");
-  for (i=1; i<argc-1; i++){   /* Are we reading a file with a lot of problem names? */
-    if (strncmp(argv[i],"-benchmark",8)==0){
-      strncpy(thisline,argv[i+1],90); fp1=fopen(thisline,"r");runbenchmark=1; justone=0;
-    };
-    if (strncmp(argv[i],"-directory",8)==0){strncpy(directory,argv[i+1],90);}
-    if (strncmp(argv[i],"-table",4)==0){strncpy(tablename,argv[i+1],90);};
-    if (strncmp(argv[i],"-suffix",4)==0){strncpy(suffix,argv[i+1],20);};
-    if (strncmp(argv[i],"-save",5)==0){ strncpy(savefile,argv[i+1],40);saveit=1;};
-    if (strncmp(argv[i],"-dlogsummary",8)==0){printsummary=atoi(argv[i+1]);}
-    if (rank==0&&strncmp(argv[i],"-fout",5)==0){ strncpy(outputfile,argv[i+1],45);fileout=1;};
-  }
+  
+  //for (i=1; i<argc-1; i++){   /* Are we reading a file with a lot of problem names? */
+    //printf("%d %s\n",i,argv[i]);
+    //if (strncmp(argv[i],"-benchmark",8)==0){
+      //strncpy(thisline,argv[i+1],90); fp1=fopen(thisline,"r");runbenchmark=1; justone=0;
+    //};
+    //if (strncmp(argv[i],"-directory",8)==0){strncpy(directory,argv[i+1],90);}
+    //if (strncmp(argv[i],"-table",4)==0){strncpy(tablename,argv[i+1],90);};
+    //if (strncmp(argv[i],"-suffix",4)==0){strncpy(suffix,argv[i+1],20);};
+    //if (strncmp(argv[i],"-save",5)==0){ strncpy(savefile,argv[i+1],40);saveit=1;};
+    //if (strncmp(argv[i],"-dlogsummary",8)==0){printsummary=atoi(argv[i+1]);}
+    //if (rank==0&&strncmp(argv[i],"-fout",5)==0){ strncpy(outputfile,argv[i+1],45);fileout=1;};
+  //}
 
-  if (runbenchmark || argc>2){
-    fp2=fopen(tablename,"a");
-    for (i=1; i<argc; i++){ fprintf(fp2,"%s ",argv[i]); } fprintf(fp2,"\n");
-    fclose(fp2);
-  }
-
+  //if (runbenchmark || argc>2){
+    //fp2=fopen(tablename,"a");
+    //for (i=1; i<argc; i++){ fprintf(fp2,"%s ",argv[i]); } fprintf(fp2,"\n");
+    //fclose(fp2);
+  //}
+  
   while ((runbenchmark && !feof(fp1)) || justone==1){
     justone=0;
-    if (runbenchmark){ /* Get filename with the data */
-      fgets(thisline,100,fp1); if (sscanf(thisline,"%s",problemname)<1) break;
-      strncpy(filename,directory,90); strncat(filename,problemname,90);strncat(filename,suffix,90);
-      printf("%s\n",problemname);
-    } else {
-      strncpy(filename,argv[1],90);
-      strncpy(problemname,argv[1],90);
-    }
+    //if (runbenchmark){ /* Get filename with the data */
+      //fgets(thisline,100,fp1); if (sscanf(thisline,"%s",problemname)<1) break;
+      //strncpy(filename,directory,90); strncat(filename,problemname,90);strncat(filename,suffix,90);
+      //printf("%s\n",problemname);
+    //} else {
+      //strncpy(filename,argv[1],90);
+      //strncpy(problemname,argv[1],90);
+    //}
+    strncpy(filename,argv[1],90);
+    strncpy(problemname,argv[1],90);
     
-    if (rank==0 && fileout){
-      dsdpoutputfile=fopen(outputfile,"a");
-      fprintf(dsdpoutputfile,"%s\n",problemname);
-    } else {dsdpoutputfile=0;fileout=0;}
+    //if (rank==0 && fileout){
+      //printf("rank fileout %d %d\n",rank,fileout);
+      //dsdpoutputfile=fopen(outputfile,"a");
+      //fprintf(dsdpoutputfile,"%s\n",problemname);
+    //} else {dsdpoutputfile=0;fileout=0;}
+    dsdpoutputfile=0;fileout=0;
     DSDPTime(&t1);
 
     info=ReadSDPA2(filename, &dddd);  m=dddd.m;
-    if (info){  printf("Problem reading SDPA file\n"); return 1;}
+    //if (info){  printf("Problem reading SDPA file\n"); return 1;}
     DSDPTime(&t2);
-    if (printsummary && rank==0){
+    //if (printsummary && rank==0){
       printf("\nVariables %d \n",dddd.m);
       printf("Matrix Blocks: %d, ",dddd.nblocks);
       printf("Total Number of Constraints: %d \n",dddd.n);
       printf("Nonzeros in Constraints: %d\n\n",dddd.totalnonzeros);
       printf("Read Data File into Buffer:      %4.3e seconds\n",t2-t1);
-    }
+    //}
     
-    for (i=0; i<argc-1; i++){ 
-      if (strncmp(argv[i],"-dloginfo",8)==0){ info=DSDPLogInfoAllow(atoi(argv[i+1]),0);};
-    }
+    //for (i=0; i<argc-1; i++){ 
+      //if (strncmp(argv[i],"-dloginfo",8)==0){ info=DSDPLogInfoAllow(atoi(argv[i+1]),0);};
+    //}
 
     info = DSDPCreate(dddd.m,&dsdp); 
     info = DSDPCreateSDPCone(dsdp,dddd.nblocks,&sdpcone);
@@ -158,66 +164,88 @@ int ReadSDPAFile(int argc,char *argv[]){
     for (i=0;i<m;i++){info = DSDPSetDualObjective(dsdp,i+1,dddd.dobj[i]);}
     
     /* Set  initial point */
-    for (i=0; i<m; i++)
-      if (dddd.dobj[i]> 0.0) dddd.y0[i]=-0.0; else dddd.y0[i]=0.0;
+    for (i=0; i<m; i++){
+      if (dddd.dobj[i]> 0.0){
+        dddd.y0[i]=-0.0; 
+        //printf("dddd.dobj[i]> 0.0 i m %d %d\n",i,m);
+      }
+      else{
+        dddd.y0[i]=0.0;
+        //printf("dddd.dobj[i] <= 0.0 i m %d %d\n",i,m);
+      }
+    }
     for (i=0; i<m; i++){info = DSDPSetY0(dsdp,i+1,dddd.y0[i]);}
     info=ComputeY0(dsdp,dddd);
-    if (dddd.fixedvari){
-      info = DSDPSetY0(dsdp,(int)dddd.fixedvari,dddd.fixedvard);
-      printf("Fixed: %2.0f %4.2f ?\n",dddd.fixedvari,dddd.fixedvard);
-      info=DSDPSetFixedVariables(dsdp,&dddd.fixedvari,&dddd.fixedvard,&dddd.xout,ione);
-    }
+    //if (dddd.fixedvari){
+      //printf("dddd.fixedvari is ture\n");
+      //info = DSDPSetY0(dsdp,(int)dddd.fixedvari,dddd.fixedvard);
+      //printf("Fixed: %2.0f %4.2f ?\n",dddd.fixedvari,dddd.fixedvard);
+      //info=DSDPSetFixedVariables(dsdp,&dddd.fixedvari,&dddd.fixedvard,&dddd.xout,ione);
+    //}
 
     spot=0;ijnnz=0;np=0;sdpnmax=1;sdpn=0;stat1=1;
     /* Insert the SDP data */
     for (j=0;j<dddd.nblocks; j++){
-      if (dddd.conetypes[j]=='S'){
-	n=dddd.blocksizes[j];
-	sformat=dddd.sformat[j];
-	info=CountNonzeroMatrices(j+1,dddd.block+spot,dddd.constraint+spot,&nzmats);
-	info=SDPConeSetBlockSize(sdpcone,j,n); DSDPCHKERR(info);
-	info=SDPConeSetSparsity(sdpcone,j,nzmats); DSDPCHKERR(info);
-	info=SDPConeSetStorageFormat(sdpcone,j,sformat); DSDPCHKERR(info);
-	np+=n; sdpn+=n;
-	if (sdpnmax<n) sdpnmax=n;
-	if (stat1<nzmats) stat1=nzmats;
-	for (i=0; i<=m; i++){
-	  info=GetMarkers(j+1,i,dddd.block+spot,dddd.constraint+spot,&ijnnz);	  
-	  if (0==1){
-	  } else if ( ijnnz==0 ){  /* info=DSDPSetZeroMat(dsdp,j,i,n); */
-	  } else if (CheckForConstantMat(dddd.nnz+spot,ijnnz,n)){
-	    info=SDPConeSetConstantMat(sdpcone,j,i,n,dddd.nnz[spot+1]);CHKDATA(i,j,info);
-	    if(sformat=='P'){info=SDPConeSetXArray(sdpcone,j,n,dddd.nnz+spot,n*(n+1)/2);}
-	  } else if (sformat=='P' && ijnnz==n*(n+1)/2 ){     /* check for dense matrix  */
-	    info=SDPConeSetADenseVecMat(sdpcone,j,i,n,1.0,dddd.nnz+spot,ijnnz);CHKDATA(i,j,info);
-	  } else {     /* sparse matrix  */
-	    info=SDPConeSetASparseVecMat(sdpcone,j,i,n,1.0,0,dddd.matind+spot,dddd.nnz+spot,ijnnz);CHKDATA(i,j,info);
-	  }
-	  if (0==1){ info=SDPConeViewDataMatrix(sdpcone,j,i);}
-	  spot+=ijnnz;
-	  /*	  SDPConeScaleBarrier(sdpcone,j,j+1.0); */
-	}
-	if (0==1){info=SDPConeView2(sdpcone);}
-      }  else if (dddd.conetypes[j]=='L'){
-	info=DSDPCreateLPCone(dsdp,&lpcone); sformat='P';
-	info=SDPConeSetStorageFormat(sdpcone,j,sformat); DSDPCHKERR(info);
-	n=dddd.blocksizes[j];
-	np+=n;
-	sspot=spot;
-	DSDPCALLOC2(&ittt,int,(m+2),&info);
-	for (i=0;i<=m;i++){ittt[i]=0;}
-	for (i=0;i<=m;i++){
-	  info=GetMarkers(j+1,i,dddd.block+spot,dddd.constraint+spot,&ijnnz);
-	  ittt[i+1]=ijnnz; spot+=ijnnz;
-	}
-	for (i=1;i<=m;i++)ittt[i+1]+=ittt[i];
-	info=LPConeSetData(lpcone,n,ittt,dddd.matind+sspot,dddd.nnz+sspot);CHKDATA(i,0,info);
-	if (0==1){info=LPConeView(lpcone);}
-	if (0==1){info=LPConeView2(lpcone);}
-	/*	info=DSDPFree(&ittt); */
-      }
+      //if (dddd.conetypes[j]=='S'){
+        //printf("dddd.conetypes[j]=='S' %d\n",j);
+	    n=dddd.blocksizes[j];
+	    sformat=dddd.sformat[j];
+	    info=CountNonzeroMatrices(j+1,dddd.block+spot,dddd.constraint+spot,&nzmats);
+	    info=SDPConeSetBlockSize(sdpcone,j,n); DSDPCHKERR(info);
+	    info=SDPConeSetSparsity(sdpcone,j,nzmats); DSDPCHKERR(info);
+	    info=SDPConeSetStorageFormat(sdpcone,j,sformat); DSDPCHKERR(info);
+	    np+=n; sdpn+=n;
+	    if (sdpnmax<n) sdpnmax=n;
+	    if (stat1<nzmats) stat1=nzmats;
+	    for (i=0; i<=m; i++){
+	      info=GetMarkers(j+1,i,dddd.block+spot,dddd.constraint+spot,&ijnnz);	  
+	      //if (0==1){
+	      //} 
+	      //else if ( ijnnz==0 ){ printf("ijnnz==0 %d %d %d\n",j,i,m); /* info=DSDPSetZeroMat(dsdp,j,i,n); */
+	      //}
+	      if ( ijnnz==0 ){ //printf("ijnnz==0 %d %d %d\n",j,i,m); /* info=DSDPSetZeroMat(dsdp,j,i,n); */ 
+	      }
+	      //else if (CheckForConstantMat(dddd.nnz+spot,ijnnz,n)){
+	        //printf("CheckForConstantMa %d %d %d\n",j,i,m);
+	        //info=SDPConeSetConstantMat(sdpcone,j,i,n,dddd.nnz[spot+1]);CHKDATA(i,j,info);
+	        //if(sformat=='P'){info=SDPConeSetXArray(sdpcone,j,n,dddd.nnz+spot,n*(n+1)/2);}
+	      //} 
+	      //else if (sformat=='P' && ijnnz==n*(n+1)/2 ){     /* check for dense matrix  */
+	        //printf("sformat=='P' && ijnnz==n*(n+1)/2 %d %d %d\n",j,i,m);
+	        //info=SDPConeSetADenseVecMat(sdpcone,j,i,n,1.0,dddd.nnz+spot,ijnnz);CHKDATA(i,j,info);
+	      //} 
+	      else {     /* sparse matrix  */
+	        //printf("SDPConeSetASparseVecMat %d %d %d\n",j,i,m);
+	        info=SDPConeSetASparseVecMat(sdpcone,j,i,n,1.0,0,dddd.matind+spot,dddd.nnz+spot,ijnnz);CHKDATA(i,j,info);
+	      }
+	      //if (0==1){ info=SDPConeViewDataMatrix(sdpcone,j,i);}
+	      spot+=ijnnz;
+	      /*	  SDPConeScaleBarrier(sdpcone,j,j+1.0); */
+	    }
+	    //if (0==1){info=SDPConeView2(sdpcone);}
+      //}  
+      //else if (dddd.conetypes[j]=='L'){
+        //printf("dddd.conetypes[j]=='L' %d\n",j);
+	    //info=DSDPCreateLPCone(dsdp,&lpcone); sformat='P';
+	    //info=SDPConeSetStorageFormat(sdpcone,j,sformat); DSDPCHKERR(info);
+	    //n=dddd.blocksizes[j];
+	    //np+=n;
+	    //sspot=spot;
+	    //DSDPCALLOC2(&ittt,int,(m+2),&info);
+	    //for (i=0;i<=m;i++){ittt[i]=0;}
+	    //for (i=0;i<=m;i++){
+	      //info=GetMarkers(j+1,i,dddd.block+spot,dddd.constraint+spot,&ijnnz);
+	      //ittt[i+1]=ijnnz; spot+=ijnnz;
+	    //}
+	    //for (i=1;i<=m;i++)ittt[i+1]+=ittt[i];
+	    //info=LPConeSetData(lpcone,n,ittt,dddd.matind+sspot,dddd.nnz+sspot);CHKDATA(i,0,info);
+	    //if (0==1){info=LPConeView(lpcone);}
+	    //if (0==1){info=LPConeView2(lpcone);}
+	    /*	info=DSDPFree(&ittt); */
+      //}
     }
-    if (0==1){
+    
+    /*if (0==1){
       BCone bcone;
       info=DSDPCreateBCone(dsdp, &bcone); 
       info=BConeAllocateBounds(bcone,2*m);
@@ -227,11 +255,12 @@ int ReadSDPAFile(int argc,char *argv[]){
       for (i=0;i<m;i++){
         info=BConeSetLowerBound(bcone,i+1,-10);
       }
-    }
+    }*/
 
     DSDPTime(&t3);
-    if (printsummary && rank==0){printf("DSDP Set Data:                   %4.3e seconds\n",t3-t2);}
-
+    //if (printsummary && rank==0){printf("DSDP Set Data:                   %4.3e seconds\n",t3-t2);}
+    printf("DSDP Set Data:                   %4.3e seconds\n",t3-t2);
+    
     its=(m-2)/sdpnmax;
     if (np<100 && its==0) its=1;
     if (its>=1) its++;
@@ -250,39 +279,41 @@ int ReadSDPAFile(int argc,char *argv[]){
     DSDPFREE(&dddd.block,&info);
  
     info=DSDPGetDataNorms(dsdp, dnorm);
-    if (dnorm[0]==0){
+    /*if (dnorm[0]==0){
+      printf("dnorm[0]==0\n");
       info=DSDPSetR0(dsdp,np); 
       info=DSDPSetGapTolerance(dsdp,1e-3);
       info=DSDPSetYBounds(dsdp,-1.0,1.0);
     } else {
-    }
+    }*/
     info = TCheckArgs0(dsdp,sdpcone,dddd.m,argc,argv);
     info = TCheckArgs(dsdp,sdpcone,dddd.m,argc,argv);
 
-    info = DSDPSetup(dsdp); if (info){ printf("\nProblem Setting problem.  Likely insufficient memory\n");  return 1;}
-    if (0==1){info=SDPConeCheckData(sdpcone);}
+    info = DSDPSetup(dsdp); //if (info){ printf("\nProblem Setting problem.  Likely insufficient memory\n");  return 1;}
+    //if (0==1){info=SDPConeCheckData(sdpcone);}
 
 
     DSDPTime(&t4);
     info=DSDPGetScale(dsdp,&scl);
     info=DSDPGetPotentialParameter(dsdp,&dpot); 
     info=DSDPGetReuseMatrix(dsdp,&its);
-    if (printsummary && rank==0){
+    //if (printsummary && rank==0){
       printf("DSDP Process Data:               %4.3e seconds\n\n",t4-t3);
       printf("Data Norms: C: %4.2e, A: %4.2e, b: %4.2e\n",dnorm[0],dnorm[1],dnorm[2]);
       printf("Scale C: %4.2e\n\n",scl);
       printf("Potential Parameter: %4.2f\n",dpot);
       printf("Reapply Schur matrix: %d\n\n",its);
-    }
-    if (0==1){info=DSDPPrintData(dsdp,sdpcone,lpcone);}
+    //}
+    //if (0==1){info=DSDPPrintData(dsdp,sdpcone,lpcone);}
 
     info = DSDPSolve(dsdp); 
-    if (info){ printf("\nNumerical errors encountered in DSDPSolve(). \n");}
+    //if (info){ printf("\nNumerical errors encountered in DSDPSolve(). \n");}
     
     info=DSDPStopReason(dsdp,&reason);
-    if (reason!=DSDP_INFEASIBLE_START){
+    //if (reason!=DSDP_INFEASIBLE_START){
+      //printf("reason!=DSDP_INFEASIBLE_START\n");
       info=DSDPComputeX(dsdp);DSDPCHKERR(info);
-    }
+    //}
     info=DSDPStopReason(dsdp,&reason);
     info=DSDPGetSolutionType(dsdp,&pdfeasible);
 
@@ -294,36 +325,36 @@ int ReadSDPAFile(int argc,char *argv[]){
     info=DSDPGetIts(dsdp,&its);
       
     success='s';
-    if (printsummary && rank==0){
+    //if (printsummary && rank==0){
 
-      if (reason == DSDP_CONVERGED){
-	printf("DSDP Converged. \n"); 
-	success='s';
-      } else if ( reason == DSDP_UPPERBOUND ){
-	printf("DSDP Terminated Because Dual Objective Exceeded its Bound\n");
-	success='c';
-      } else if ( reason == DSDP_SMALL_STEPS ){
-	printf("DSDP Terminated Due to Small Steps\n");
-	success='c';
-      } else if ( reason == DSDP_MAX_IT){
-	printf("DSDP Terminated Due Maximum Number of Iterations\n");
-	success='c';
-      } else if ( reason == DSDP_INFEASIBLE_START){
-	printf("DSDP Terminated Due to Infeasible Starting Point\n");
-	success='c';
-      } else if ( reason == DSDP_INDEFINITE_SCHUR_MATRIX){
-	printf("DSDP Terminated Due to Indefinite Schur Complement\n");
-	success='c';
-      } else {
-	printf("DSDP Finished\n");
-	success='c';
-      }
+      /*if (reason == DSDP_CONVERGED){
+	    printf("DSDP Converged. \n"); 
+	    success='s';
+          } else if ( reason == DSDP_UPPERBOUND ){
+	    printf("DSDP Terminated Because Dual Objective Exceeded its Bound\n");
+	    success='c';
+          } else if ( reason == DSDP_SMALL_STEPS ){
+	    printf("DSDP Terminated Due to Small Steps\n");
+	    success='c';
+          } else if ( reason == DSDP_MAX_IT){
+	    printf("DSDP Terminated Due Maximum Number of Iterations\n");
+	    success='c';
+          } else if ( reason == DSDP_INFEASIBLE_START){
+	    printf("DSDP Terminated Due to Infeasible Starting Point\n");
+	    success='c';
+          } else if ( reason == DSDP_INDEFINITE_SCHUR_MATRIX){
+	    printf("DSDP Terminated Due to Indefinite Schur Complement\n");
+	    success='c';
+          } else {*/
+	    printf("DSDP Finished\n");
+	    success='c';
+      //}
 
-      if (pdfeasible == DSDP_UNBOUNDED ){
+      /*if (pdfeasible == DSDP_UNBOUNDED ){
 	printf("DSDP Dual Unbounded, Primal Infeasible\n"); 
       } else if ( pdfeasible == DSDP_INFEASIBLE ){
 	printf("DSDP Primal Unbounded, Dual Infeasible\n");
-      }
+      }*/
 
       
       printf("\nP Objective  : %16.8e \n",ppobj);
@@ -331,23 +362,27 @@ int ReadSDPAFile(int argc,char *argv[]){
       printf("DSDP Solve Time:                     %4.3e seconds\n",t5-t4);
       printf("DSDP Preparation and Solve Time:     %4.3e seconds\n\n",t5-t3);
 
-    } else {
-      if (reason == DSDP_CONVERGED){success='s';} else {success='c';}
-    }
+    //} else {
+      //if (reason == DSDP_CONVERGED){success='s';} else {success='c';}
+    //}
 
-    if (rank==0){
+    //if (rank==0){
+      //printf("rank==0\n");  
       fp2=fopen(tablename,"a");
-      if (pdfeasible==DSDP_UNBOUNDED){
-	fprintf(fp2," %-18s & %4d & %4d &    infeasible &     unbounded & %4.0e & %c & %3d & %6.2f \\\\\n",problemname,m,np,derr[0],success,its,t5-t3);
-	} else if (pdfeasible==DSDP_INFEASIBLE){
-	  fprintf(fp2," %-18s & %4d & %4d &     unbounded &    infeasible & %4.0e & %c & %3d & %6.2f \\\\\n",problemname,m,np,derr[0],success,its,t5-t3);
-	} else { 
-	  fprintf(fp2," %-18s & %4d & %4d & %13.7f & %13.7f & %4.0e & %c & %3d & %6.2f \\\\\n",problemname,m,np,-ppobj,-ddobj,derr[0],success,its,t5-t3);
-	}
+      /*if (pdfeasible==DSDP_UNBOUNDED){
+        printf("pdfeasible==DSDP_UNBOUNDED\n");
+	    fprintf(fp2," %-18s & %4d & %4d &    infeasible &     unbounded & %4.0e & %c & %3d & %6.2f \\\\\n",problemname,m,np,derr[0],success,its,t5-t3);
+	  } else if (pdfeasible==DSDP_INFEASIBLE){
+	    printf("pdfeasible==DSDP_INFEASIBLE\n");
+	    fprintf(fp2," %-18s & %4d & %4d &     unbounded &    infeasible & %4.0e & %c & %3d & %6.2f \\\\\n",problemname,m,np,derr[0],success,its,t5-t3);
+	  } else { 
+	    printf("else\b");*/
+	    fprintf(fp2," %-18s & %4d & %4d & %13.7f & %13.7f & %4.0e & %c & %3d & %6.2f \\\\\n",problemname,m,np,-ppobj,-ddobj,derr[0],success,its,t5-t3);
+	  //}
       fclose(fp2);
-    }
+    //}
       
-    if (printsummary && rank==0){
+    //if (printsummary && rank==0){
       /*      info=DSDPComputeMinimumXEigenvalue(dsdp,&derr[1]); */
       printf("\nP Infeasible: %8.2e \n",derr[0]);
       printf("D Infeasible: %8.2e \n",derr[2]);
@@ -363,41 +398,43 @@ int ReadSDPAFile(int argc,char *argv[]){
       info=DSDPGetPenaltyParameter(dsdp,&dd);
       printf("Bounded by Penalty Parameter: %4.1e \n\n",dd);
       
-      if (printsummary){ DSDPEventLogSummary();}
+      //if (printsummary){ DSDPEventLogSummary();}
+      DSDPEventLogSummary();
       printf("--- DSDP Finished ---\n\n");
-    }
+    //}
 
-    if (rank==0){
+    /*if (rank==0){
       if (saveit){
-	fout=fopen(savefile,"w");
-	/*	fprintf(fout,"** %s \n",filename); Deleted */
-	info= DSDPPrintSolution(fout,dsdp,sdpcone,lpcone);
-	if (dddd.fixedvari){
-	  sspot=dddd.nblocks+1,dd=dddd.xout;
-	  fprintf(fout,"1 %d 1 1 1.0e-11\n1 %d 2 2 1.0e-11\n",sspot,sspot);
-	  fprintf(fout,"2 %d 1 1 %12.8e\n",sspot,DSDPMax(1.0e-10,dd));
-	  fprintf(fout,"2 %d 2 2 %12.8e\n",sspot,DSDPMax(1e-10,-dd));
-	}
-	fclose(fout);
+        printf("saveit %d\n",saveit);
+	    fout=fopen(savefile,"w");
+	    info= DSDPPrintSolution(fout,dsdp,sdpcone,lpcone);
+	    if (dddd.fixedvari){
+	      sspot=dddd.nblocks+1,dd=dddd.xout;
+	      fprintf(fout,"1 %d 1 1 1.0e-11\n1 %d 2 2 1.0e-11\n",sspot,sspot);
+	      fprintf(fout,"2 %d 1 1 %12.8e\n",sspot,DSDPMax(1.0e-10,dd));
+	      fprintf(fout,"2 %d 2 2 %12.8e\n",sspot,DSDPMax(1e-10,-dd));
+	    }
+	    fclose(fout);
       }
-    }
+    }*/
     
-    for (i=0; i<argc; i++){ 
-      if (rank==0 && strncmp(argv[i],"-view",5)==0){DSDPView(dsdp);}
-    }
+    //for (i=0; i<argc; i++){ 
+      //if (rank==0 && strncmp(argv[i],"-view",5)==0){DSDPView(dsdp);}
+    //}
 
     info = DSDPDestroy(dsdp);
     DSDPFREE(&dddd.matind,&info);
     DSDPFREE(&dddd.nnz,&info);
 
-    if (fileout){fclose(dsdpoutputfile);}
-    if (0){ DSDPMemoryLog();}
+    //if (fileout){fclose(dsdpoutputfile);}
+    //if (0){ DSDPMemoryLog();}
 
   }
-  if (runbenchmark){ fclose(fp1);}
+  //if (runbenchmark){ fclose(fp1);}
 
   return 0;
 } /* main */
+
 
 
 
