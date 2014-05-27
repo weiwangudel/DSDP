@@ -303,17 +303,17 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	} // end of DSDPDualMatInverseMultiply
   
   	/* RHS terms */
-  	//info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
-	{
-        //int SDPConeVecDot(SDPConeVec V1, SDPConeVec V2, double *ans){
-	  double *ans = &rtemp;
-	  SDPConeVec V1 = W;
-	  SDPConeVec V2 = W2;
-          ffinteger ione=1, nn=V1.dim;
-          double *v1=V1.val,*v2=V2.val;
-          *ans=ddot(&nn,v1,&ione,v2,&ione);
-        //}
-	} // end of SDPConeVecDot
+  	info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
+	//{
+        ////int SDPConeVecDot(SDPConeVec V1, SDPConeVec V2, double *ans){
+	//  double *ans = &rtemp;
+	//  SDPConeVec V1 = W;
+	//  SDPConeVec V2 = W2;
+        //  ffinteger ione=1, nn=V1.dim;
+        //  double *v1=V1.val,*v2=V2.val;
+        //  *ans=ddot(&nn,v1,&ione,v2,&ione);
+        ////}
+	//} // end of SDPConeVecDot
   	if (rtemp==0.0) continue;
   	rhs1i+=rtemp*ack*bmu; rhs2i+=rtemp*ack*ggamma*mu;
   	ack*=(ggamma+bmu);
