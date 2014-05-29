@@ -143,7 +143,19 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
         } else if (M.dsdpops->matrownonzeros){
           info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
           info=DSDPVecGetArray(V,&cols);DSDPCHKERR(info);
-          info=(M.dsdpops->matrownonzeros)(M.data,row-1,cols+1,nzcols,m-2); //DSDPChkMatError(M,info);
+          //info=(M.dsdpops->matrownonzeros)(M.data,row-1,cols+1,nzcols,m-2); //DSDPChkMatError(M,info);
+          {
+          //static int DTRUMatRowNonzeros(void*M, int row, double cols[], int *ncols,int nrows){
+            int i;
+            *nzcols = (row-1)+1;
+            for (i=0;i<=(row-1);i++){
+              (cols+1)[i]=1.0;
+            }
+            memset((void*)((cols+1)+(row-1)+1),0,(m-2-(row-1)-1)*sizeof(int));
+          //}
+	  } // end inlining function pointer matrownonzeros          
+
+
           info=DSDPVecRestoreArray(V,&cols);DSDPCHKERR(info);
           //info=DSDPZeroFixedVariables(M,V);DSDPCHKERR(info);
 	  {
