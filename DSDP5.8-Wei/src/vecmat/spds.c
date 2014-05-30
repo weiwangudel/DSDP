@@ -85,6 +85,7 @@ static int SpSymMatGetSize(void *DS, int*n){
 }
 
 static int SpSymMatZero(void*DS){
+  //printf("File %s line %d SpSymMatZero with address %d\n",__FILE__, __LINE__,&SpSymMatZero);
   spdsmat*ds=(spdsmat*)DS;
   int nn=ds->nnz[ds->n];
   double *an=ds->an;
@@ -108,6 +109,7 @@ static int SpSymMatMult(void*DS, double x[], double y[], int n){
 }
 
 static int SpSymMatVecVec(void*DS, double x[], int n, double *vAv){
+  //printf("File %s line %d SpSymMatVecVec with address %d\n",__FILE__, __LINE__,&SpSymMatVecVec);
   spdsmat*ds=(spdsmat*)DS;
   int i,j,k1,k2,*nnz=ds->nnz,*col=ds->col;
   double vv,*an=ds->an;

@@ -9,6 +9,33 @@
 
 struct  DSDPSchurMat_Ops{
   int id;
+  int ptr_matzero;
+  int ptr_matrownonzeros;
+  /*
+  ** 1: vecmat/dufull.c/DTRUMatRowNonzeros
+  ** 2: vecmat/cholmat.c/DSDPGramMatRowNonzeros
+  ** 3: vecmat/diag.c/DiagRowNonzeros
+  ** 4: vecmat/dlpack.c/DTPUMatRowNonzeros
+  */
+  int ptr_mataddrow;
+  int ptr_mataddelement;
+  int ptr_matadddiagonal;
+  int ptr_matshiftdiagonal;
+  int ptr_matassemble;
+  int ptr_matscaledmultiply;
+  int ptr_matmultr;
+  int ptr_matfactor;
+  int ptr_matsolve;
+  int ptr_matsetup;
+  int ptr_pmatwhichdiag;
+  int ptr_pmatonprocessor;
+  int ptr_pmatlocalvariables;
+  int ptr_pmatreduction;
+  int ptr_pmatdistributed;
+  int ptr_matdestroy;
+  int ptr_matview;
+  
+  
   int (*matzero)(void*);
   int (*matrownonzeros)(void*,int,double*,int*,int);
   int (*mataddrow)(void*,int,double,double[],int);

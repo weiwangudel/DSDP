@@ -92,6 +92,7 @@ static int DiagMatAddElement(void*A, int nrow, double dd){
 }
 
 static int DiagMatZeros(void*A){
+  //printf("File %s line %d DiagMatZeros with address %d\n",__FILE__, __LINE__,&DiagMatZeros);
   diagmat* AA = (diagmat*)A;
   int n=AA->n;
   memset(AA->val,0,n*sizeof(double));
@@ -109,6 +110,7 @@ static int DiagMatSolve(void* A, double b[], double x[],int n){
 }
 
 static int DiagMatSolve2(void* A, int indx[], int nindx, double b[], double x[],int n){
+  //printf("File %s line %d DiagMatSolve with address %d\n",__FILE__, __LINE__,&DiagMatSolve);
   diagmat* AA = (diagmat*)A;
   double *v=AA->val;
   int i,j;
@@ -288,6 +290,7 @@ int DSDPDiagDualMatCreateU(int n,
 
 
 static int DiagMatVecVec(void*A,double x[], int n, double *vv){
+  //printf("File %s line %d DiagMatVecVec with address %d\n",__FILE__, __LINE__,&DiagMatVecVec);
   diagmat* AA = (diagmat*)A;
   double *v=AA->val,vAv=0;
   int i;
@@ -362,6 +365,7 @@ int DSDPCreateDiagDSMatU(int n,struct  DSDPDSMat_Ops* *dsmatops, void**dsmat){
 }
 
 static int DiagRowNonzeros(void*M, int row, double cols[], int *ncols,int nrows){
+  //printf("File %s line %d DiagRowNonzeros with address %d\n",__FILE__, __LINE__,&DiagRowNonzeros);
   DSDPFunctionBegin;
   *ncols = 1;
   cols[row]=1.0;
@@ -439,6 +443,7 @@ static int DiagSchurOps(struct  DSDPSchurMat_Ops *sops){
   sops->matassemble=DiagAssemble;
   sops->pmatonprocessor=DiagMatOnProcessor;
   sops->matrownonzeros=DiagRowNonzeros;
+  sops->ptr_matrownonzeros=3;
   sops->id=9;
   sops->matname=diagmatname;
   DSDPFunctionReturn(0);

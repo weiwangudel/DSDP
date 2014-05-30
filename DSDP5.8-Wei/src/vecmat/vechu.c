@@ -60,6 +60,7 @@ static int VechMatAddMultiple(void* AA, double scl, double r[], int nn, int n){
 }
 
 static int VechMatDot(void* AA, double x[], int nn, int n, double *v){
+  //printf("File %s line %d VechMatDot with address %d\n",__FILE__, __LINE__,&VechMatDot);
   vechmat* A=(vechmat*)AA;
   int k,nnz=A->nnzeros; 
   const int *ind=A->ind;
@@ -76,6 +77,7 @@ static int EigMatVecVec(Eigen*, double[], int, double*);
 static int VechMatGetRank(void*,int*,int);
 
 static int VechMatVecVec(void* AA, double x[], int n, double *v){
+  //printf("File %s line %d VechMatVecVec with address %d\n",__FILE__, __LINE__,&VechMatVecVec);
   vechmat* A=(vechmat*)AA;
   int info,rank=n,i=0,j,k,kk;
   const int *ind=A->ind,ishift=A->ishift,nnz=A->nnzeros;
@@ -326,6 +328,7 @@ static int VechMatFactor(void*AA, double dmatp[], int nn0, double dwork[], int n
 }
 
 static int VechMatGetRank(void *AA,int *rank,int n){
+  //printf("File %s line %d VechMatGetRank with address %d\n",__FILE__, __LINE__,&VechMatGetRank);
   vechmat*  A=(vechmat*)AA;
   switch (A->factored){
   case 1:
@@ -344,6 +347,7 @@ static int VechMatGetRank(void *AA,int *rank,int n){
 }
 
 static int VechMatGetEig(void* AA, int rank, double *eigenvalue, double vv[], int n, int indx[], int *nind){
+  //printf("File %s line %d VechMatGetEig with address %d\n",__FILE__, __LINE__,&VechMatGetEig);
   vechmat*  A=(vechmat*)AA;
   const double *val=A->val,tt=sqrt(0.5);
   int info,i,j,k,t;
@@ -429,6 +433,7 @@ static int VechMatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   sops->matdestroy=VechMatDestroy;
   sops->matfactor2=VechMatFactor;
   sops->matgetrank=VechMatGetRank;
+  sops->ptr_matgetrank=7;
   sops->matgeteig=VechMatGetEig;
   sops->matrownz=VechMatGetRowNnz;
   sops->matnnz=VechMatCountNonzeros;

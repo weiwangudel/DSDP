@@ -138,6 +138,7 @@ static int SMatSetURMat(void*S, double v[], int nn, int n){
 }
 
 static int SMatSolve(void *S, int indx[], int nind, double b[], double x[],int n){
+  //printf("File %s line %d SMatSolve with address %d\n",__FILE__, __LINE__,&SMatSolve);
   spmat* SS=(spmat*)S;
   int i,ii;
   double alpha,*s1=SS->sinv,*s2;

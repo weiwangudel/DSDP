@@ -169,6 +169,7 @@ static int DSDPLinearSolve2(void* ctx, double dd[], double xx[], int n){
 #undef __FUNCT__
 #define __FUNCT__ "DSDPGramMatRowNonzeros"
 static int DSDPGramMatRowNonzeros(void*M, int row, double cols[], int *ncols, int nrows){
+  //printf("File %s line %d DSDPGramMatRowNonzeros with address %d\n",__FILE__, __LINE__,&DSDPGramMatRowNonzeros);
   MCholSolverALL *AMA = (MCholSolverALL *)M; 
   int i;
   DSDPFunctionBegin;
@@ -267,6 +268,7 @@ static int TMatOpsInit(struct  DSDPSchurMat_Ops *mops){
   DSDPFunctionBegin;
   info=DSDPSchurMatOpsInitialize(mops); DSDPCHKERR(info);
   mops->matrownonzeros=DSDPGramMatRowNonzeros;
+  mops->ptr_matrownonzeros=2;
   mops->mataddrow=Taddline;
   mops->matadddiagonal=TTTMatAddDiagonal;
   mops->mataddelement=Tadddiagonal;

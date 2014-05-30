@@ -87,6 +87,7 @@ static int IdentityMatDestroy(void* AA){
 
 
 static int IdentityMatVecVec(void* AA, double x[], int n, double *v){
+  //printf("File %s line %d IdentityMatVecVec with address %d\n",__FILE__, __LINE__,&IdentityMatVecVec);
   identitymat* A=(identitymat*)AA;
   int i;
   *v=0;
@@ -98,6 +99,7 @@ static int IdentityMatVecVec(void* AA, double x[], int n, double *v){
 }
 
 static int IdentityMatDotP(void* AA, double x[], int nn, int n, double *v){
+  //printf("File %s line %d IdentityMatDotP with address %d\n",__FILE__, __LINE__,&IdentityMatDotP);
   identitymat* A=(identitymat*)AA;
   int i;
   double *xx=x;
@@ -111,6 +113,7 @@ static int IdentityMatDotP(void* AA, double x[], int nn, int n, double *v){
 }
 
 static int IdentityMatDotF(void* AA, double x[], int nn, int n, double *v){
+  //printf("File %s line %d IdentityMatDotF with address %d\n",__FILE__, __LINE__,&IdentityMatDotF);
   identitymat* A=(identitymat*)AA;
   int i;
   double *xx=x;
@@ -131,11 +134,12 @@ static int IdentityMatFNorm2(void* AA, int n, double *v){
 
 static int IdentityMatView(void* AA){
   identitymat* A=(identitymat*)AA;
-  printf("Multiple of Identity matrix: All Diagonal elements equal %8.8e \n",A->dm);
+  //printf("Multiple of Identity matrix: All Diagonal elements equal %8.8e \n",A->dm);
   return 0;
 }
 
 static int IdentityMatGetRank(void *AA, int*rank, int n){
+  //printf("File %s line %d IdentityMatGetRank with address %d\n",__FILE__, __LINE__,&IdentityMatGetRank);
   identitymat* A=(identitymat*)AA;
   *rank=A->n;;
   return 0;
@@ -146,6 +150,7 @@ static int IdentityMatFactor(void*A){
 }
 
 static int IdentityMatGetEig(void*AA, int neig, double *eig, double v[], int n, int* indx, int *nind){
+  //printf("File %s line %d IdentityMatGetEig with address %d\n",__FILE__, __LINE__,&IdentityMatGetEig);
   identitymat* A = (identitymat*)AA;
 
   if (neig<0 || neig>= A->n){ *eig=0; return 0;} 
@@ -210,6 +215,7 @@ static int IdentitymatOperationsInitializeP(struct  DSDPDataMat_Ops* spdiagops){
   info=DSDPDataMatOpsInitialize(spdiagops); if (info){return info;}
   spdiagops->matfactor1=IdentityMatFactor;
   spdiagops->matgetrank=IdentityMatGetRank;
+  spdiagops->ptr_matgetrank=6;
   spdiagops->matgeteig=IdentityMatGetEig;
   spdiagops->matvecvec=IdentityMatVecVec;
   spdiagops->matrownz=IdentityMatGetRowNnz;
@@ -231,6 +237,7 @@ static int IdentitymatOperationsInitializeF(struct  DSDPDataMat_Ops* spdiagops){
   info=DSDPDataMatOpsInitialize(spdiagops); if (info){return info;}
   spdiagops->matfactor1=IdentityMatFactor;
   spdiagops->matgetrank=IdentityMatGetRank;
+  spdiagops->ptr_matgetrank=6;
   spdiagops->matgeteig=IdentityMatGetEig;
   spdiagops->matvecvec=IdentityMatVecVec;
   spdiagops->matrownz=IdentityMatGetRowNnz;

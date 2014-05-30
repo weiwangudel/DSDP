@@ -40,6 +40,7 @@ static int RCMatDestroy(void* AA){
   return 0;
 }
 static int RCMatVecVec(void* A, double x[], int n, double *v){
+  //printf("File %s line %d RCMatVecVec with address %d\n",__FILE__, __LINE__,&RCMatVecVec);
   rcmat*RC=(rcmat*)A;
   int i;
   double vv=0;
@@ -49,6 +50,7 @@ static int RCMatVecVec(void* A, double x[], int n, double *v){
   return 0;
 }
 static int RCMatDot(void* A, double x[], int nn, int n1, double *v){
+  //printf("File %s line %d RCMatDot with address %d\n",__FILE__, __LINE__,&RCMatDot);
   rcmat*RC=(rcmat*)A;
   int i,k=0,rc=RC->rc,n=RC->n;
   double vv=0;
@@ -88,11 +90,13 @@ static int RCMatFactor(void* A){
   return 0;
 }
 static int RCMatGetRank(void *A, int*rank, int n){
+  //printf("File %s line %d RCMatGetRank with address %d\n",__FILE__, __LINE__,&RCMatGetRank);
   *rank=2;
   return 0;
 }
 
 static int RCMatGetEig(void*A, int neig, double *eig, double v[], int n,int spind[], int *nind){
+  //printf("File %s line %d RCMatGetEig with address %d\n",__FILE__, __LINE__,&RCMatGetEig);
   rcmat*RC=(rcmat*)A;
   int i,rc=RC->rc;
   double x=RC->x,y=RC->y,xmy=x-y;
@@ -168,6 +172,8 @@ static int RCMatOperationsInitialize(struct  DSDPDataMat_Ops* rcmatoperator){
   info=DSDPDataMatOpsInitialize(rcmatoperator); if (info){ return info;}
   rcmatoperator->matfactor1=RCMatFactor;
   rcmatoperator->matgetrank=RCMatGetRank;
+  rcmatoperator->ptr_matgetrank=1;
+  
   rcmatoperator->matgeteig=RCMatGetEig;
   rcmatoperator->matvecvec=RCMatVecVec;
   rcmatoperator->matrownz=RCMatGetRowNnz;

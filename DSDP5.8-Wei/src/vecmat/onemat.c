@@ -45,7 +45,7 @@ int DSDPGetConstantMat(int n, double value, char UPLQ, struct  DSDPDataMat_Ops**
 
 
 static int ConstMatDot(void* A, double x[], int nn, int n, double *v){
-
+  //printf("File %s line %d ConstMatDot with address %d\n",__FILE__, __LINE__,&ConstMatDot);
   cmat* AA = (cmat*)A;
   double dtmp=0.0;
   int i,j;
@@ -66,6 +66,7 @@ static int ConstMatDot(void* A, double x[], int nn, int n, double *v){
 }
 
 static int ConstMatVecVec(void* A, double x[], int n, double *v){
+  //printf("File %s line %d ConstMatVecVec with address %d\n",__FILE__, __LINE__,&ConstMatVecVec);
 
   cmat* AA = (cmat*)A;
   double dtmp=0.0;
@@ -114,11 +115,13 @@ static int ConstMatFactor(void*A){
 }
 
 static int ConstMatGetRank(void *A, int*rank, int n){
+  //printf("File %s line %d ConstMatGetRank with address %d\n",__FILE__, __LINE__,&ConstMatGetRank);
   *rank=1;
   return 0;
 }
 
 static int ConstMatGetEig(void*A, int neig, double *eig, double v[], int n, int  indx[], int*nind){
+  //printf("File %s line %d ConstMatGetEig with address %d\n",__FILE__, __LINE__,&ConstMatGetEig);
   cmat* AA = (cmat*)A;
   int i;
   if (neig!=0) return 1;
@@ -177,6 +180,7 @@ static int ConstMatOpsInitialize(struct  DSDPDataMat_Ops* cmatops){
   info=DSDPDataMatOpsInitialize(cmatops); DSDPCHKERR(info);
   cmatops->matfactor1=ConstMatFactor;
   cmatops->matgetrank=ConstMatGetRank;
+  cmatops->ptr_matgetrank=4;
   cmatops->matgeteig=ConstMatGetEig;
   cmatops->matvecvec=ConstMatVecVec;
   cmatops->matdot=ConstMatDot;

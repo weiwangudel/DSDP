@@ -14,6 +14,7 @@ struct DSDPDataMat_Ops
 */
 struct  DSDPDataMat_Ops{
   int id;
+  int ptr_matgetrank;
   int (*mataddallmultiple)(void*,double,double[],int,int);
   int (*matdot)(void*, double[], int, int, double *);
   int (*matgetrank)(void*,int*,int);

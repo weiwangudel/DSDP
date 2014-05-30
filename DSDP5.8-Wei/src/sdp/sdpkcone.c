@@ -50,6 +50,7 @@ static int KSDPConeDestroy(void*);
 #undef __FUNCT__  
 #define __FUNCT__ "KSDPConeComputeHessian"
 static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec vrhs1, DSDPVec vrhs2){
+  printf("sdp/sdpkcone.c/KSDPConeComputeHessian with address %d\n",&KSDPConeComputeHessian);
   int info;
   SDPCone sdpcone=(SDPCone)K;
   DSDPFunctionBegin;
@@ -141,8 +142,13 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	  *nzcols=0;
           if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);*nzcols=1;}
         } else if (M.dsdpops->matrownonzeros){
+          printf("M.dsdpops->ptr_matrownonzeros %d\n",M.dsdpops->ptr_matrownonzeros);
           info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
           info=DSDPVecGetArray(V,&cols);DSDPCHKERR(info);
+          //printf("File %s line %d M.dsdpops->matrownonzeros point to %d located in ",__FILE__, __LINE__,M.dsdpops->matrownonzeros);
+          //Wei commented!!!: info=(M.dsdpops->matrownonzeros)(M.data,row-1,cols+1,nzcols,m-2); //DSDPChkMatError(M,info);
+          
+
           //info=(M.dsdpops->matrownonzeros)(M.data,row-1,cols+1,nzcols,m-2); //DSDPChkMatError(M,info);
           {
           //static int DTRUMatRowNonzeros(void*M, int row, double cols[], int *ncols,int nrows){
@@ -227,7 +233,10 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	  int n = blk[kk].n; 
           int info;
           if (A.dsdpops->matgetrank){
+            printf("A.dsdpops->matgetrank %d\n",A.dsdpops->ptr_matgetrank);
+            //printf("File %s line %d A.dsdpops->matgetrank point to %d located in ",__FILE__, __LINE__,A.dsdpops->matgetrank);
             info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+            
           } else {
             //DSDPNoOperationError(A);
 	    exit(-1);
@@ -254,6 +263,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    DSDPVMat X=T; 
             int info;
             if (X.dsdpops->matzeroentries){
+              //printf("File %s line %d X.dsdpops->matzeroentries point to %d located in ",__FILE__, __LINE__,X.dsdpops->matzeroentries);
               info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
             } else {
 	      exit(-1);
@@ -276,6 +286,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           int info,n;
           double *vv;
           if (A.dsdpops->matgeteig){
+            //printf("File %s line %d A.dsdpops->matgeteig point to %d located in ",__FILE__, __LINE__,A.dsdpops->matgeteig);
             info=SDPConeVecGetArray(V,&vv); DSDPCHKERR(info);
             info=SDPConeVecGetSize(V,&n); DSDPCHKERR(info);
             info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
@@ -299,6 +310,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           double *bb,*xx;
           //DSDPEventLogBegin(sdpdualsolve);
           if (S.dsdpops->matinversemultiply){
+            //printf("File %s line %d S.dsdpops->matinversemultiply point to %d located in ",__FILE__, __LINE__,S.dsdpops->matinversemultiply);
             info=SDPConeVecGetSize(X,&n); DSDPCHKERR(info);
             info=SDPConeVecGetArray(B,&bb); DSDPCHKERR(info);
             info=SDPConeVecGetArray(X,&xx); DSDPCHKERR(info);
@@ -343,6 +355,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             //DSDPEventLogBegin(sdpxmatevent);
             info=SDPConeVecGetSize(V,&n); //DSDPCHKERR(info);
             if (X.dsdpops->mataddouterproduct){
+              //printf("File %s line %d X.dsdpops->mataddouterproduct point to %d located in ",__FILE__, __LINE__,X.dsdpops->mataddouterproduct);
               info=SDPConeVecGetArray(V,&v); DSDPCHKERR(info);
               info=(X.dsdpops->mataddouterproduct)(X.matdata,alpha,v,n); //DSDPChkMatError(X,info);
               info=SDPConeVecRestoreArray(V,&v); //DSDPCHKERR(info);
@@ -383,6 +396,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
                 double *x;
               
                 if (A.dsdpops->matvecvec){
+                  //printf("File %s line %d A.dsdpops->matvecvec point to %d located in ",__FILE__, __LINE__,A.dsdpops->matvecvec);
                   info=SDPConeVecGetSize(W,&n); DSDPCHKERR(info);
                   info=SDPConeVecGetArray(W,&x); DSDPCHKERR(info);
                   info=(A.dsdpops->matvecvec)(A.matdata,x,n,v); // DSDPChkDataError(A,info);
@@ -468,6 +482,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    {
                 int info;
                 if (blk[kk].ADATA.A[ii].dsdpops->matdot){
+                  //printf("File %s line %d blk[kk].ADATA.A[ii].dsdpops->matdot point to %d located in ",__FILE__, __LINE__,blk[kk].ADATA.A[ii].dsdpops->matdot);
                   info=(blk[kk].ADATA.A[ii].dsdpops->matdot)(blk[kk].ADATA.A[ii].matdata,x,nn,n,&sum); 
 		  //DSDPChkDataError(blk[kk].ADATA.A[ii],info);
                 } else {
@@ -984,7 +999,9 @@ static int KSDPConeComputeMaxStepLength(void *K, DSDPVec DY, DSDPDualFactorMatri
 	      /*  DSDPEventLogBegin(id2); */
 	      if (A->type==2){
 	        info=DSDPVMatMult(A->x,X,Y);DSDPCHKERR(info);
+	        //printf("A->type==2\n");
 	      } else {
+	        //printf("A->type!=2\n");
 	        info=DSDPDualMatCholeskySolveBackward(A->ss,X,Y); DSDPCHKERR(info);
 	        info=DSDPDSMatMult(A->ds,Y,A->V); DSDPCHKERR(info);
 	        info=DSDPDualMatCholeskySolveForward(A->ss,A->V,Y); DSDPCHKERR(info);

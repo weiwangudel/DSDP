@@ -108,6 +108,7 @@ int DSDPGetR1UMat(int n, double ev, int ishift, const int spai[], const double s
 }
 
 static int R1MatDotP(void* A, double x[], int nn, int n, double *v){
+  //printf("File %s line %d R1MatDotP with address %d\n",__FILE__, __LINE__,&R1MatDotP);
   r1mat* AA = (r1mat*)A;
   int i,i2,i3,j,j2;
   int nnz=AA->nnz,ishift=AA->ishift;
@@ -153,6 +154,7 @@ static int R1MatDotU(void* A, double x[], int nn, int n, double *v){
 }
 
 static int R1MatVecVec(void* A, double x[], int n, double *v){
+  //printf("File %s line %d R1MatVecVec with address %d\n",__FILE__, __LINE__,&R1MatVecVec);
 
   r1mat* AA = (r1mat*)A;
   double dtmp=0.0;
@@ -231,11 +233,13 @@ static int R1MatFactor(void*A){
 
 
 static int R1MatGetRank(void *A, int*rank, int n){
+  //printf("File %s line %d R1MatGetRank with address %d\n",__FILE__, __LINE__,&R1MatGetRank);
   *rank=1;
   return 0;
 }
 
 static int R1MatGetEig(void*A, int neig, double *eig, double v[], int n, int  indx[], int*nind){
+  //printf("File %s line %d R1MatGetEig with address %d\n",__FILE__, __LINE__,&R1MatGetEig);
   r1mat* AA = (r1mat*)A;
   int i,aii,ishift=AA->ishift,nnz=AA->nnz;
   const int *ai=AA->spai;
@@ -313,6 +317,7 @@ static int R1MatOpsInitializeP(struct  DSDPDataMat_Ops* r1matops){
   info=DSDPDataMatOpsInitialize(r1matops); DSDPCHKERR(info);
   r1matops->matfactor1=R1MatFactor;
   r1matops->matgetrank=R1MatGetRank;
+  r1matops->ptr_matgetrank=8;
   r1matops->matgeteig=R1MatGetEig;
   r1matops->matvecvec=R1MatVecVec;
   r1matops->matdot=R1MatDotP;
@@ -333,6 +338,7 @@ static int R1MatOpsInitializeU(struct  DSDPDataMat_Ops* r1matops){
   info=DSDPDataMatOpsInitialize(r1matops); DSDPCHKERR(info);
   r1matops->matfactor1=R1MatFactor;
   r1matops->matgetrank=R1MatGetRank;
+  r1matops->ptr_matgetrank=8;
   r1matops->matgeteig=R1MatGetEig;
   r1matops->matvecvec=R1MatVecVec;
   r1matops->matdot=R1MatDotU;

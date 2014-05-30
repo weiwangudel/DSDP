@@ -298,6 +298,7 @@ static int DTRUMatAddRow(void* AA, int nrow, double dd, double row[], int n){
 }
 
 static int DTRUMatZero(void* AA){
+  //printf("File %s line %d DTRUMatZero with address %d\n",__FILE__, __LINE__,&DTRUMatZero);
   dtrumat* A=(dtrumat*) AA;
   int mn=A->n*(A->LDA);
   double *vv=A->val;
@@ -375,6 +376,7 @@ static int DTRUMatAssemble(void*M){
 }
 
 static int DTRUMatRowNonzeros(void*M, int row, double cols[], int *ncols,int nrows){
+  //printf("File %s line %d DTRUMatRowNonzeros with address %d\n",__FILE__, __LINE__,&DTRUMatRowNonzeros);
   int i;
   DSDPFunctionBegin;
   *ncols = row+1;
@@ -418,6 +420,7 @@ static int DSDPInitSchurOps(struct  DSDPSchurMat_Ops* mops){
   DSDPFunctionBegin;
   info=DSDPSchurMatOpsInitialize(mops);DSDPCHKERR(info);
   mops->matrownonzeros=DTRUMatRowNonzeros;
+  mops->ptr_matrownonzeros=1;
   mops->matscaledmultiply=DTRUMatMult;
   mops->matmultr=DTRUMatMultR;
   mops->mataddrow=DTRUMatAddRow;
@@ -457,6 +460,7 @@ int DSDPGetLAPACKSUSchurOps(int n,struct DSDPSchurMat_Ops** sops, void** mdata){
 
 
 static int DTRUMatCholeskyBackward(void* AA, double b[], double x[], int n){
+  //printf("vecmat/DTRUMatCholeskyBackward\n");
   dtrumat* M=(dtrumat*) AA;
   ffinteger N=M->n,INCX=1,LDA=M->LDA;
   double *AP=M->val,*ss=M->sscale;
@@ -469,6 +473,7 @@ static int DTRUMatCholeskyBackward(void* AA, double b[], double x[], int n){
 
 
 static int DTRUMatCholeskyForward(void* AA, double b[], double x[], int n){
+  //printf("vecmat/DTRUMatCholeskyForward\n");
   dtrumat* M=(dtrumat*) AA;
   ffinteger N=M->n,INCX=1,LDA=M->LDA;
   double *AP=M->val,*ss=M->sscale;
@@ -631,6 +636,7 @@ static void printrow(double r[], int n){int i;
     for (i=0;i<n;i++){printf(" %4.2e",r[i]);} printf("\n"); }
 */
 static int DTRUMatInverseMultiply(void* AA, int indx[], int nind, double x[], double y[],int n){
+  //printf("File %s line %d DTRUMatInverseMultiply with address %d\n",__FILE__, __LINE__,&DTRUMatInverseMultiply);
   dtrumat* A=(dtrumat*) AA;
   ffinteger nn=n,LDA=A->LDA,N=A->n,INCX=1,INCY=1;
   double *AP=A->v2,*s1=A->v2,*s2,*X=x,*Y=y,ALPHA=1.0,BETA=0.0;
@@ -844,6 +850,7 @@ static int DTRUMatScaleDiagonal(void* AA, double dd){
 }
 
 static int DTRUMatOuterProduct(void* AA, double alpha, double x[], int n){
+  //printf("File %s line %d DTRUMatOuterProduct with address %d\n",__FILE__, __LINE__,&DTRUMatOuterProduct);
   dtrumat* A=(dtrumat*) AA;
   ffinteger ione=1,N=n,LDA=A->LDA;
   double *v=A->val;
@@ -891,6 +898,7 @@ static int DDenseSetXMat(void*A, double v[], int nn, int n){
 }
 
 static int DDenseVecVec(void* A, double x[], int n, double *v){
+  //printf("File %s line %d DDenseVecVec with address %d\n",__FILE__, __LINE__,&DDenseVecVec);
   dtrumat*  ABA=(dtrumat*)A;
   int i,j,k=0,LDA=ABA->LDA;
   double dd=0,*val=ABA->val;
@@ -1093,6 +1101,7 @@ static int DvecumatAddMultiple(void* AA, double alpha, double r[], int nnn, int 
 
 static int DvecuEigVecVec(void*, double[], int, double*);
 static int DvecumatVecVec(void* AA, double x[], int n, double *v){
+  //printf("File %s line %d DvecumatVecVec with address %d\n",__FILE__, __LINE__,&DvecumatVecVec);
   dvecumat* A=(dvecumat*)AA;
   int i,j,k=0,LDA=A->AA->LDA;
   double dd=0,*val=A->AA->val;
@@ -1136,6 +1145,7 @@ static int DvecumatCountNonzeros(void* AA, int *nnz, int n){
 
 
 static int DvecumatDot(void* AA, double x[], int nn, int n, double *v){
+  //printf("File %s line %d DvecumatDot with address %d\n",__FILE__, __LINE__,&DvecumatDot);
   dvecumat* A=(dvecumat*)AA;
   double d1,dd=0,*v1=x,*v2=A->AA->val;
   ffinteger i,n2,ione=1,LDA=A->AA->LDA;
@@ -1230,6 +1240,7 @@ static int DvecumatFactor(void*AA, double dmatp[], int nn0, double dwork[], int 
 }
 
 static int DvecumatGetRank(void *AA,int *rank, int n){
+  //printf("File %s line %d DvecumatGetRank with address %d\n",__FILE__, __LINE__,&DvecumatGetRank);
   dvecumat*  A=(dvecumat*)AA;
   if (A->Eig){
     *rank=A->Eig->neigs;
@@ -1240,6 +1251,7 @@ static int DvecumatGetRank(void *AA,int *rank, int n){
 }
 
 static int DvecumatGetEig(void* AA, int rank, double *eigenvalue, double vv[], int n, int indz[], int *nind){
+  //printf("File %s line %d DvecumatGetEig with address %d\n",__FILE__, __LINE__,&DvecumatGetEig);
   dvecumat*  A=(dvecumat*)AA;
   int i,info;
   if (A->Eig){
@@ -1290,6 +1302,7 @@ static int DvecumatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   sops->matdestroy=DvecumatDestroy;
   sops->matfactor2=DvecumatFactor;
   sops->matgetrank=DvecumatGetRank;
+  sops->ptr_matgetrank=3;
   sops->matgeteig=DvecumatGetEig;
   sops->matrownz=DvecumatGetRowNnz;
   sops->matfnorm2=DvecumatFNorm2;

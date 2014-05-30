@@ -30,22 +30,26 @@ static int ZFactor(void *A){
 }
 
 static int ZGetRank(void*A,int*rank,int n){
+  //printf("File %s line %d ZGetRank with address %d\n",__FILE__, __LINE__,&ZGetRank);
   *rank=0;
   return 0;
 }
 
 static int ZGetEig(void*A,int neig, double *eig, double v[], int n,int indx[],int*nind){
+  //printf("File %s line %d ZGetEig with address %d\n",__FILE__, __LINE__,&ZGetEig);
   *eig=0.0;
   *nind=0;
   return 0;
 }
 
 static int ZDot(void*A, double x[], int nn, int n, double *sum){
+  //printf("File %s line %d ZDot with address %d\n",__FILE__, __LINE__,&ZDot);
   *sum=0.0;
   return 0;
 }
 
 static int ZVecVec(void*A, double x[], int n, double *sum){
+  //printf("File %s line %d ZVecVec with address %d\n",__FILE__, __LINE__,&ZVecVec);
   *sum=0.0;
   return 0;
 }
@@ -85,6 +89,7 @@ static int ZeroMatopsInitialize(struct  DSDPDataMat_Ops* sops){
   info=DSDPDataMatOpsInitialize(sops); if (info){ return info;}
   sops->matfactor1=ZFactor;
   sops->matgetrank=ZGetRank;
+  sops->ptr_matgetrank=5;
   sops->matgeteig=ZGetEig;
   sops->matvecvec=ZVecVec;
   sops->matdot=ZDot;
