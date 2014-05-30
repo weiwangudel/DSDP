@@ -143,6 +143,10 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);*nzcols=1;}
         } else if (M.dsdpops->matrownonzeros){
           printf("M.dsdpops->ptr_matrownonzeros %d\n",M.dsdpops->ptr_matrownonzeros);
+          if (M.dsdpops->ptr_matrownonzeros != 1) {
+	    printf("Not a static pointer functin, Do not just map to DTRUMatRowNonzeros!!!!!!!\n");
+	    exit(-1);
+	  }
           info=DSDPVecGetSize(V,&m);DSDPCHKERR(info);
           info=DSDPVecGetArray(V,&cols);DSDPCHKERR(info);
           //printf("File %s line %d M.dsdpops->matrownonzeros point to %d located in ",__FILE__, __LINE__,M.dsdpops->matrownonzeros);
