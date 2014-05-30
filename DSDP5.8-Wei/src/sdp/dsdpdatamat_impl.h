@@ -15,6 +15,30 @@ struct DSDPDataMat_Ops
 struct  DSDPDataMat_Ops{
   int id;
   int ptr_matgetrank;
+/*
+src/vecmat/drowcol.c:  rcmatoperator->matgetrank=RCMatGetRank;
+src/vecmat/drowcol.c:  rcmatoperator->ptr_matgetrank=1;
+src/vecmat/vech.c:  sops->matgetrank=VechMatGetRank;
+src/vecmat/vech.c:  sops->ptr_matgetrank=2;
+src/vecmat/dufull.c:  sops->matgetrank=DvecumatGetRank;
+src/vecmat/dufull.c:  sops->ptr_matgetrank=3;
+src/vecmat/onemat.c:  cmatops->matgetrank=ConstMatGetRank;
+src/vecmat/onemat.c:  cmatops->ptr_matgetrank=4;
+src/vecmat/zeromat.c:  sops->matgetrank=ZGetRank;
+src/vecmat/zeromat.c:  sops->ptr_matgetrank=5;
+src/vecmat/identity.c:  spdiagops->matgetrank=IdentityMatGetRank;
+src/vecmat/identity.c:  spdiagops->ptr_matgetrank=6;
+src/vecmat/identity.c:  spdiagops->matgetrank=IdentityMatGetRank;
+src/vecmat/identity.c:  spdiagops->ptr_matgetrank=6;
+src/vecmat/vechu.c:  sops->matgetrank=VechMatGetRank;
+src/vecmat/vechu.c:  sops->ptr_matgetrank=7;
+src/vecmat/rmmat.c:  r1matops->matgetrank=R1MatGetRank;
+src/vecmat/rmmat.c:  r1matops->ptr_matgetrank=8;
+src/vecmat/rmmat.c:  r1matops->matgetrank=R1MatGetRank;
+src/vecmat/rmmat.c:  r1matops->ptr_matgetrank=8;
+src/vecmat/dlpack.c:  sops->matgetrank=DvechmatGetRank;
+src/vecmat/dlpack.c:  sops->ptr_matgetrank=9;
+*/
   int (*mataddallmultiple)(void*,double,double[],int,int);
   int (*matdot)(void*, double[], int, int, double *);
   int (*matgetrank)(void*,int*,int);

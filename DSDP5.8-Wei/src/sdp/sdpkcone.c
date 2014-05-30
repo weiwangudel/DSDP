@@ -20,7 +20,28 @@
 #include "dsdpdualmat_impl.h"
 #include "dsdpdualmat.h"
 
+/* from vech.c and vechu.c (vechmat) */
+ typedef struct {
+   int    neigs;
+   double *eigval;
+   double *an;
+   int    *cols,*nnz;
+ } Eigen;
+ 
+ typedef struct {
+   int    nnzeros;
+   const int    *ind;
+   const double *val;
+   int ishift;
+   double alpha;
+   
+   Eigen   *Eig;
+   int factored;
+   int owndata;
+   int    n;
+ } vechmat;
 
+/* end from vech.c and vechu.c */
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -239,7 +260,46 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           if (A.dsdpops->matgetrank){
             printf("A.dsdpops->matgetrank %d\n",A.dsdpops->ptr_matgetrank);
             //printf("File %s line %d A.dsdpops->matgetrank point to %d located in ",__FILE__, __LINE__,A.dsdpops->matgetrank);
-            info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+            //src/vecmat/vech.c:  sops->matgetrank=VechMatGetRank;
+            //src/vecmat/vech.c:  sops->ptr_matgetrank=2;
+            //src/vecmat/identity.c:  spdiagops->matgetrank=IdentityMatGetRank;
+            //src/vecmat/identity.c:  spdiagops->ptr_matgetrank=6;
+            //src/vecmat/identity.c:  spdiagops->matgetrank=IdentityMatGetRank;
+            //src/vecmat/identity.c:  spdiagops->ptr_matgetrank=6; 
+            //src/vecmat/vechu.c:  sops->matgetrank=VechMatGetRank;
+            //src/vecmat/vechu.c:  sops->ptr_matgetrank=7;
+            
+            if (A.dsdpops->ptr_matgetrank == 2 || A.dsdpops->ptr_matgetrank == 7 ) { /* vech.c and vechu.c the same) */
+            //info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+	      { 
+              //static int VechMatGetRank(void *AA,int *rank,int n)
+                //printf("File %s line %d VechMatGetRank with address %d\n",__FILE__, __LINE__,&VechMatGetRank);
+                vechmat*  B=(vechmat*)A.matdata;
+                switch (B->factored){
+                case 1:
+                  rank=B->nnzeros;
+                  break;
+                case 2:
+                  rank=2*B->nnzeros;                                               
+                  break;                
+                case 3:
+                  rank=B->Eig->neigs;
+                  break;
+                default:
+                  DSDPSETERR(1,"Vech Matrix not factored yet\n");
+                } // end of switch
+              }   // end of inlining VechMatGetRank
+	   
+            } 
+            else if (A.dsdpops->ptr_matgetrank == 6) {
+              info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+	    }
+            else {
+	      printf(" Error! Should be impossible to get here!\n");
+	      exit(-1);
+	    } 
+            
+            //info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
             
           } else {
             //DSDPNoOperationError(A);
