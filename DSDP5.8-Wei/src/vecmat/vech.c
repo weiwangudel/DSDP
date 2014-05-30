@@ -441,6 +441,7 @@ static int VechMatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   sops->matgetrank=VechMatGetRank;
   sops->ptr_matgetrank=2;
   sops->matgeteig=VechMatGetEig;
+  sops->ptr_matgeteig=2;
   sops->matrownz=VechMatGetRowNnz;
   sops->matnnz=VechMatCountNonzeros;
   sops->id=3;

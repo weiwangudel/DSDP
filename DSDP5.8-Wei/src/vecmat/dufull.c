@@ -955,6 +955,7 @@ static int DSDPDenseXInitializeOps(struct  DSDPVMat_Ops* densematops){
   densematops->matfnorm2=DenseSymPSDNormF2;
   densematops->matgetsize=DTRUMatGetSize;
   densematops->matzeroentries=DTRUMatZero;
+  densematops->ptr_matzeroentries=1;
   densematops->matgeturarray=DTRUMatGetDenseArray;
   densematops->matrestoreurarray=DTRUMatRestoreDenseArray;
   densematops->matmineig=DTRUMatEigs;
@@ -1002,6 +1003,7 @@ static int DSDPDSDenseInitializeOps(struct  DSDPDSMat_Ops* densematops){
   densematops->matdestroy=DTRUMatDestroy;
   densematops->matgetsize=DTRUMatGetSize;
   densematops->matzeroentries=DTRUMatZero;
+  densematops->ptr_matzeroentries=1;
   densematops->matmult=DTRUMatMult;
   densematops->matvecvec=DDenseVecVec;
   densematops->id=1;
@@ -1304,6 +1306,7 @@ static int DvecumatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   sops->matgetrank=DvecumatGetRank;
   sops->ptr_matgetrank=3;
   sops->matgeteig=DvecumatGetEig;
+  sops->ptr_matgeteig=3;
   sops->matrownz=DvecumatGetRowNnz;
   sops->matfnorm2=DvecumatFNorm2;
   sops->matnnz=DvecumatCountNonzeros;

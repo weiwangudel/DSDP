@@ -311,6 +311,7 @@ static int DDiagDSMatOpsInitP(struct  DSDPDSMat_Ops *ddiagops){
   ddiagops->matmult=DiagMatMult;
   ddiagops->matvecvec=DiagMatVecVec;
   ddiagops->matzeroentries=DiagMatZeros;
+  ddiagops->ptr_matzeroentries=3;
   ddiagops->matdestroy=DiagMatDestroy;
   ddiagops->id=9;
   ddiagops->matname=diagmatname;
@@ -326,6 +327,7 @@ static int DDiagDSMatOpsInitU(struct  DSDPDSMat_Ops *ddiagops){
   ddiagops->matmult=DiagMatMult;
   ddiagops->matvecvec=DiagMatVecVec;
   ddiagops->matzeroentries=DiagMatZeros;
+  ddiagops->ptr_matzeroentries=3;
   ddiagops->matdestroy=DiagMatDestroy;
   ddiagops->id=9;
   ddiagops->matname=diagmatname;

@@ -39,6 +39,35 @@ src/vecmat/rmmat.c:  r1matops->ptr_matgetrank=8;
 src/vecmat/dlpack.c:  sops->matgetrank=DvechmatGetRank;
 src/vecmat/dlpack.c:  sops->ptr_matgetrank=9;
 */
+
+  int ptr_matgeteig;
+/*
+../src/vecmat/drowcol.c:  rcmatoperator->matgeteig=RCMatGetEig;
+../src/vecmat/drowcol.c:  rcmatoperator->ptr_matgeteig=1;
+../src/vecmat/vech.c:  sops->matgeteig=VechMatGetEig;
+../src/vecmat/vech.c:  sops->ptr_matgeteig=2;
+../src/vecmat/dufull.c:  sops->matgeteig=DvecumatGetEig;
+../src/vecmat/dufull.c:  sops->ptr_matgeteig=3;
+../src/vecmat/onemat.c:  cmatops->matgeteig=ConstMatGetEig;
+../src/vecmat/onemat.c:  cmatops->ptr_matgeteig=4;
+../src/vecmat/zeromat.c:  sops->matgeteig=ZGetEig;
+../src/vecmat/zeromat.c:  sops->ptr_matgeteig=5;
+../src/vecmat/identity.c:  spdiagops->matgeteig=IdentityMatGetEig;
+../src/vecmat/identity.c:  spdiagops->ptr_matgeteig=6;
+../src/vecmat/identity.c:  spdiagops->matgeteig=IdentityMatGetEig;
+../src/vecmat/identity.c:  spdiagops->ptr_matgeteig=6;
+../src/vecmat/vechu.c:  sops->matgeteig=VechMatGetEig;
+../src/vecmat/vechu.c:  sops->ptr_matgeteig=7;
+../src/vecmat/rmmat.c:  r1matops->matgeteig=R1MatGetEig;
+../src/vecmat/rmmat.c:  r1matops->ptr_matgeteig=8;
+../src/vecmat/rmmat.c:  r1matops->matgeteig=R1MatGetEig;
+../src/vecmat/rmmat.c:  r1matops->ptr_matgeteig=8;
+../src/vecmat/dlpack.c:  sops->matgeteig=DvechmatGetEig;
+../src/vecmat/dlpack.c:  sops->ptr_matgeteig=9;
+*/  
+  
+  
+  
   int (*mataddallmultiple)(void*,double,double[],int,int);
   int (*matdot)(void*, double[], int, int, double *);
   int (*matgetrank)(void*,int*,int);

@@ -141,7 +141,7 @@ static int IdentityMatView(void* AA){
 static int IdentityMatGetRank(void *AA, int*rank, int n){
   //printf("File %s line %d IdentityMatGetRank with address %d\n",__FILE__, __LINE__,&IdentityMatGetRank);
   identitymat* A=(identitymat*)AA;
-  *rank=A->n;;
+  *rank=A->n;
   return 0;
 }
 
@@ -217,6 +217,7 @@ static int IdentitymatOperationsInitializeP(struct  DSDPDataMat_Ops* spdiagops){
   spdiagops->matgetrank=IdentityMatGetRank;
   spdiagops->ptr_matgetrank=6;
   spdiagops->matgeteig=IdentityMatGetEig;
+  spdiagops->ptr_matgeteig=6;
   spdiagops->matvecvec=IdentityMatVecVec;
   spdiagops->matrownz=IdentityMatGetRowNnz;
   spdiagops->matdot=IdentityMatDotP;
@@ -239,6 +240,7 @@ static int IdentitymatOperationsInitializeF(struct  DSDPDataMat_Ops* spdiagops){
   spdiagops->matgetrank=IdentityMatGetRank;
   spdiagops->ptr_matgetrank=6;
   spdiagops->matgeteig=IdentityMatGetEig;
+  spdiagops->ptr_matgeteig=6;
   spdiagops->matvecvec=IdentityMatVecVec;
   spdiagops->matrownz=IdentityMatGetRowNnz;
   spdiagops->matdot=IdentityMatDotF;

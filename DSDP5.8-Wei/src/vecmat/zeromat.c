@@ -91,6 +91,7 @@ static int ZeroMatopsInitialize(struct  DSDPDataMat_Ops* sops){
   sops->matgetrank=ZGetRank;
   sops->ptr_matgetrank=5;
   sops->matgeteig=ZGetEig;
+  sops->ptr_matgeteig=5;
   sops->matvecvec=ZVecVec;
   sops->matdot=ZDot;
   sops->matfnorm2=ZNorm2;

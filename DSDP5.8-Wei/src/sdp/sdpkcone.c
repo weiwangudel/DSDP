@@ -41,7 +41,89 @@
    int    n;
  } vechmat;
 
+#define GETI_VECH(a)    (int)(sqrt(2*(a)+0.25)-0.5)
+#define GETJ_VECH(b,c)  ((b)-((c)*((c)+1))/2)
+
+static void getij_vech(int k, int *i,int *j){
+  *i=GETI_VECH(k);
+  *j=GETJ_VECH(k,*i);
+  return;
+}
+
+#define GETI_VECHU(a,b)    (int)((int)a/(int)b)
+#define GETJ_VECHU(a,b)    (int)((int)a%(int)b)
+
+static void getij_vechu(int k, int n, int *i,int *j){
+  *i=GETI_VECHU(k,n);
+  *j=GETJ_VECHU(k,n);
+  return;
+}
+
+static int EigMatGetEig(Eigen* A,int row, double *eigenvalue, double eigenvector[], int n, int spind[], int *nind){
+  int i,*cols=A->cols,bb,ee;
+  double* an=A->an;
+  *eigenvalue=A->eigval[row];
+  *nind=0;
+  if (cols){
+    memset((void*)eigenvector,0,n*sizeof(double));
+    if (row==0){ bb=0;} else {bb=A->nnz[row-1];} ee=A->nnz[row];
+    for (i=bb;i<ee;i++){
+      eigenvector[cols[i]]=an[i];
+      spind[i-bb]=cols[i]; (*nind)++;
+    }
+  } else {
+    memcpy((void*)eigenvector,(void*)(an+n*row),n*sizeof(double));
+    for (i=0;i<n;i++)spind[i]=i;
+    *nind=n;
+  }
+  return 0;
+}
+
 /* end from vech.c and vechu.c */
+
+/* from identity.c */
+
+typedef struct {
+  int n;
+  double dm;
+} identitymat;
+
+/* end from identity.c */
+
+/* from dufull.c */
+typedef enum {
+  Init=0,
+  Assemble=1,
+  Factored=2,   /* fail to allocate required space */
+  Inverted=3,    /* indefinity is detected          */
+  ISymmetric=4
+} MatStatus;
+
+typedef struct{
+  char UPLO;
+  int LDA;
+  double *val,*v2;
+  double *sscale;
+  double *workn;
+  int  scaleit;
+  int n;
+  int owndata;
+  MatStatus status;
+} dtrumat;
+/* end from dufull.c */
+
+/* from dlpack.c */
+typedef struct{
+  char UPLO;
+  double *val;
+  double *v2;
+  double *sscale;
+  int  scaleit;
+  int n;
+  int owndata;
+} dtpumat;
+/* end from dlpack.c */
+
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -71,7 +153,7 @@ static int KSDPConeDestroy(void*);
 #undef __FUNCT__  
 #define __FUNCT__ "KSDPConeComputeHessian"
 static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec vrhs1, DSDPVec vrhs2){
-  printf("sdp/sdpkcone.c/KSDPConeComputeHessian with address %d\n",&KSDPConeComputeHessian);
+  //printf("sdp/sdpkcone.c/KSDPConeComputeHessian with address %d\n",&KSDPConeComputeHessian);
   int info;
   SDPCone sdpcone=(SDPCone)K;
   DSDPFunctionBegin;
@@ -163,7 +245,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	  *nzcols=0;
           if (r){info=DSDPVecSetR(V,1.0);DSDPCHKERR(info);*nzcols=1;}
         } else if (M.dsdpops->matrownonzeros){
-          printf("M.dsdpops->ptr_matrownonzeros %d\n",M.dsdpops->ptr_matrownonzeros);
+          //printf("M.dsdpops->ptr_matrownonzeros %d\n",M.dsdpops->ptr_matrownonzeros);
           if (M.dsdpops->ptr_matrownonzeros != 1) {
 	    printf("Not a static pointer functin, Do not just map to DTRUMatRowNonzeros!!!!!!!\n");
 	    exit(-1);
@@ -258,7 +340,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	  int n = blk[kk].n; 
           int info;
           if (A.dsdpops->matgetrank){
-            printf("A.dsdpops->matgetrank %d\n",A.dsdpops->ptr_matgetrank);
+            //printf("A.dsdpops->matgetrank %d\n",A.dsdpops->ptr_matgetrank);
             //printf("File %s line %d A.dsdpops->matgetrank point to %d located in ",__FILE__, __LINE__,A.dsdpops->matgetrank);
             //src/vecmat/vech.c:  sops->matgetrank=VechMatGetRank;
             //src/vecmat/vech.c:  sops->ptr_matgetrank=2;
@@ -292,7 +374,14 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	   
             } 
             else if (A.dsdpops->ptr_matgetrank == 6) {
-              info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+              //info=(A.dsdpops->matgetrank)(A.matdata,&rank,n); //DSDPChkDataError(A,info);
+            {
+              //static int IdentityMatGetRank(void *AA, int*rank, int n){
+                  //printf("File %s line %d IdentityMatGetRank with address %d\n",__FILE__, __LINE__,&IdentityMatGetRank);
+                  identitymat* B=(identitymat*)A.matdata;
+                  rank=B->n;
+                  
+            }  
 	    }
             else {
 	      printf(" Error! Should be impossible to get here!\n");
@@ -327,8 +416,57 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    DSDPVMat X=T; 
             int info;
             if (X.dsdpops->matzeroentries){
+            //info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            //printf("X.dsdpops->matzeroentries %d\n",X.dsdpops->ptr_matzeroentries);
+            // only 1 and 4
+            /*
+            ../src/vecmat/dufull.c:  densematops->matzeroentries=DTRUMatZero;
+            ../src/vecmat/dufull.c:  densematops->ptr_matzeroentries=1;
+            ../src/vecmat/dufull.c:  densematops->matzeroentries=DTRUMatZero;
+            ../src/vecmat/dufull.c:  densematops->ptr_matzeroentries=1;
+            ../src/vecmat/spds.c:  dsops->matzeroentries=SpSymMatZero;
+            ../src/vecmat/spds.c:  dsops->ptr_matzeroentries=2;
+            ../src/vecmat/spds.c:  dsops->matzeroentries=SpSymMatZero;
+            ../src/vecmat/spds.c:  dsops->ptr_matzeroentries=2;
+            ../src/vecmat/diag.c:  ddiagops->matzeroentries=DiagMatZeros;
+            ../src/vecmat/diag.c:  ddiagops->ptr_matzeroentries=3;
+            ../src/vecmat/diag.c:  ddiagops->matzeroentries=DiagMatZeros;
+            ../src/vecmat/diag.c:  ddiagops->ptr_matzeroentries=3;
+            ../src/vecmat/dlpack.c:  densematops->matzeroentries=DTPUMatZero;
+            ../src/vecmat/dlpack.c:  densematops->ptr_matzeroentries=4;
+            ../src/vecmat/dlpack.c:  densematops->matzeroentries=DTPUMatZero;
+            ../src/vecmat/dlpack.c:  densematops->ptr_matzeroentries=4;
+
+            */
+            if(X.dsdpops->ptr_matzeroentries==1){
+            //info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            //static int DTRUMatZero(void* AA){
+            {
+              //printf("File %s line %d DTRUMatZero with address %d\n",__FILE__, __LINE__,&DTRUMatZero);
+              dtrumat* B=(dtrumat*) X.matdata;
+              int mn=B->n*(B->LDA);
+              double *vv=B->val;
+              memset((void*)vv,0,mn*sizeof(double));
+              B->status=Assemble;
+              //return 0;
+            }
+            }else if(X.dsdpops->ptr_matzeroentries==4){
               //printf("File %s line %d X.dsdpops->matzeroentries point to %d located in ",__FILE__, __LINE__,X.dsdpops->matzeroentries);
-              info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+              //info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            //static int DTPUMatZero(void* AA){
+            {
+              //printf("File %s line %d DTPUMatZero with address %d\n",__FILE__, __LINE__,&DTPUMatZero);
+              dtpumat* B=(dtpumat*) X.matdata;
+              int mn=B->n*(B->n+1)/2;
+              double *vv=B->val;
+              memset((void*)vv,0,mn*sizeof(double));
+              //return 0;
+            }
+            }else{
+                printf("X.dsdpops->ptr_matzeroentries Error! Should be impossible to get here!\n");
+            }
+              
+              
             } else {
 	      exit(-1);
               //DSDPNoOperationError(X);
@@ -350,10 +488,178 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           int info,n;
           double *vv;
           if (A.dsdpops->matgeteig){
+            //printf("A.dsdpops->matgeteig %d\n",A.dsdpops->ptr_matgeteig);
+            // only 2,6 and 7
+            
+            /*
+            ../src/vecmat/drowcol.c:  rcmatoperator->matgeteig=RCMatGetEig;
+            ../src/vecmat/drowcol.c:  rcmatoperator->ptr_matgeteig=1;
+            ../src/vecmat/vech.c:  sops->matgeteig=VechMatGetEig;
+            ../src/vecmat/vech.c:  sops->ptr_matgeteig=2;
+            ../src/vecmat/dufull.c:  sops->matgeteig=DvecumatGetEig;
+            ../src/vecmat/dufull.c:  sops->ptr_matgeteig=3;
+            ../src/vecmat/onemat.c:  cmatops->matgeteig=ConstMatGetEig;
+            ../src/vecmat/onemat.c:  cmatops->ptr_matgeteig=4;
+            ../src/vecmat/zeromat.c:  sops->matgeteig=ZGetEig;
+            ../src/vecmat/zeromat.c:  sops->ptr_matgeteig=5;
+            ../src/vecmat/identity.c:  spdiagops->matgeteig=IdentityMatGetEig;
+            ../src/vecmat/identity.c:  spdiagops->ptr_matgeteig=6;
+            ../src/vecmat/identity.c:  spdiagops->matgeteig=IdentityMatGetEig;
+            ../src/vecmat/identity.c:  spdiagops->ptr_matgeteig=6;
+            ../src/vecmat/vechu.c:  sops->matgeteig=VechMatGetEig;
+            ../src/vecmat/vechu.c:  sops->ptr_matgeteig=7;
+            ../src/vecmat/rmmat.c:  r1matops->matgeteig=R1MatGetEig;
+            ../src/vecmat/rmmat.c:  r1matops->ptr_matgeteig=8;
+            ../src/vecmat/rmmat.c:  r1matops->matgeteig=R1MatGetEig;
+            ../src/vecmat/rmmat.c:  r1matops->ptr_matgeteig=8;
+            ../src/vecmat/dlpack.c:  sops->matgeteig=DvechmatGetEig;
+            ../src/vecmat/dlpack.c:  sops->ptr_matgeteig=9;
+            */ 
+            
+            
+            
             //printf("File %s line %d A.dsdpops->matgeteig point to %d located in ",__FILE__, __LINE__,A.dsdpops->matgeteig);
             info=SDPConeVecGetArray(V,&vv); DSDPCHKERR(info);
             info=SDPConeVecGetSize(V,&n); DSDPCHKERR(info);
-            info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+            //info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+            if(A.dsdpops->ptr_matgeteig == 2){
+            {
+              //info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+            //static int VechMatGetEig(void* AA, int rank, double *eigenvalue, double vv[], int n, int indx[], int *nind){
+              //printf("File %s line %d VechMatGetEig with address %d\n",__FILE__, __LINE__,&VechMatGetEig);
+              vechmat*  B=(vechmat*)A.matdata;
+              const double *val=B->val,tt=sqrt(0.5);
+              int info,i,j,k,ishift=B->ishift;
+              const int *ind=B->ind;
+
+              S.indx[0]=0;
+              switch (B->factored){
+              case 1:
+                memset(vv,0,n*sizeof(double));
+                getij_vech(ind[rr]-ishift,&i,&j);
+                vv[i]=1.0;
+                *eigenvalue=val[rr]*B->alpha;
+                S.indx[0]=1;
+                S.indx[1]=i;
+                break;
+              case 2:
+                memset(vv,0,n*sizeof(double));
+                k=rr/2;
+                getij_vech(ind[k]-ishift,&i,&j);
+                if (i==j){
+                  if (k*2==rr){ 
+	            vv[i]=1.0; *eigenvalue=val[k]*B->alpha;
+	            S.indx[0]=1;
+	            S.indx[1]=i;
+                  } else {
+	            *eigenvalue=0;
+                  }
+                } else {
+                  if (k*2==rr){
+	            vv[i]=tt;  vv[j]=tt; *eigenvalue=val[k]*B->alpha;
+	            S.indx[0]=2;
+	            S.indx[1]=i; S.indx[2]=j;
+                  } else {
+	            vv[i]=-tt; vv[j]=tt; *eigenvalue=-val[k]*B->alpha;
+	            S.indx[0]=2;
+	            S.indx[1]=i; S.indx[2]=j;
+                  }
+                }
+                break;
+              case 3:
+                info=EigMatGetEig(B->Eig,rr,eigenvalue,vv,n,S.indx+1,S.indx);DSDPCHKERR(info);
+                //EigMatGetEig(Eigen* A,int row, double *eigenvalue, double eigenvector[], int n, int spind[], int *nind)
+                  
+                *eigenvalue=*eigenvalue*B->alpha;
+                break;
+              default:
+                DSDPSETERR(1,"Vech Matrix not factored yet\n");
+              }
+
+              //return 0;  
+            }
+            }else if(A.dsdpops->ptr_matgeteig == 6){
+            
+            {
+            //info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+            //static int IdentityMatGetEig(void*AA, int neig, double *eig, double v[], int n, int* indx, int *nind){
+              //printf("File %s line %d IdentityMatGetEig with address %d\n",__FILE__, __LINE__,&IdentityMatGetEig);
+              identitymat* B = (identitymat*)A.matdata;
+
+              if (rr<0 || rr>= B->n){ *eigenvalue=0; return 0;} 
+              memset((void*)vv,0,(B->n)*sizeof(double)); 
+              vv[rr]=1.0;
+              S.indx[1]=rr;
+              S.indx[0]=1;
+              *eigenvalue=B->dm;  
+              //return 0;
+            }
+            
+            
+            }else if(A.dsdpops->ptr_matgeteig == 7){
+                //info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+                //static int VechMatGetEig(void* AA, int rank, double *eigenvalue, double vv[], int n, int indx[], int *nind){
+                {  //printf("File %s line %d VechMatGetEig with address %d\n",__FILE__, __LINE__,&VechMatGetEig);
+                  vechmat*  B=(vechmat*)A.matdata;
+                  const double *val=B->val,tt=sqrt(0.5);
+                  int info,i,j,k,t;
+                  const int *ind=B->ind,ishift=B->ishift;
+
+                  S.indx[0]=0;
+                  switch (B->factored){
+                  case 1:
+                    memset(vv,0,n*sizeof(double));
+                    t=ind[rr]-ishift;
+                    i=GETI_VECHU(t,n);
+                    j=GETJ_VECHU(t,n);
+                    vv[i]=1.0;
+                    *eigenvalue=val[rr]*B->alpha;
+                    S.indx[0]=1;
+                    S.indx[1]=i;
+                    break;
+                  case 2:
+                    memset(vv,0,n*sizeof(double));
+                    k=rr/2;
+                    getij_vechu(ind[k]-ishift,n,&i,&j);
+                    if (i==j){
+                      if (k*2==rr){ 
+	                vv[i]=1.0; *eigenvalue=val[k]*B->alpha;
+	                S.indx[0]=1;
+	                S.indx[1]=i;
+                      } else {
+	                *eigenvalue=0;
+                      }
+                    } else {
+                      if (k*2==rr){
+	                vv[i]=tt;  vv[j]=tt; *eigenvalue=val[k]*B->alpha;
+	                S.indx[0]=2;
+	                S.indx[1]=i; S.indx[2]=j;
+                      } else {
+	                vv[i]=-tt; vv[j]=tt; *eigenvalue=-val[k]*B->alpha;
+	                S.indx[0]=2;
+	                S.indx[1]=i; S.indx[2]=j;
+                      }
+                    }
+                    break;
+                  case 3:
+                    info=EigMatGetEig(B->Eig,rr,eigenvalue,vv,n,S.indx+1,S.indx);DSDPCHKERR(info);
+                    *eigenvalue=*eigenvalue*B->alpha;
+                    break;
+                  default:
+                    DSDPSETERR(1,"Vech Matrix not factored yet\n");
+                  }
+
+                  //return 0;  
+                }
+            }
+            
+            
+            else{
+                printf("A.dsdpops->ptr_matgeteig Error! Should be impossible to get here!\n");
+                //info=(A.dsdpops->matgeteig)(A.matdata,rr, eigenvalue, vv,n,S.indx+1,S.indx); //DSDPChkDataError(A,info);
+            }
+            
+            
             info=SDPConeVecRestoreArray(V,&vv); DSDPCHKERR(info);
           } else {
             //DSDPNoOperationError(A);

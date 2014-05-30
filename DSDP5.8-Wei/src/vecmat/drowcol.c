@@ -175,6 +175,7 @@ static int RCMatOperationsInitialize(struct  DSDPDataMat_Ops* rcmatoperator){
   rcmatoperator->ptr_matgetrank=1;
   
   rcmatoperator->matgeteig=RCMatGetEig;
+  rcmatoperator->ptr_matgeteig=1;
   rcmatoperator->matvecvec=RCMatVecVec;
   rcmatoperator->matrownz=RCMatGetRowNnz;
   rcmatoperator->matdot=RCMatDot;

@@ -14,6 +14,29 @@ struct DSDPDSMat_Ops
 */
 struct  DSDPDSMat_Ops{
   int id;
+
+  int ptr_matzeroentries;
+/*
+../src/vecmat/dufull.c:  densematops->matzeroentries=DTRUMatZero;
+../src/vecmat/dufull.c:  densematops->ptr_matzeroentries=1;
+../src/vecmat/dufull.c:  densematops->matzeroentries=DTRUMatZero;
+../src/vecmat/dufull.c:  densematops->ptr_matzeroentries=1;
+../src/vecmat/spds.c:  dsops->matzeroentries=SpSymMatZero;
+../src/vecmat/spds.c:  dsops->ptr_matzeroentries=2;
+../src/vecmat/spds.c:  dsops->matzeroentries=SpSymMatZero;
+../src/vecmat/spds.c:  dsops->ptr_matzeroentries=2;
+../src/vecmat/diag.c:  ddiagops->matzeroentries=DiagMatZeros;
+../src/vecmat/diag.c:  ddiagops->ptr_matzeroentries=3;
+../src/vecmat/diag.c:  ddiagops->matzeroentries=DiagMatZeros;
+../src/vecmat/diag.c:  ddiagops->ptr_matzeroentries=3;
+../src/vecmat/dlpack.c:  densematops->matzeroentries=DTPUMatZero;
+../src/vecmat/dlpack.c:  densematops->ptr_matzeroentries=4;
+../src/vecmat/dlpack.c:  densematops->matzeroentries=DTPUMatZero;
+../src/vecmat/dlpack.c:  densematops->ptr_matzeroentries=4;
+
+*/
+  
+  
   int (*matzeroentries)(void*); 
   int (*matmult)(void*,double[],double[], int); /* Multiply by a vector */
   int (*matgetsize)(void*,int*);

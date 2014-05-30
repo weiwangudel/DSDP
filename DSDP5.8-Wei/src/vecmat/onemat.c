@@ -182,6 +182,7 @@ static int ConstMatOpsInitialize(struct  DSDPDataMat_Ops* cmatops){
   cmatops->matgetrank=ConstMatGetRank;
   cmatops->ptr_matgetrank=4;
   cmatops->matgeteig=ConstMatGetEig;
+  cmatops->ptr_matgeteig=4;
   cmatops->matvecvec=ConstMatVecVec;
   cmatops->matdot=ConstMatDot;
   cmatops->mataddrowmultiple=ConstMatAddRowMultiple;

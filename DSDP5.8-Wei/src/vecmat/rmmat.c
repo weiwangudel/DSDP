@@ -319,6 +319,7 @@ static int R1MatOpsInitializeP(struct  DSDPDataMat_Ops* r1matops){
   r1matops->matgetrank=R1MatGetRank;
   r1matops->ptr_matgetrank=8;
   r1matops->matgeteig=R1MatGetEig;
+  r1matops->ptr_matgeteig=8;
   r1matops->matvecvec=R1MatVecVec;
   r1matops->matdot=R1MatDotP;
   r1matops->mataddrowmultiple=R1MatAddRowMultiple;
@@ -340,6 +341,7 @@ static int R1MatOpsInitializeU(struct  DSDPDataMat_Ops* r1matops){
   r1matops->matgetrank=R1MatGetRank;
   r1matops->ptr_matgetrank=8;
   r1matops->matgeteig=R1MatGetEig;
+  r1matops->ptr_matgeteig=8;
   r1matops->matvecvec=R1MatVecVec;
   r1matops->matdot=R1MatDotU;
   r1matops->mataddrowmultiple=R1MatAddRowMultiple;

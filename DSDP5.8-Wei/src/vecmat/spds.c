@@ -147,6 +147,7 @@ static int DSDPDSSparseInitializeOpsP(struct  DSDPDSMat_Ops* dsops){
   dsops->matdestroy=SpSymMatDestroy;
   dsops->matgetsize=SpSymMatGetSize;
   dsops->matzeroentries=SpSymMatZero;
+  dsops->ptr_matzeroentries=2;
   dsops->matmult=SpSymMatMult;
   dsops->matvecvec=SpSymMatVecVec;
   dsops->id=6;
@@ -162,6 +163,7 @@ static int DSDPDSSparseInitializeOpsU(struct  DSDPDSMat_Ops* dsops){
   dsops->matdestroy=SpSymMatDestroy;
   dsops->matgetsize=SpSymMatGetSize;
   dsops->matzeroentries=SpSymMatZero;
+  dsops->ptr_matzeroentries=2;
   dsops->matmult=SpSymMatMult;
   dsops->matvecvec=SpSymMatVecVec;
   dsops->id=6;
