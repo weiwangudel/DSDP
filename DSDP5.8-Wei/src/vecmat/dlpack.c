@@ -250,6 +250,7 @@ static int DSDPInitSchurOps(struct  DSDPSchurMat_Ops* mops){
   mops->ptr_matrownonzeros=4;
   mops->matscaledmultiply=DTPUMatMult;
   mops->mataddrow=DTPUMatAddRow;
+  mops->ptr_mataddrow=4;
   mops->mataddelement=DTPUMatDiag;
   mops->matadddiagonal=DTPUMatDiag2;
   mops->matshiftdiagonal=DTPUMatShiftDiagonal;
@@ -556,16 +557,21 @@ static int DSDPDenseXInitializeOps(struct  DSDPVMat_Ops* densematops){
   info=DSDPVMatOpsInitialize(densematops); DSDPCHKERR(info);
   densematops->matview=DTPUMatView;
   densematops->matscalediagonal=DTPUMatScaleDiagonal;
+  densematops->ptr_matscalediagonal=2;
   densematops->matshiftdiagonal=DTPUMatShiftDiagonal;
   densematops->mataddouterproduct=DTPUMatOuterProduct;
+  densematops->ptr_mataddouterproduct=2;
   densematops->matdestroy=DTPUMatDestroy;
   densematops->matfnorm2=DenseSymPSDNormF2;
   densematops->matgetsize=DTPUMatGetSize;
+  densematops->ptr_matgetsize=2;
   densematops->matzeroentries=DTPUMatZero;
   densematops->ptr_matzeroentries=4;
   
   densematops->matgeturarray=DTPUMatGetDenseArray;
+  densematops->ptr_matgeturarray=2;
   densematops->matrestoreurarray=DTPUMatRestoreDenseArray;
+  densematops->ptr_matrestoreurarray=2;
   densematops->matmineig=DTPUMatEigs;
   densematops->matmult=DTPUMatMult;
   densematops->id=1;
@@ -617,6 +623,7 @@ static int SDualOpsInitialize(struct  DSDPDualMat_Ops* sops){
   sops->matinvert=DTPUMatInvert;
   sops->matinverseadd=DTPUMatInverseAdd;
   sops->matinversemultiply=DTPUMatInverseMult;
+  sops->ptr_matinversemultiply=4;
   sops->matforwardmultiply=DenseSymPSDCholeskyForwardMultiply;
   sops->matfull=DTPUMatFull;
   sops->matdestroy=DTPUMatDestroy;
@@ -929,7 +936,9 @@ static int DvechmatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   if (sops==NULL) return 0;
   info=DSDPDataMatOpsInitialize(sops); DSDPCHKERR(info);
   sops->matvecvec=DvechmatVecVec;
+  sops->ptr_matvecvec=9;
   sops->matdot=DvechmatDot;
+  sops->ptr_matdot=10;
   sops->mataddrowmultiple=DvechmatGetRowAdd;
   sops->mataddallmultiple=DvechmatAddMultiple;
   sops->matview=DvechmatView;

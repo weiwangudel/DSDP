@@ -93,7 +93,9 @@ static int ZeroMatopsInitialize(struct  DSDPDataMat_Ops* sops){
   sops->matgeteig=ZGetEig;
   sops->ptr_matgeteig=5;
   sops->matvecvec=ZVecVec;
+  sops->ptr_matvecvec=5;
   sops->matdot=ZDot;
+  sops->ptr_matdot=5;
   sops->matfnorm2=ZNorm2;
   sops->matrownz=ZRowNnz;
   sops->mataddrowmultiple=ZAddRowMultiple;

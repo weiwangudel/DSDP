@@ -285,6 +285,7 @@ static int SDualOpsInitialize(struct  DSDPDualMat_Ops* sops){
   sops->matsolveforward=SMatCholeskySolveForward;
   sops->matsolvebackward=SMatCholeskySolveBackward;
   sops->matinversemultiply=SMatSolve;
+  sops->ptr_matinversemultiply=2;
   sops->matinvert=SMatInvert;
   sops->matinverseadd=SMatInverseAdd;
   sops->matforwardmultiply=SMatCholeskyForwardMultiply;

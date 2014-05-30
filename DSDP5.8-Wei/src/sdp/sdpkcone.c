@@ -79,6 +79,50 @@ static int EigMatGetEig(Eigen* A,int row, double *eigenvalue, double eigenvector
   return 0;
 }
 
+static int VechMatGetRank(void *AA,int *rank,int n){
+  //printf("File %s line %d VechMatGetRank with address %d\n",__FILE__, __LINE__,&VechMatGetRank);
+  vechmat*  A=(vechmat*)AA;
+  switch (A->factored){
+  case 1:
+    *rank=A->nnzeros;
+    break;
+  case 2:
+    *rank=2*A->nnzeros;
+    break;
+  case 3:
+    *rank=A->Eig->neigs;
+    break;
+  default:
+    DSDPSETERR(1,"Vech Matrix not factored yet\n");
+  }
+  return 0;
+}
+
+static int EigMatVecVec(Eigen* A, double v[], int n, double *vv){
+  int i,rank,*cols=A->cols,neigs=A->neigs,*nnz=A->nnz,bb,ee;
+  double* an=A->an,*eigval=A->eigval,dd,ddd=0;
+
+  if (cols){
+    for (rank=0;rank<neigs;rank++){
+      if (rank==0){ bb=0;} else {bb=nnz[rank-1];} ee=nnz[rank];
+      for (dd=0,i=bb;i<ee;i++){
+	dd+=an[i]*v[cols[i]];
+      }
+      ddd+=dd*dd*eigval[rank];
+    }
+  } else {
+    for (rank=0;rank<neigs;rank++){
+      for (dd=0,i=0;i<n;i++){
+	dd+=an[i]*v[i];
+      }
+      an+=n;
+      ddd+=dd*dd*eigval[rank];
+    }
+  }
+  *vv=ddd;
+  return 0;
+}
+
 /* end from vech.c and vechu.c */
 
 /* from identity.c */
@@ -122,8 +166,29 @@ typedef struct{
   int n;
   int owndata;
 } dtpumat;
+
+static void daddrow(double *v, double alpha, int i, double row[], int n){
+  double *s1;
+  ffinteger j,nn=n,ione=1;
+  nn=i+1; s1=v+i*(i+1)/2;
+  daxpy(&nn,&alpha,s1,&ione,row,&ione);
+  for (j=i+1;j<n;j++){
+    s1+=j;
+    row[j]+=alpha*s1[i];
+  }
+  return;
+}
+
 /* end from dlpack.c */
 
+
+/* from diag.c */
+typedef struct {
+  int    n;
+  double *val;
+  int   owndata;
+} diagmat;
+/* end from diag.c */
 struct _P_Mat3{
   int type;
   DSDPDualMat ss;
@@ -680,11 +745,80 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
           double *bb,*xx;
           //DSDPEventLogBegin(sdpdualsolve);
           if (S.dsdpops->matinversemultiply){
+            
             //printf("File %s line %d S.dsdpops->matinversemultiply point to %d located in ",__FILE__, __LINE__,S.dsdpops->matinversemultiply);
             info=SDPConeVecGetSize(X,&n); DSDPCHKERR(info);
             info=SDPConeVecGetArray(B,&bb); DSDPCHKERR(info);
             info=SDPConeVecGetArray(X,&xx); DSDPCHKERR(info);
-            info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
+            //info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
+            //printf("S.dsdpops->matinversemultiply %d\n",S.dsdpops->ptr_matinversemultiply);
+            //only 3 and 4
+            /*
+            ../src/vecmat/dufull.c:  sops->matinversemultiply=DTRUMatInverseMultiply;
+            ../src/vecmat/dufull.c:  sops->ptr_matinversemultiply=1;
+            ../src/vecmat/dufull.c:  sops->matinversemultiply=DTRUMatInverseMultiply;
+            ../src/vecmat/dufull.c:  sops->ptr_matinversemultiply=1;
+            ../src/vecmat/cholmat2.c:  sops->matinversemultiply=SMatSolve;
+            ../src/vecmat/cholmat2.c:  sops->ptr_matinversemultiply=2;
+            ../src/vecmat/diag.c:  sops->matinversemultiply=DiagMatSolve2;
+            ../src/vecmat/diag.c:  sops->ptr_matinversemultiply=3;
+            ../src/vecmat/diag.c:  sops->matinversemultiply=DiagMatSolve2;
+            ../src/vecmat/diag.c:  sops->ptr_matinversemultiply=3;
+            ../src/vecmat/dlpack.c:  sops->matinversemultiply=DTPUMatInverseMult;
+            ../src/vecmat/dlpack.c:  sops->ptr_matinversemultiply=4;
+            */
+            if(S.dsdpops->ptr_matinversemultiply==3){
+                //info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
+                //static int DiagMatSolve2(void* A, int indx[], int nindx, double b[], double x[],int n){
+                {  
+                  //printf("File %s line %d DiagMatSolve with address %d\n",__FILE__, __LINE__,&DiagMatSolve);
+                  diagmat* AA = (diagmat*)S.matdata;
+                  double *v=AA->val;
+                  int i,j;
+                  memset((void*)xx,0,n*sizeof(double));
+                  for (j=0;j<IS.indx[0];j++){
+                    i=IS.indx[1+j];
+                    xx[i]=bb[i]/v[i];
+                  }
+                  //return 0;
+                }
+                
+                
+            
+            }else if(S.dsdpops->ptr_matinversemultiply==4){
+                info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
+                //static int DTPUMatInverseMult(void* AA, int indx[], int nind, double x[], double y[], int n){
+                {  
+                  //printf("File %s line %d DTPUMatInverseMult with address %d\n",__FILE__, __LINE__,&DTPUMatInverseMult);
+                  dtpumat* A=(dtpumat*) S.matdata;
+                  ffinteger ione=1,N=n;
+                  double BETA=0.0,ALPHA=1.0;
+                  double *AP=A->v2,*Y=xx,*X=bb;
+                  int i,ii;
+                  char UPLO=A->UPLO;
+                  
+                  if (A->n != n) info= 1;
+                  if (bb==0 && n>0) info= 3;
+                  
+                  if (IS.indx[0]<n/4 ){
+                    memset((void*)xx,0,n*sizeof(double));    
+                    for (ii=0;ii<IS.indx[0];ii++){
+                      i=IS.indx[1+ii];  ALPHA=bb[i];
+                      daddrow(AP,ALPHA,i,xx,n);
+                    }
+                  } else {
+                    ALPHA=1.0;
+                    dspmv(&UPLO,&N,&ALPHA,AP,X,&ione,&BETA,Y,&ione);
+                  }
+                  info= 0;
+                }
+            
+            }else{
+                printf("S.dsdpops->ptr_matinversemultiply Error! Should be impossible to get here!\n");
+            }
+            
+            
+            
             info=SDPConeVecRestoreArray(X,&xx); DSDPCHKERR(info);
             info=SDPConeVecRestoreArray(B,&bb); DSDPCHKERR(info);
           } else {
@@ -725,9 +859,50 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             //DSDPEventLogBegin(sdpxmatevent);
             info=SDPConeVecGetSize(V,&n); //DSDPCHKERR(info);
             if (X.dsdpops->mataddouterproduct){
+              //printf("X.dsdpops->mataddouterproduct %d\n",X.dsdpops->ptr_mataddouterproduct);
+            
               //printf("File %s line %d X.dsdpops->mataddouterproduct point to %d located in ",__FILE__, __LINE__,X.dsdpops->mataddouterproduct);
               info=SDPConeVecGetArray(V,&v); DSDPCHKERR(info);
-              info=(X.dsdpops->mataddouterproduct)(X.matdata,alpha,v,n); //DSDPChkMatError(X,info);
+              
+              //info=(X.dsdpops->mataddouterproduct)(X.matdata,alpha,v,n); //DSDPChkMatError(X,info);
+              /*../src/vecmat/dufull.c:  densematops->mataddouterproduct=DTRUMatOuterProduct;
+                ../src/vecmat/dufull.c:  densematops->ptr_mataddouterproduct=1;
+                ../src/vecmat/dlpack.c:  densematops->mataddouterproduct=DTPUMatOuterProduct;
+                ../src/vecmat/dlpack.c:  densematops->ptr_mataddouterproduct=2;*/
+                
+              if(X.dsdpops->ptr_mataddouterproduct == 1){
+                //info=(X.dsdpops->mataddouterproduct)(X.matdata,alpha,v,n); //DSDPChkMatError(X,info);
+                //static int DTRUMatOuterProduct(void* AA, double alpha, double x[], int n){
+                {  
+                  //printf("File %s line %d DTRUMatOuterProduct with address %d\n",__FILE__, __LINE__,&DTRUMatOuterProduct);
+                  dtrumat* B=(dtrumat*) X.matdata;
+                  ffinteger ione=1,N=n,LDA=B->LDA;
+                  double *vv=B->val;
+                  char UPLO=B->UPLO;
+                  dsyr(&UPLO,&N,&alpha,v,&ione,vv,&LDA);
+                  //return 0;
+                }
+              
+              }else if(X.dsdpops->ptr_mataddouterproduct == 2){
+                //info=(X.dsdpops->mataddouterproduct)(X.matdata,alpha,v,n); //DSDPChkMatError(X,info);
+                //static int DTPUMatOuterProduct(void* AA, double alpha, double x[], int n){
+                {  
+                  //printf("File %s line %d DTPUMatOuterProduct with address %d\n",__FILE__, __LINE__,&DTPUMatOuterProduct);
+                  dtpumat* B=(dtpumat*) X.matdata;
+                  ffinteger ione=1,N=n;
+                  double *vv=B->val;
+                  char UPLO=B->UPLO;
+                  dspr(&UPLO,&N,&alpha,v,&ione,vv);
+                  //return 0;
+                }
+              
+              
+              }else{
+                printf("X.dsdpops->ptr_mataddouterproduct Error!");
+                
+              }
+              
+              
               info=SDPConeVecRestoreArray(V,&v); //DSDPCHKERR(info);
             } else {
               //DSDPNoOperationError(X);
@@ -766,10 +941,91 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
                 double *x;
               
                 if (A.dsdpops->matvecvec){
+                //printf("A.dsdpops->matvecvec %d\n",A.dsdpops->ptr_matvecvec);
+                // only 2 and 6
+                /*
+                ../src/vecmat/drowcol.c:  rcmatoperator->matvecvec=RCMatVecVec;
+                ../src/vecmat/drowcol.c:  rcmatoperator->ptr_matvecvec=1;
+                ../src/vecmat/vech.c:  sops->matvecvec=VechMatVecVec;
+                ../src/vecmat/vech.c:  sops->ptr_matvecvec=2;
+                ../src/vecmat/dufull.c:  sops->matvecvec=DvecumatVecVec;
+                ../src/vecmat/dufull.c:  sops->ptr_matvecvec=3;
+                ../src/vecmat/onemat.c:  cmatops->matvecvec=ConstMatVecVec;
+                ../src/vecmat/onemat.c:  cmatops->ptr_matvecvec=4;
+                ../src/vecmat/zeromat.c:  sops->matvecvec=ZVecVec;
+                ../src/vecmat/zeromat.c:  sops->ptr_matvecvec=5;
+                ../src/vecmat/identity.c:  spdiagops->matvecvec=IdentityMatVecVec;
+                ../src/vecmat/identity.c:  spdiagops->ptr_matvecvec=6;
+                ../src/vecmat/identity.c:  spdiagops->matvecvec=IdentityMatVecVec;
+                ../src/vecmat/identity.c:  spdiagops->ptr_matvecvec=6;
+                ../src/vecmat/vechu.c:  sops->matvecvec=VechMatVecVec;
+                ../src/vecmat/vechu.c:  sops->ptr_matvecvec=7;
+                ../src/vecmat/rmmat.c:  r1matops->matvecvec=R1MatVecVec;
+                ../src/vecmat/rmmat.c:  r1matops->ptr_matvecvec=8;
+                ../src/vecmat/rmmat.c:  r1matops->matvecvec=R1MatVecVec;
+                ../src/vecmat/rmmat.c:  r1matops->ptr_matvecvec=8;
+                ../src/vecmat/dlpack.c:  sops->matvecvec=DvechmatVecVec;
+                ../src/vecmat/dlpack.c:  sops->ptr_matvecvec=9;
+                */
+                
                   //printf("File %s line %d A.dsdpops->matvecvec point to %d located in ",__FILE__, __LINE__,A.dsdpops->matvecvec);
                   info=SDPConeVecGetSize(W,&n); DSDPCHKERR(info);
                   info=SDPConeVecGetArray(W,&x); DSDPCHKERR(info);
-                  info=(A.dsdpops->matvecvec)(A.matdata,x,n,v); // DSDPChkDataError(A,info);
+                  //info=(A.dsdpops->matvecvec)(A.matdata,x,n,v); // DSDPChkDataError(A,info);
+                  if(A.dsdpops->ptr_matvecvec == 2){
+                    //info=(A.dsdpops->matvecvec)(A.matdata,x,n,v); // DSDPChkDataError(A,info);
+                  //static int VechMatVecVec(void* AA, double x[], int n, double *v){
+                    {
+                      //printf("File %s line %d VechMatVecVec with address %d\n",__FILE__, __LINE__,&VechMatVecVec);
+                      vechmat* B=(vechmat*)A.matdata;
+                      int info,rank=n,i=0,j,k,kk;
+                      const int *ind=B->ind,ishift=B->ishift;
+                      double vv=0,dd;
+                      const double *val=B->val,nnz=B->nnzeros;
+                      
+                      if (B->factored==3){
+                        info=VechMatGetRank(A.matdata,&rank,n);
+                        if (nnz>3 && rank<nnz){
+                          info=EigMatVecVec(B->Eig,x,n,&vv);
+                          *v=vv*B->alpha;
+                          return 0;
+                        }
+                      }
+                      
+                      for (k=0; k<nnz; ++k,++ind,++val){
+                        kk=*ind-ishift;
+                        i=GETI_VECH(kk);
+                        j=GETJ_VECH(kk,i);
+                        dd=x[i]*x[j]*(*val);
+                        vv+=2*dd;
+                        if (i==j){ vv-=dd; }
+                      }
+                      *v=vv*B->alpha;
+
+                      //return 0;
+                    }                  
+                  
+                  }else if(A.dsdpops->ptr_matvecvec == 6){
+                  
+                    //info=(A.dsdpops->matvecvec)(A.matdata,x,n,v); // DSDPChkDataError(A,info);
+                    //static int IdentityMatVecVec(void* AA, double x[], int n, double *v){
+                    {  
+                      //printf("File %s line %d IdentityMatVecVec with address %d\n",__FILE__, __LINE__,&IdentityMatVecVec);
+                      identitymat* B=(identitymat*)A.matdata;
+                      int i;
+                      *v=0;
+                      for (i=0;i<n;i++){
+                        *v+=x[i]*x[i];
+                      }
+                      *v *= B->dm;
+                      //return 0;
+                    }
+                    
+                  }else{
+                    printf("A.dsdpops->ptr_matvecvec Error!\n");
+                  }
+                  
+                  
                   info=SDPConeVecRestoreArray(W,&x); DSDPCHKERR(info);
                 } else {
                   //DSDPNoOperationError(A);
@@ -804,7 +1060,53 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    double dscale=0.5;
             int info;
             if (X.dsdpops->matscalediagonal){
-              info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              //printf("X.dsdpops->matscalediagonal %d\n",X.dsdpops->ptr_matscalediagonal);
+              // value 1 and 2
+              //info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              
+              /*
+                ../src/vecmat/dufull.c:  densematops->matscalediagonal=DTRUMatScaleDiagonal;
+                ../src/vecmat/dufull.c:  densematops->ptr_matscalediagonal=1;
+                ../src/vecmat/dlpack.c:  densematops->matscalediagonal=DTPUMatScaleDiagonal;
+                ../src/vecmat/dlpack.c:  densematops->ptr_matscalediagonal=2;
+                */
+                
+              if(X.dsdpops->ptr_matscalediagonal == 1){
+              //info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              //static int DTRUMatScaleDiagonal(void* AA, double dd){
+              {  
+                  dtrumat* B=(dtrumat*) X.matdata;
+                  ffinteger LDA=B->LDA;
+                  int i,n=B->n;
+                  double *v=B->val;
+                  for (i=0; i<n; i++){
+                    *v*=dscale;
+                    v+=LDA+1;    
+                  }
+                  //return 0;
+                }
+              }else if(X.dsdpops->ptr_matscalediagonal == 2){
+              //info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              //static int DTPUMatScaleDiagonal(void* AA, double dd){
+              {
+                  dtpumat* B=(dtpumat*) X.matdata;
+                  int i,n=B->n;
+                  double *v=B->val;
+                  for (i=0; i<n; i++){
+                    *v*=dscale;
+                    v+=i+2;    
+                  }
+                  //return 0;
+                }
+              
+              
+              
+              }else{
+                printf("X.dsdpops->ptr_matscalediagonal Error\n");
+              }
+              
+              
+              
             } else {
 	      exit (-1);
             }
@@ -816,7 +1118,43 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    DSDPVMat X=T;
             int info;
             if (X.dsdpops->matgetsize){
-              info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
+            /*
+            ../src/vecmat/dufull.c:  densematops->matgetsize=DTRUMatGetSize;
+            ../src/vecmat/dufull.c:  densematops->ptr_matgetsize=1;
+            ../src/vecmat/dlpack.c:  densematops->matgetsize=DTPUMatGetSize;
+            ../src/vecmat/dlpack.c:  densematops->ptr_matgetsize=2;
+            */  
+            //printf("X.dsdpops->matgetsize %d\n",X.dsdpops->ptr_matgetsize);
+            // 1 and 2
+            //info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
+            if(X.dsdpops->ptr_matgetsize == 1){
+            //info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
+            //static int DTRUMatGetSize(void *AA, int *n){
+            {  
+              dtrumat* B=(dtrumat*) X.matdata;
+              n=B->n;
+              //return 0;
+            }
+            
+            }else if(X.dsdpops->ptr_matgetsize == 2){
+            info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
+            //
+            //  Need to Fix this, inline cause wrong result!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            //
+            //
+            
+            //static int DTPUMatGetSize(void *AA, int *n){
+            //{  
+              //dtpumat* B=(dtpumat*) X.matdata;
+              //n=B->n;
+              //return 0;
+            //}
+
+            }else{
+                printf("X.dsdpops->ptr_matgetsize Error!\n");
+            }
+            
+            
             } else {
               /*
               DSDPNoOperationError(X);
@@ -834,7 +1172,38 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             int info;
             DSDPFunctionBegin;
             if (X.dsdpops->matgeturarray){
-              info=(X.dsdpops->matgeturarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            //printf("X.dsdpops->matgeturarray %d\n",X.dsdpops->ptr_matgeturarray);
+            /*
+            ../src/vecmat/dufull.c:  densematops->matgeturarray=DTRUMatGetDenseArray;
+            ../src/vecmat/dufull.c:  densematops->ptr_matgeturarray=1;
+            ../src/vecmat/dlpack.c:  densematops->matgeturarray=DTPUMatGetDenseArray;
+            ../src/vecmat/dlpack.c:  densematops->ptr_matgeturarray=2;
+            */  
+            if(X.dsdpops->ptr_matgeturarray == 1){
+            //info=(X.dsdpops->matgeturarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            //static int DTRUMatGetDenseArray(void* A, double *v[], int*n){
+                {  
+                  dtrumat*  ABA=(dtrumat*)X.matdata;
+                  *v=ABA->val;
+                  nn=ABA->n*ABA->LDA;
+                  //return 0;
+                }
+                      
+            
+            }else if(X.dsdpops->ptr_matgeturarray == 2){
+                //info=(X.dsdpops->matgeturarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+                //static int DTPUMatGetDenseArray(void* A, double *v[], int*n){
+                {  
+                  dtpumat*  ABA=(dtpumat*)X.matdata;
+                  *v=ABA->val;
+                  nn=(ABA->n)*(ABA->n+1)/2;
+                  //return 0;
+                }
+            
+            }else{
+                printf("X.dsdpops->ptr_matgeturarray Error!\n");
+            }
+              
             } else {
               *v=0;
               nn=0;
@@ -852,8 +1221,105 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    {
                 int info;
                 if (blk[kk].ADATA.A[ii].dsdpops->matdot){
+                  //printf("blk[kk].ADATA.A[ii].dsdpops->matdot %d\n",blk[kk].ADATA.A[ii].dsdpops->ptr_matdot);
+                  //onlye 2 6 7 and 11.
+                  /*
+                    ../src/vecmat/drowcol.c:  rcmatoperator->matdot=RCMatDot;
+                    ../src/vecmat/drowcol.c:  rcmatoperator->ptr_matdot=1;
+                    ../src/vecmat/vech.c:  sops->matdot=VechMatDot;
+                    ../src/vecmat/vech.c:  sops->ptr_matdot=2;
+                    ../src/vecmat/dufull.c:  sops->matdot=DvecumatDot;
+                    ../src/vecmat/dufull.c:  sops->ptr_matdot=3;
+                    ../src/vecmat/onemat.c:  cmatops->matdot=ConstMatDot;
+                    ../src/vecmat/onemat.c:  cmatops->ptr_matdot=4;
+                    ../src/vecmat/zeromat.c:  sops->matdot=ZDot;
+                    ../src/vecmat/zeromat.c:  sops->ptr_matdot=5;
+                    ../src/vecmat/identity.c:  spdiagops->matdot=IdentityMatDotP;
+                    ../src/vecmat/identity.c:  spdiagops->ptr_matdot=6;
+                    ../src/vecmat/identity.c:  spdiagops->matdot=IdentityMatDotF;
+                    ../src/vecmat/identity.c:  spdiagops->ptr_matdot=11;
+                    ../src/vecmat/vechu.c:  sops->matdot=VechMatDot;
+                    ../src/vecmat/vechu.c:  sops->ptr_matdot=7;
+                    ../src/vecmat/rmmat.c:  r1matops->matdot=R1MatDotP;
+                    ../src/vecmat/rmmat.c:  r1matops->ptr_matdot=8;
+                    ../src/vecmat/rmmat.c:  r1matops->matdot=R1MatDotU;
+                    ../src/vecmat/rmmat.c:  r1matops->ptr_matdot=9;
+                    ../src/vecmat/dlpack.c:  sops->matdot=DvechmatDot;
+                    ../src/vecmat/dlpack.c:  sops->ptr_matdot=10;
+                    */
+                  if(blk[kk].ADATA.A[ii].dsdpops->ptr_matdot == 2){
+                  //info=(blk[kk].ADATA.A[ii].dsdpops->matdot)(blk[kk].ADATA.A[ii].matdata,x,nn,n,&sum); 
+                      //static int VechMatDot(void* AA, double x[], int nn, int n, double *v){
+                    {  //printf("File %s line %d VechMatDot with address %d\n",__FILE__, __LINE__,&VechMatDot);
+                      vechmat* B=(vechmat*)blk[kk].ADATA.A[ii].matdata;
+                      int k,nnz=B->nnzeros; 
+                      const int *ind=B->ind;
+                      double vv=0, *xx=x-B->ishift;
+                      const double *val=B->val;
+                      for (k=0;k<nnz;++k,++ind,++val){
+                        vv+=(*val)*(*(xx+(*ind)));
+                      }
+                      sum=2*vv*B->alpha;
+                      //return 0;
+                    }
+                  
+                  }else if(blk[kk].ADATA.A[ii].dsdpops->ptr_matdot == 6){
+                  //info=(blk[kk].ADATA.A[ii].dsdpops->matdot)(blk[kk].ADATA.A[ii].matdata,x,nn,n,&sum); 
+                  //static int IdentityMatDotP(void* AA, double x[], int nn, int n, double *v){
+                    {  //printf("File %s line %d IdentityMatDotP with address %d\n",__FILE__, __LINE__,&IdentityMatDotP);
+                      identitymat* B=(identitymat*)blk[kk].ADATA.A[ii].matdata;
+                      int i;
+                      double *xx=x;
+                      sum=0;
+                      for (i=0;i<n;i++){
+                        sum+=*xx;
+                        xx+=i+2;
+                      }
+                      sum *= 2*B->dm;
+                      //return 0;
+                    }
+                  
+                  
+                  
+                  }else if(blk[kk].ADATA.A[ii].dsdpops->ptr_matdot == 7){
+                  
+                  //static int VechMatDot(void* AA, double x[], int nn, int n, double *v){
+                    {
+                      //printf("File %s line %d VechMatDot with address %d\n",__FILE__, __LINE__,&VechMatDot);
+                      vechmat* B=(vechmat*)blk[kk].ADATA.A[ii].matdata;
+                      int k,nnz=B->nnzeros; 
+                      const int *ind=B->ind;
+                      double vv=0,*xx=x-B->ishift;
+                      const double *val=B->val;
+                      for (k=0;k<nnz;++k,++ind,++val){
+                        vv+=(*val)*(*(xx+(*ind)));
+                      }
+                      sum=2*vv*B->alpha;
+                      //return 0;
+                    }
+                  
+                  }else if(blk[kk].ADATA.A[ii].dsdpops->ptr_matdot == 11){
+                  
+                  //static int IdentityMatDotF(void* AA, double x[], int nn, int n, double *v){
+                    {  //printf("File %s line %d IdentityMatDotF with address %d\n",__FILE__, __LINE__,&IdentityMatDotF);
+                      identitymat* B=(identitymat*)blk[kk].ADATA.A[ii].matdata;
+                      int i;
+                      double *xx=x;
+                      sum=0;
+                      for (i=0;i<n;i++){
+                        sum+=*xx;
+                        xx+=n+1;
+                      }
+                      sum *= 2*B->dm;
+                      //return 0;
+                    }
+                  
+                  }else{
+                    printf("blk[kk].ADATA.A[ii].dsdpops->ptr_matdot Error!\n");
+                  }
+                
                   //printf("File %s line %d blk[kk].ADATA.A[ii].dsdpops->matdot point to %d located in ",__FILE__, __LINE__,blk[kk].ADATA.A[ii].dsdpops->matdot);
-                  info=(blk[kk].ADATA.A[ii].dsdpops->matdot)(blk[kk].ADATA.A[ii].matdata,x,nn,n,&sum); 
+                  //info=(blk[kk].ADATA.A[ii].dsdpops->matdot)(blk[kk].ADATA.A[ii].matdata,x,nn,n,&sum); 
 		  //DSDPChkDataError(blk[kk].ADATA.A[ii],info);
                 } else {
                   //DSDPNoOperationError(A);
@@ -870,7 +1336,31 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    double **v = &x;
             int info;
             if (X.dsdpops->matrestoreurarray){
-              info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            /*
+            ../src/vecmat/dufull.c:  densematops->matrestoreurarray=DTRUMatRestoreDenseArray;
+            ../src/vecmat/dufull.c:  densematops->ptr_matrestoreurarray=1;
+            ../src/vecmat/dlpack.c:  densematops->matrestoreurarray=DTPUMatRestoreDenseArray;
+            ../src/vecmat/dlpack.c:  densematops-ptr_>matrestoreurarray=2;
+            */
+              if(X.dsdpops->ptr_matrestoreurarray==1){
+              //info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+              //static int DTRUMatRestoreDenseArray(void* A, double *v[], int *n){
+                {
+                  *v=0;nn=0;
+                  //return 0;
+                }
+
+              }else if(X.dsdpops->ptr_matrestoreurarray==2){
+              
+              //static int DTPUMatRestoreDenseArray(void* A, double *v[], int *n){
+                {
+                  *v=0;nn=0;
+                  //return 0;
+                }
+              }else{
+                printf("X.dsdpops->ptr_matrestoreurarray Error!\n");
+              }
+              //info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
             } else {
               *v=0;
               nn=0;
@@ -884,9 +1374,57 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	    double dscale=2.0;
 
 	    int info;
-	    if (X.dsdpops->matscalediagonal){
-	      info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
-	    } else {
+	    
+	        if (X.dsdpops->matscalediagonal){
+              //printf("X.dsdpops->matscalediagonal %d\n",X.dsdpops->ptr_matscalediagonal);
+              // value 1 and 2
+              //info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              
+              /*
+                ../src/vecmat/dufull.c:  densematops->matscalediagonal=DTRUMatScaleDiagonal;
+                ../src/vecmat/dufull.c:  densematops->ptr_matscalediagonal=1;
+                ../src/vecmat/dlpack.c:  densematops->matscalediagonal=DTPUMatScaleDiagonal;
+                ../src/vecmat/dlpack.c:  densematops->ptr_matscalediagonal=2;
+                */
+                
+              if(X.dsdpops->ptr_matscalediagonal == 1){
+              //info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              //static int DTRUMatScaleDiagonal(void* AA, double dd){
+              {  
+                  dtrumat* B=(dtrumat*) X.matdata;
+                  ffinteger LDA=B->LDA;
+                  int i,n=B->n;
+                  double *v=B->val;
+                  for (i=0; i<n; i++){
+                    *v*=dscale;
+                    v+=LDA+1;    
+                  }
+                  //return 0;
+                }
+              }else if(X.dsdpops->ptr_matscalediagonal == 2){
+              //info=(X.dsdpops->matscalediagonal)(X.matdata,dscale); // DSDPChkMatError(X,info);
+              //static int DTPUMatScaleDiagonal(void* AA, double dd){
+              {
+                  dtpumat* B=(dtpumat*) X.matdata;
+                  int i,n=B->n;
+                  double *v=B->val;
+                  for (i=0; i<n; i++){
+                    *v*=dscale;
+                    v+=i+2;    
+                  }
+                  //return 0;
+                }
+              
+              
+              
+              }else{
+                printf("X.dsdpops->ptr_matscalediagonal Error\n");
+              }
+              
+              
+              
+            }
+            else {
 	      exit (-1);
 	    }
 	  //}
@@ -948,7 +1486,39 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	  } // end of DSDPIsFixed 
 
           if (flag==DSDP_TRUE){info=DSDPVecSetBasis(R,row);DSDPCHKERR(info);}
-          info=(M.dsdpops->mataddrow)(M.data,row-1,alpha,v+1,m-2); // DSDPChkMatError(M,info);
+          
+          //printf("M.dsdpops->mataddrow %d\n",M.dsdpops->ptr_mataddrow);
+          // only 1
+          /*
+            ../src/vecmat/dufull.c:  mops->mataddrow=DTRUMatAddRow;
+            ../src/vecmat/dufull.c:  mops->ptr_mataddrow=1;
+            ../src/vecmat/cholmat.c:  mops->mataddrow=Taddline;
+            ../src/vecmat/cholmat.c:  mops->ptr_mataddrow=2;
+            ../src/vecmat/diag.c:  sops->mataddrow=DiagMatAddRow2;
+            ../src/vecmat/diag.c:  sops->ptr_mataddrow=3;
+            ../src/vecmat/dlpack.c:  mops->mataddrow=DTPUMatAddRow;
+            ../src/vecmat/dlpack.c:  mops->ptr_mataddrow=4;
+            */
+          if(M.dsdpops->ptr_mataddrow == 1){
+            //info=(M.dsdpops->mataddrow)(M.data,row-1,alpha,v+1,m-2); // DSDPChkMatError(M,info);
+            //static int DTRUMatAddRow(void* AA, int nrow, double dd, double row[], int n){
+            {  
+              dtrumat* B=(dtrumat*) M.data;
+              ffinteger ione=1,LDA=B->LDA,nn,INCX=1,INCY=B->LDA;
+              double *vv=B->val;
+              int nrow=row-1;
+              nn=nrow;
+              daxpy(&nn,&alpha,v+1,&INCX,vv+nrow,&INCY);
+              nn=nrow+1;
+              daxpy(&nn,&alpha,v+1,&ione,vv+nrow*LDA,&ione);
+
+              //return 0;
+            }
+          }else{
+            printf("M.dsdpops->ptr_mataddrow Error!\n");
+          }
+          
+          //info=(M.dsdpops->mataddrow)(M.data,row-1,alpha,v+1,m-2); // DSDPChkMatError(M,info);
           info=DSDPVecRestoreArray(R,&v); DSDPCHKERR(info);  
           info=DSDPVecGetR(R,&rr); DSDPCHKERR(info);
           info=DSDPVecAddElement(rhs3,row,alpha*rr); DSDPCHKERR(info);
@@ -1023,7 +1593,17 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
           int info,n;
           double *bb,*xx;
           //DSDPEventLogBegin(sdpdualsolve);
+          printf("Executing S.dsdpops->matinversemultiply\n");
+          //
+          //    This section does not execute...................double check..................!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          //
+          //
           if (S.dsdpops->matinversemultiply){
+            printf("S.dsdpops->matinversemultiply %d\n",S.dsdpops->ptr_matinversemultiply);
+          
+          
+          
+          
             info=SDPConeVecGetSize(X,&n); DSDPCHKERR(info);
             info=SDPConeVecGetArray(B,&bb); DSDPCHKERR(info);
             info=SDPConeVecGetArray(X,&xx); DSDPCHKERR(info);
@@ -1060,9 +1640,60 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
         //int DSDPVMatZeroEntries(DSDPVMat X){
 	  DSDPVMat X=T; 
           int info;
+          
           if (X.dsdpops->matzeroentries){
-            info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
-          } else {
+            //info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            //printf("X.dsdpops->matzeroentries %d\n",X.dsdpops->ptr_matzeroentries);
+            // only 1 and 4
+            /*
+            ../src/vecmat/dufull.c:  densematops->matzeroentries=DTRUMatZero;
+            ../src/vecmat/dufull.c:  densematops->ptr_matzeroentries=1;
+            ../src/vecmat/dufull.c:  densematops->matzeroentries=DTRUMatZero;
+            ../src/vecmat/dufull.c:  densematops->ptr_matzeroentries=1;
+            ../src/vecmat/spds.c:  dsops->matzeroentries=SpSymMatZero;
+            ../src/vecmat/spds.c:  dsops->ptr_matzeroentries=2;
+            ../src/vecmat/spds.c:  dsops->matzeroentries=SpSymMatZero;
+            ../src/vecmat/spds.c:  dsops->ptr_matzeroentries=2;
+            ../src/vecmat/diag.c:  ddiagops->matzeroentries=DiagMatZeros;
+            ../src/vecmat/diag.c:  ddiagops->ptr_matzeroentries=3;
+            ../src/vecmat/diag.c:  ddiagops->matzeroentries=DiagMatZeros;
+            ../src/vecmat/diag.c:  ddiagops->ptr_matzeroentries=3;
+            ../src/vecmat/dlpack.c:  densematops->matzeroentries=DTPUMatZero;
+            ../src/vecmat/dlpack.c:  densematops->ptr_matzeroentries=4;
+            ../src/vecmat/dlpack.c:  densematops->matzeroentries=DTPUMatZero;
+            ../src/vecmat/dlpack.c:  densematops->ptr_matzeroentries=4;
+
+            */
+            if(X.dsdpops->ptr_matzeroentries==1){
+            //info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            //static int DTRUMatZero(void* AA){
+            {
+              //printf("File %s line %d DTRUMatZero with address %d\n",__FILE__, __LINE__,&DTRUMatZero);
+              dtrumat* B=(dtrumat*) X.matdata;
+              int mn=B->n*(B->LDA);
+              double *vv=B->val;
+              memset((void*)vv,0,mn*sizeof(double));
+              B->status=Assemble;
+              //return 0;
+            }
+            }else if(X.dsdpops->ptr_matzeroentries==4){
+              //printf("File %s line %d X.dsdpops->matzeroentries point to %d located in ",__FILE__, __LINE__,X.dsdpops->matzeroentries);
+              //info=(X.dsdpops->matzeroentries)(X.matdata); //DSDPChkMatError(X,info);
+            //static int DTPUMatZero(void* AA){
+            {
+              //printf("File %s line %d DTPUMatZero with address %d\n",__FILE__, __LINE__,&DTPUMatZero);
+              dtpumat* B=(dtpumat*) X.matdata;
+              int mn=B->n*(B->n+1)/2;
+              double *vv=B->val;
+              memset((void*)vv,0,mn*sizeof(double));
+              //return 0;
+            }
+            }else{
+                printf("X.dsdpops->ptr_matzeroentries Error! Should be impossible to get here!\n");
+            }
+              
+              
+            }else {
 	    exit(-1);
             //DSDPNoOperationError(X);
           }
@@ -1098,8 +1729,33 @@ static int KSDPConeRHS( void *K, double mu, DSDPVec vrow, DSDPVec vrhs1, DSDPVec
           //int DSDPVMatRestoreArray(DSDPVMat X, double **v, int *nn){
 	    double **v = &x;
             int info;
+            
             if (X.dsdpops->matrestoreurarray){
-              info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            /*
+            ../src/vecmat/dufull.c:  densematops->matrestoreurarray=DTRUMatRestoreDenseArray;
+            ../src/vecmat/dufull.c:  densematops->ptr_matrestoreurarray=1;
+            ../src/vecmat/dlpack.c:  densematops->matrestoreurarray=DTPUMatRestoreDenseArray;
+            ../src/vecmat/dlpack.c:  densematops-ptr_>matrestoreurarray=2;
+            */
+              if(X.dsdpops->ptr_matrestoreurarray==1){
+              //info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+              //static int DTRUMatRestoreDenseArray(void* A, double *v[], int *n){
+                {
+                  *v=0;nn=0;
+                  //return 0;
+                }
+
+              }else if(X.dsdpops->ptr_matrestoreurarray==2){
+              
+              //static int DTPUMatRestoreDenseArray(void* A, double *v[], int *n){
+                {
+                  *v=0;nn=0;
+                  //return 0;
+                }
+              }else{
+                printf("X.dsdpops->ptr_matrestoreurarray Error!\n");
+              }
+              //info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
             } else {
               *v=0;
               nn=0;
@@ -1236,9 +1892,34 @@ static int KSDPConeComputeSS(void *K, DSDPVec Y, DSDPDualFactorMatrix flag, DSDP
 	    
 	    int info;
 	    //DSDPFunctionBegin;
+	     
 	    if (X.dsdpops->matrestoreurarray){
-	      info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
-	    } else {
+            /*
+            ../src/vecmat/dufull.c:  densematops->matrestoreurarray=DTRUMatRestoreDenseArray;
+            ../src/vecmat/dufull.c:  densematops->ptr_matrestoreurarray=1;
+            ../src/vecmat/dlpack.c:  densematops->matrestoreurarray=DTPUMatRestoreDenseArray;
+            ../src/vecmat/dlpack.c:  densematops-ptr_>matrestoreurarray=2;
+            */
+              if(X.dsdpops->ptr_matrestoreurarray==1){
+              //info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+              //static int DTRUMatRestoreDenseArray(void* A, double *v[], int *n){
+                {
+                  *v=0;nn=0;
+                  //return 0;
+                }
+
+              }else if(X.dsdpops->ptr_matrestoreurarray==2){
+              
+              //static int DTPUMatRestoreDenseArray(void* A, double *v[], int *n){
+                {
+                  *v=0;nn=0;
+                  //return 0;
+                }
+              }else{
+                printf("X.dsdpops->ptr_matrestoreurarray Error!\n");
+              }
+              //info=(X.dsdpops->matrestoreurarray)(X.matdata,v,&nn); //DSDPChkMatError(X,info);
+            }else {
 	      *v=0;
 	      nn=0;
 	    }

@@ -66,7 +66,58 @@ src/vecmat/dlpack.c:  sops->ptr_matgetrank=9;
 ../src/vecmat/dlpack.c:  sops->ptr_matgeteig=9;
 */  
   
+  int ptr_matvecvec;
   
+/*
+../src/vecmat/drowcol.c:  rcmatoperator->matvecvec=RCMatVecVec;
+../src/vecmat/drowcol.c:  rcmatoperator->ptr_matvecvec=1;
+../src/vecmat/vech.c:  sops->matvecvec=VechMatVecVec;
+../src/vecmat/vech.c:  sops->ptr_matvecvec=2;
+../src/vecmat/dufull.c:  sops->matvecvec=DvecumatVecVec;
+../src/vecmat/dufull.c:  sops->ptr_matvecvec=3;
+../src/vecmat/onemat.c:  cmatops->matvecvec=ConstMatVecVec;
+../src/vecmat/onemat.c:  cmatops->ptr_matvecvec=4;
+../src/vecmat/zeromat.c:  sops->matvecvec=ZVecVec;
+../src/vecmat/zeromat.c:  sops->ptr_matvecvec=5;
+../src/vecmat/identity.c:  spdiagops->matvecvec=IdentityMatVecVec;
+../src/vecmat/identity.c:  spdiagops->ptr_matvecvec=6;
+../src/vecmat/identity.c:  spdiagops->matvecvec=IdentityMatVecVec;
+../src/vecmat/identity.c:  spdiagops->ptr_matvecvec=6;
+../src/vecmat/vechu.c:  sops->matvecvec=VechMatVecVec;
+../src/vecmat/vechu.c:  sops->ptr_matvecvec=7;
+../src/vecmat/rmmat.c:  r1matops->matvecvec=R1MatVecVec;
+../src/vecmat/rmmat.c:  r1matops->ptr_matvecvec=8;
+../src/vecmat/rmmat.c:  r1matops->matvecvec=R1MatVecVec;
+../src/vecmat/rmmat.c:  r1matops->ptr_matvecvec=8;
+../src/vecmat/dlpack.c:  sops->matvecvec=DvechmatVecVec;
+../src/vecmat/dlpack.c:  sops->ptr_matvecvec=9;
+*/
+
+  int ptr_matdot;
+/*
+../src/vecmat/drowcol.c:  rcmatoperator->matdot=RCMatDot;
+../src/vecmat/drowcol.c:  rcmatoperator->ptr_matdot=1;
+../src/vecmat/vech.c:  sops->matdot=VechMatDot;
+../src/vecmat/vech.c:  sops->ptr_matdot=2;
+../src/vecmat/dufull.c:  sops->matdot=DvecumatDot;
+../src/vecmat/dufull.c:  sops->ptr_matdot=3;
+../src/vecmat/onemat.c:  cmatops->matdot=ConstMatDot;
+../src/vecmat/onemat.c:  cmatops->ptr_matdot=4;
+../src/vecmat/zeromat.c:  sops->matdot=ZDot;
+../src/vecmat/zeromat.c:  sops->ptr_matdot=5;
+../src/vecmat/identity.c:  spdiagops->matdot=IdentityMatDotP;
+../src/vecmat/identity.c:  spdiagops->ptr_matdot=6;
+../src/vecmat/identity.c:  spdiagops->matdot=IdentityMatDotF;
+../src/vecmat/identity.c:  spdiagops->ptr_matdot=11;
+../src/vecmat/vechu.c:  sops->matdot=VechMatDot;
+../src/vecmat/vechu.c:  sops->ptr_matdot=7;
+../src/vecmat/rmmat.c:  r1matops->matdot=R1MatDotP;
+../src/vecmat/rmmat.c:  r1matops->ptr_matdot=8;
+../src/vecmat/rmmat.c:  r1matops->matdot=R1MatDotU;
+../src/vecmat/rmmat.c:  r1matops->ptr_matdot=9;
+../src/vecmat/dlpack.c:  sops->matdot=DvechmatDot;
+../src/vecmat/dlpack.c:  sops->ptr_matdot=10;
+*/
   
   int (*mataddallmultiple)(void*,double,double[],int,int);
   int (*matdot)(void*, double[], int, int, double *);

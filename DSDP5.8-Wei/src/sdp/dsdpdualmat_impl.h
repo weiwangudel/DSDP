@@ -12,6 +12,23 @@ struct DSDPDualMat_Ops
 */
 struct  DSDPDualMat_Ops{
   int id;
+  
+  int ptr_matinversemultiply;
+/*
+../src/vecmat/dufull.c:  sops->matinversemultiply=DTRUMatInverseMultiply;
+../src/vecmat/dufull.c:  sops->ptr_matinversemultiply=1;
+../src/vecmat/dufull.c:  sops->matinversemultiply=DTRUMatInverseMultiply;
+../src/vecmat/dufull.c:  sops->ptr_matinversemultiply=1;
+../src/vecmat/cholmat2.c:  sops->matinversemultiply=SMatSolve;
+../src/vecmat/cholmat2.c:  sops->ptr_matinversemultiply=2;
+../src/vecmat/diag.c:  sops->matinversemultiply=DiagMatSolve2;
+../src/vecmat/diag.c:  sops->ptr_matinversemultiply=3;
+../src/vecmat/diag.c:  sops->matinversemultiply=DiagMatSolve2;
+../src/vecmat/diag.c:  sops->ptr_matinversemultiply=3;
+../src/vecmat/dlpack.c:  sops->matinversemultiply=DTPUMatInverseMult;
+../src/vecmat/dlpack.c:  sops->ptr_matinversemultiply=4;
+*/  
+  
   int (*matseturmat)(void*,double[],int,int); /* Set full array of values into matrix */
   int (*matgetarray)(void*,double*[],int*);   /* Set pointers to a dense array and its dimension */
   int (*matcholesky)(void*,int*);  /* Cholesky second argument is 0 for success, 1 otherwise */

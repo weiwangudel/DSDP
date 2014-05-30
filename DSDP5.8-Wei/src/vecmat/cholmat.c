@@ -270,6 +270,7 @@ static int TMatOpsInit(struct  DSDPSchurMat_Ops *mops){
   mops->matrownonzeros=DSDPGramMatRowNonzeros;
   mops->ptr_matrownonzeros=2;
   mops->mataddrow=Taddline;
+  mops->ptr_mataddrow=2;
   mops->matadddiagonal=TTTMatAddDiagonal;
   mops->mataddelement=Tadddiagonal;
   mops->matshiftdiagonal=TTTMatShiftDiagonal;

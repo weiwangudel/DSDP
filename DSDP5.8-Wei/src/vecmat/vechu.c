@@ -425,7 +425,9 @@ static int VechMatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   if (sops==NULL) return 0;
   info=DSDPDataMatOpsInitialize(sops); DSDPCHKERR(info);
   sops->matvecvec=VechMatVecVec;
+  sops->ptr_matvecvec=7;
   sops->matdot=VechMatDot;
+  sops->ptr_matdot=7;
   sops->matfnorm2=VechMatFNorm2;
   sops->mataddrowmultiple=VechMatAddRowMultiple;
   sops->mataddallmultiple=VechMatAddMultiple;

@@ -424,6 +424,7 @@ static int DSDPInitSchurOps(struct  DSDPSchurMat_Ops* mops){
   mops->matscaledmultiply=DTRUMatMult;
   mops->matmultr=DTRUMatMultR;
   mops->mataddrow=DTRUMatAddRow;
+  mops->ptr_mataddrow=1;
   mops->mataddelement=DTRUMatAddDiag;
   mops->matadddiagonal=DTRUMatAddDiag2;
   mops->matshiftdiagonal=DTRUMatShiftDiagonal;
@@ -725,6 +726,7 @@ static int SDualOpsInitialize(struct  DSDPDualMat_Ops* sops){
   sops->matinvert=DTRUMatInvert;
   sops->matinverseadd=DTRUMatInverseAdd;
   sops->matinversemultiply=DTRUMatInverseMultiply;
+  sops->ptr_matinversemultiply=1;
   sops->matforwardmultiply=DTRUMatCholeskyForwardMultiply;
   sops->matbackwardmultiply=DTRUMatCholeskyBackwardMultiply;
   sops->matfull=DTRUMatFull;
@@ -793,6 +795,8 @@ static int SDualOpsInitializeP(struct  DSDPDualMat_Ops* sops){
   sops->matinvert=DTRUMatInvert;
   sops->matinverseadd=DTRUMatInverseAddP;
   sops->matinversemultiply=DTRUMatInverseMultiply;
+  sops->ptr_matinversemultiply=1;
+  
   sops->matforwardmultiply=DTRUMatCholeskyForwardMultiply;
   sops->matbackwardmultiply=DTRUMatCholeskyBackwardMultiply;
   sops->matfull=DTRUMatFull;
@@ -948,16 +952,21 @@ static int DSDPDenseXInitializeOps(struct  DSDPVMat_Ops* densematops){
   info=DSDPVMatOpsInitialize(densematops); DSDPCHKERR(info);
   densematops->matview=DTRUMatView;
   densematops->matscalediagonal=DTRUMatScaleDiagonal;
+  densematops->ptr_matscalediagonal=1;
   densematops->matshiftdiagonal=DTRUMatShiftDiagonal;
   densematops->mataddouterproduct=DTRUMatOuterProduct;
+  densematops->ptr_mataddouterproduct=1;
   densematops->matmult=DTRUMatMult;
   densematops->matdestroy=DTRUMatDestroy;
   densematops->matfnorm2=DenseSymPSDNormF2;
   densematops->matgetsize=DTRUMatGetSize;
+  densematops->ptr_matgetsize=1;
   densematops->matzeroentries=DTRUMatZero;
   densematops->ptr_matzeroentries=1;
   densematops->matgeturarray=DTRUMatGetDenseArray;
+  densematops->ptr_matgeturarray=1;
   densematops->matrestoreurarray=DTRUMatRestoreDenseArray;
+  densematops->ptr_matrestoreurarray=1;
   densematops->matmineig=DTRUMatEigs;
   densematops->id=1;
   densematops->matname=lapackname;
@@ -1297,7 +1306,9 @@ static int DvecumatOpsInitialize(struct  DSDPDataMat_Ops *sops){
   if (sops==NULL) return 0;
   info=DSDPDataMatOpsInitialize(sops); DSDPCHKERR(info);
   sops->matvecvec=DvecumatVecVec;
+  sops->ptr_matvecvec=3;
   sops->matdot=DvecumatDot;
+  sops->ptr_matdot=3;
   sops->mataddrowmultiple=DvecumatGetRowAdd;
   sops->mataddallmultiple=DvecumatAddMultiple;
   sops->matview=DvecumatView;

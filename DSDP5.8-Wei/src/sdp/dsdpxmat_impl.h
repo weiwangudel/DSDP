@@ -34,6 +34,44 @@ struct  DSDPVMat_Ops{
 
 */
   
+  int ptr_mataddouterproduct;
+/*
+../src/vecmat/dufull.c:  densematops->mataddouterproduct=DTRUMatOuterProduct;
+../src/vecmat/dufull.c:  densematops->ptr_mataddouterproduct=1;
+../src/vecmat/dlpack.c:  densematops->mataddouterproduct=DTPUMatOuterProduct;
+../src/vecmat/dlpack.c:  densematops->ptr_mataddouterproduct=2;
+*/  
+
+  int ptr_matscalediagonal;
+/*
+../src/vecmat/dufull.c:  densematops->matscalediagonal=DTRUMatScaleDiagonal;
+../src/vecmat/dufull.c:  densematops->ptr_matscalediagonal=1;
+../src/vecmat/dlpack.c:  densematops->matscalediagonal=DTPUMatScaleDiagonal;
+../src/vecmat/dlpack.c:  densematops->ptr_matscalediagonal=2;
+*/
+
+  int ptr_matgetsize;
+/*
+../src/vecmat/dufull.c:  densematops->matgetsize=DTRUMatGetSize;
+../src/vecmat/dufull.c:  densematops->ptr_matgetsize=1;
+../src/vecmat/dlpack.c:  densematops->matgetsize=DTPUMatGetSize;
+../src/vecmat/dlpack.c:  densematops->ptr_matgetsize=2;
+*/  
+  int ptr_matgeturarray;
+/*
+../src/vecmat/dufull.c:  densematops->matgeturarray=DTRUMatGetDenseArray;
+../src/vecmat/dufull.c:  densematops->ptr_matgeturarray=1;
+../src/vecmat/dlpack.c:  densematops->matgeturarray=DTPUMatGetDenseArray;
+../src/vecmat/dlpack.c:  densematops->ptr_matgeturarray=2;
+*/  
+  
+  int ptr_matrestoreurarray;
+/*
+../src/vecmat/dufull.c:  densematops->matrestoreurarray=DTRUMatRestoreDenseArray;
+../src/vecmat/dufull.c:  densematops->ptr_matrestoreurarray=1;
+../src/vecmat/dlpack.c:  densematops->matrestoreurarray=DTPUMatRestoreDenseArray;
+../src/vecmat/dlpack.c:  densematops-ptr_>matrestoreurarray=2;
+*/
   
   int (*matgetsize)(void*,int*);
   int (*mataddouterproduct)(void*,double,double[],int);

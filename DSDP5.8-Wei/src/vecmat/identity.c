@@ -219,8 +219,10 @@ static int IdentitymatOperationsInitializeP(struct  DSDPDataMat_Ops* spdiagops){
   spdiagops->matgeteig=IdentityMatGetEig;
   spdiagops->ptr_matgeteig=6;
   spdiagops->matvecvec=IdentityMatVecVec;
+  spdiagops->ptr_matvecvec=6;
   spdiagops->matrownz=IdentityMatGetRowNnz;
   spdiagops->matdot=IdentityMatDotP;
+  spdiagops->ptr_matdot=6;
   spdiagops->matfnorm2=IdentityMatFNorm2;
   spdiagops->matnnz=IdentityMatCountNonzeros;
   spdiagops->mataddrowmultiple=IdentityMatAddRowMultiple;
@@ -242,8 +244,10 @@ static int IdentitymatOperationsInitializeF(struct  DSDPDataMat_Ops* spdiagops){
   spdiagops->matgeteig=IdentityMatGetEig;
   spdiagops->ptr_matgeteig=6;
   spdiagops->matvecvec=IdentityMatVecVec;
+  spdiagops->ptr_matvecvec=6;
   spdiagops->matrownz=IdentityMatGetRowNnz;
   spdiagops->matdot=IdentityMatDotF;
+  spdiagops->ptr_matdot=11;
   spdiagops->matfnorm2=IdentityMatFNorm2;
   spdiagops->matnnz=IdentityMatCountNonzeros;
   spdiagops->mataddrowmultiple=IdentityMatAddRowMultiple;

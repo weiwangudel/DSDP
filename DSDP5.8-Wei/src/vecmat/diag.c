@@ -216,6 +216,7 @@ static int DiagDualOpsInitializeP(struct  DSDPDualMat_Ops* sops){
   sops->matinvert=DiagMatInvert;
   sops->matinverseadd=DiagMatInverseAddP;
   sops->matinversemultiply=DiagMatSolve2;
+  sops->ptr_matinversemultiply=3;
   sops->matseturmat=DiagMatTakeUREntriesP;
   sops->matfull=DiagMatFull;
   sops->matdestroy=DiagMatDestroy;
@@ -235,6 +236,7 @@ static int DiagDualOpsInitializeU(struct  DSDPDualMat_Ops* sops){
   sops->matsolvebackward=DiagMatCholeskySolveBackward;
   sops->matinvert=DiagMatInvert;
   sops->matinversemultiply=DiagMatSolve2;
+  sops->ptr_matinversemultiply=3;
   sops->matseturmat=DiagMatTakeUREntriesU;
   sops->matfull=DiagMatFull;
   sops->matinverseadd=DiagMatInverseAddU;
@@ -434,6 +436,7 @@ static int DiagSchurOps(struct  DSDPSchurMat_Ops *sops){
   info=DSDPSchurMatOpsInitialize(sops); DSDPCHKERR(info);
   sops->matzero=DiagMatZeros;
   sops->mataddrow=DiagMatAddRow2;
+  sops->ptr_mataddrow=3;
   sops->mataddelement=DiagMatAddElement;
   sops->matdestroy=DiagMatDestroy;
   sops->matfactor=DiagMatCholeskyFactor;
