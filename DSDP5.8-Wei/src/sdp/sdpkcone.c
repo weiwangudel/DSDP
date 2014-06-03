@@ -786,7 +786,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
                 
             
             }else if(S.dsdpops->ptr_matinversemultiply==4){
-                info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
+                //info=(S.dsdpops->matinversemultiply)(S.matdata,IS.indx+1,IS.indx[0],bb,xx,n); //DSDPChkDMatError(S,info);
                 //static int DTPUMatInverseMult(void* AA, int indx[], int nind, double x[], double y[], int n){
                 {  
                   //printf("File %s line %d DTPUMatInverseMult with address %d\n",__FILE__, __LINE__,&DTPUMatInverseMult);
@@ -831,17 +831,17 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
 	} // end of DSDPDualMatInverseMultiply
   
   	/* RHS terms */
-  	info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
-	//{
-        ////int SDPConeVecDot(SDPConeVec V1, SDPConeVec V2, double *ans){
-	//  double *ans = &rtemp;
-	//  SDPConeVec V1 = W;
-	//  SDPConeVec V2 = W2;
-        //  ffinteger ione=1, nn=V1.dim;
-        //  double *v1=V1.val,*v2=V2.val;
-        //  *ans=ddot(&nn,v1,&ione,v2,&ione);
-        ////}
-	//} // end of SDPConeVecDot
+  	//info = SDPConeVecDot(W,W2,&rtemp); DSDPCHKBLOCKERR(kk,info);
+	{
+        //int SDPConeVecDot(SDPConeVec V1, SDPConeVec V2, double *ans){
+	  double *ans = &rtemp;
+	  SDPConeVec V1 = W;
+	  SDPConeVec V2 = W2;
+          ffinteger ione=1, nn=V1.dim;
+          double *v1=V1.val,*v2=V2.val;
+          *ans=ddot(&nn,v1,&ione,v2,&ione);
+        //}
+	} // end of SDPConeVecDot
   	if (rtemp==0.0) continue;
   	rhs1i+=rtemp*ack*bmu; rhs2i+=rtemp*ack*ggamma*mu;
   	ack*=(ggamma+bmu);
@@ -1129,7 +1129,7 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             //info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
             if(X.dsdpops->ptr_matgetsize == 1){
             //info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
-            //static int DTRUMatGetSize(void *AA, int *n){
+            //static int DTRUMatGetSize(void *AA, int *n)
             {  
               dtrumat* B=(dtrumat*) X.matdata;
               n=B->n;
@@ -1137,18 +1137,18 @@ static int KSDPConeComputeHessian( void *K, double mu, DSDPSchurMat M,  DSDPVec 
             }
             
             }else if(X.dsdpops->ptr_matgetsize == 2){
-            info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
+            //info=(X.dsdpops->matgetsize)(X.matdata,&n); //DSDPChkMatError(X,info);
             //
             //  Need to Fix this, inline cause wrong result!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             //
             //
             
-            //static int DTPUMatGetSize(void *AA, int *n){
-            //{  
-              //dtpumat* B=(dtpumat*) X.matdata;
-              //n=B->n;
+            //static int DTPUMatGetSize(void *AA, int *n)
+            {  
+              dtpumat* B=(dtpumat*) X.matdata;
+              n=B->n;
               //return 0;
-            //}
+            }
 
             }else{
                 printf("X.dsdpops->ptr_matgetsize Error!\n");
